@@ -1,61 +1,61 @@
-const cloudStorage = require( '../core/cloud-storage' )
-const { getMD5Hash } = require( '../core/common' )
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require( '@aws-sdk/client-s3' )
+const cloudStorage = require( '../core/cloud-storage' );
+const { getMD5Hash } = require( '../core/common' );
+const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require( '@aws-sdk/client-s3' );
 
 class MCSCloudStorage extends cloudStorage {
   constructor( bucketName ) {
-    super( bucketName )
+    super( bucketName );
     this.client = new S3Client( {
       region: 'us-east-1',
       endpoint: {
         hostname: 'ib.bizmrg.com',
         path: '',
         protocol: 'https'
-     } } )
+      } } );
   }
 
   async putToBucket( path, data ) {
-    let fileHash = getMD5Hash( data )
-    let command = new PutObjectCommand( { Bucket: this.bucketName, Key: path, Body: data } )
-    let response = await this.client.send( command )
+    const fileHash = getMD5Hash( data );
+    const command = new PutObjectCommand( { Bucket: this.bucketName, Key: path, Body: data } );
+    const response = await this.client.send( command );
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
       if ( response.ETag && response.ETag.substring( 1, response.ETag.length - 1 ) === fileHash ) {
-        return true
+        return true;
       } else if ( !response.ETag ) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     } else {
-      return false
+      return false;
     }
   }
 
   async getFromBucket( path ) {
-    let command = new GetObjectCommand( { Bucket: this.bucketName, Key: path } )
-    let response = await this.client.send( command )
+    const command = new GetObjectCommand( { Bucket: this.bucketName, Key: path } );
+    const response = await this.client.send( command );
 
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
-      let data = []
-      for await ( let chunk of response.Body  ) {
-        data.push( chunk )
+      const data = [];
+      for await ( const chunk of response.Body  ) {
+        data.push( chunk );
       }
-      return Buffer.concat( data )
+      return Buffer.concat( data );
     } else {
-      return ''
+      return '';
     }
   }
 
   async deleteFromBucket( path ) {
-    let command = new DeleteObjectCommand( { Bucket: this.bucketName, Key: path } )
-    let response = await this.client.send( command )
+    const command = new DeleteObjectCommand( { Bucket: this.bucketName, Key: path } );
+    const response = await this.client.send( command );
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 204 ) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
 }
 
-module.exports = MCSCloudStorage
+module.exports = MCSCloudStorage;

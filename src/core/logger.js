@@ -6,7 +6,7 @@ class Logger {
     this.token = null;
   }
 
-  prepareData ( data ) {
+  prepareData( data ) {
     if ( typeof data === 'string' ) {
       return data;
     } else if ( data instanceof Error ) {
@@ -15,54 +15,56 @@ class Logger {
       return JSON.stringify( data );
     } else {
       return '';
-    };
+    }
   }
 
-  async info ( data ) {
+  async info( data ) {
     if ( config.INFO ) {
       return this.sendLog( { message: this.prepareData( data ), logType: 'info' } );
     }
   }
 
-  async error ( error, data ) {
+  async error( error, data ) {
     if ( config.ERROR ) {
-      return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`, stack: error.stack, logType: 'error' } );
+      return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`,
+        stack: error.stack, logType: 'error' } );
     }
   }
 
-  async fatal ( error, data ) {
+  async fatal( error, data ) {
     if ( config.FATAL ) {
-      return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`, stack: error.stack, logType: 'fatal' } );
+      return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`,
+        stack: error.stack, logType: 'fatal' } );
     }
   }
 
-  async sql ( data ) {
+  async sql( data ) {
     if ( config.SQL ) {
       return this.sendLog( { message: this.prepareData( data ), logType: 'sql' } );
     }
   }
 
-  async getToken () {
+  async getToken() {
     const response = await axios.get( 'http://' + config.LOGGER_HOST + `/log/getToken?password=${ config.LOGGER_PASSWORD }` );
     if ( response.data ) {
       this.token = response.data;
-    };
+    }
   }
 
-  async sendLog ( log ) {
+  async sendLog( log ) {
     if ( !this.token ) {
       try {
-       await this.getToken();
-      } catch( error ) {
+        await this.getToken();
+      } catch ( error ) {
         console.dir( `Could not get token from logger! Log: ${ JSON.stringify( log ) }` );
         return;
-      };
-    };
+      }
+    }
     try {
-      await axios.post( 'http://' + config.LOGGER_HOST + `/log/add`, { token, ...log } );
+      await axios.post( `http://${ config.LOGGER_HOST }/log/add`, { token: this.token, ...log } );
     } catch ( error ) {
       console.dir( 'Could not post to logger!' );
-    };
+    }
   }
 }
 

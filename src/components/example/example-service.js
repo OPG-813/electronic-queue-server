@@ -3,7 +3,7 @@ class ExampleService {
     this.core = core;
   }
 
-  async method () {
+  async method() {
     console.dir( this.core );
     return 'Ok';
   }

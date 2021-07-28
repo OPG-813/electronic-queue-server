@@ -6,16 +6,14 @@ const pool = new Pool();
 const config = require( '../config' ).db;
 const { DataConflict, DataBaseError } = require( './error' );
 
-types.setTypeParser( 1082, ( value ) => {
-  return value;
-} );
+types.setTypeParser( 1082, ( value ) => value );
 
 class DB {
   constructor() {
     this.operators = [ '>=', '<=', '<>', '>', '<' ];
   }
 
-  where ( conditions, firstArgIndex = 1 ) {
+  where( conditions, firstArgIndex = 1 ) {
     const clause = [];
     const args = [];
     let i = firstArgIndex;
@@ -29,20 +27,20 @@ class DB {
           if ( value.startsWith( op ) ) {
             operator = op;
             value = value.substring( len );
-          };
-        };
+          }
+        }
         if ( value.includes( '*' ) || value.includes( '?' ) ) {
           operator = 'LIKE';
           value = value.replace( /\*/g, '%' ).replace( /\?/g, '_' );
-        };
-      };
+        }
+      }
       clause.push( `"${ key }" ${ operator } $${ i++ }` );
       args.push( value );
-    };
+    }
     return { clause: clause.join( ' AND ' ), args };
   }
 
-  updates ( delta, firstArgIndex = 1 ) {
+  updates( delta, firstArgIndex = 1 ) {
     const clause = [];
     const args = [];
     let i = firstArgIndex;
@@ -55,18 +53,18 @@ class DB {
     return { clause: clause.join( ', ' ), args };
   }
 
-  async query ( text, params ) {
+  async query( text, params ) {
     try {
-      const data = params ? params.join(',') : '';
+      const data = params ? params.join( ',' ) : '';
       const result = await pool.query( text, params );
       logger.sql( `SQL: ${ text } PARAMS: ${ data }` );
       return result.rows;
     } catch ( error ) {
-      if ( error.code.startsWith( config.UNIQUE_ERROR_CODE_PREFIX ) ){
+      if ( error.code.startsWith( config.UNIQUE_ERROR_CODE_PREFIX ) ) {
         throw new DataConflict( error.message );
-      };
+      }
       throw new DataBaseError( error.message );
-    };
+    }
   }
 
   async insert( table, record, returning = [] ) {
@@ -86,9 +84,9 @@ class DB {
     return result[ 0 ];
   }
 
-  async select( table, fields = [ '*' ] , conditions = null, orderFields = [ 'id' ], pageOptions = null ) {
+  async select( table, fields = [ '*' ], conditions = null, orderFields = [ 'id' ], pageOptions = null ) {
     const keys = fields.join( '", "' );
-    let sql = `SELECT "${ keys }" FROM ${ table }`;
+    const sql = `SELECT "${ keys }" FROM ${ table }`;
     let whereClause = '';
     let args = [];
     if ( conditions ) {
@@ -99,15 +97,16 @@ class DB {
     const orderClause = ` ORDER BY "${ orderFields.join( '", "' ) }"`;
     let limitClause = '';
     if ( pageOptions && pageOptions.page && pageOptions.itemsNumber ) {
-      limitClause = ` LIMIT ${ pageOptions.itemsNumber } OFFSET ${ ( pageOptions.page - 1 ) * pageOptions.itemsNumber }`;
-    };
-    const result = await this.query( sql + ` ${ join }` + whereClause + orderClause + limitClause, args );
+      limitClause = ` LIMIT ${ pageOptions.itemsNumber }
+       OFFSET ${ ( pageOptions.page - 1 ) * pageOptions.itemsNumber }`;
+    }
+    const result = await this.query( sql + whereClause + orderClause + limitClause, args );
     return result;
   }
 
   async update( table, delta = null, conditions = null, returning = [] ) {
-    const upd = updates( delta );
-    const cond = where( conditions, upd.args.length + 1 );
+    const upd = this.updates( delta );
+    const cond = this.where( conditions, upd.args.length + 1 );
     const returnClause = returning.length ? 'RETURNING "' + returning.join( '", "' ) + '"' : '';
     const sql = `UPDATE ${ table } SET ${ upd.clause } WHERE ${ cond.clause } ${ returnClause }`;
     const args = [ ...upd.args, ...cond.args ];
@@ -116,12 +115,12 @@ class DB {
   }
 
   async delete( table, conditions = null, returning = [] ) {
-    const cond = where( conditions );
+    const cond = this.where( conditions );
     const returnClause = returning.length ? 'RETURNING "' + returning.join( '", "' ) + '"' : '';
     const sql = `DELETE FROM ${ table } WHERE ${ cond.clause } ${ returnClause }`;
     const result = await this.query( sql, cond.args );
     return result;
   }
-};
+}
 
 module.exports = DB;

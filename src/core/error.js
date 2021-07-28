@@ -7,7 +7,7 @@ class BadRequestError extends Error {
     this.clientMessage = this.message;
     this.data = data;
   }
-};
+}
 
 class ServerSideError extends Error {
   constructor( message = '', data = {} ) {
@@ -16,14 +16,14 @@ class ServerSideError extends Error {
     this.clientMessage = 'Internal server error!';
     this.data = null;
   }
-};
+}
 
 class DataBaseError extends BadRequestError {
   constructor( message = '', data = {} ) {
     super( `Data error! ${ message }`, data );
     this.clientMessage = 'Data error!';
   }
-};
+}
 
 class UnauthorizedError extends BadRequestError {
   constructor( message = '', data = {} ) {
@@ -31,7 +31,7 @@ class UnauthorizedError extends BadRequestError {
     this.httpCode = config.UNAUTHORIZED;
     this.clientMessage = 'Not uthorized!';
   }
-};
+}
 
 class ForbiddenError extends BadRequestError {
   constructor( message = '', data = {} ) {
@@ -39,22 +39,22 @@ class ForbiddenError extends BadRequestError {
     this.httpCode = config.FORBIDDEN;
     this.clientMessage = 'Not enough rights!';
   }
-};
+}
 
 class DataConflict extends DataBaseError {
   constructor( message = '', data = {} ) {
     super( `Data conflict error! ${ message }`, data );
-    this.httpCode = isConflict ? config.CONFLICT_STATUS_CODE : config.INTERNAL_SERVER_ERROR_CODE;
+    this.httpCode = config.CONFLICT_STATUS_CODE;
     this.clientMessage = 'Data conflict error!';
   }
-};
+}
 
 const getErrorForResponse = ( error ) => {
   if ( error instanceof BadRequestError || error instanceof ServerSideError ) {
     return { message: error.clientMessage, httpCode: error.httpCode, data: error.data };
   } else {
     return null;
-  };
+  }
 };
 
 module.exports = {

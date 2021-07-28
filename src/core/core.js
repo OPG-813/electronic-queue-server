@@ -18,15 +18,15 @@ class Core {
   }
 
   loadModules( modules ) {
-    for( const name of this.core ) {
-      let module = {};
-      if ( modules.hasOwnProperty( name ) ) {
-        module = modules[ name ];
+    for ( const name of this.core ) {
+      let Module = {};
+      if ( Object.prototype.hasOwnProperty.call( modules, name ) ) {
+        Module = modules[ name ];
       } else {
-        module = defaultModules[ name ];
+        Module = defaultModules[ name ];
       }
       if ( typeof module === 'function' ) {
-        this.modules[ name ] = new module();
+        this.modules[ name ] = new Module();
       } else if ( typeof module === 'object' ) {
         this.modules = { ...this.modules, ...module };
       }

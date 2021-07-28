@@ -7,8 +7,8 @@
     "SERVER_HOST": "0.0.0.0",
     "PGHOST": "localhost",
     "PGUSER": "postgres",
-    "PGDATABASE": "welephant",
-    "PGPASSWORD": "Undertaker199914",
+    "PGDATABASE": "",
+    "PGPASSWORD": "",
     "PGPORT": "5432"
   },
   "watch": [

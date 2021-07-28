@@ -1,7 +1,7 @@
 const config = require( '../config' ).server;
 const fs = require( 'fs' );
 const path = require( 'path' );
-const Core = require('./core');
+const Core = require( './core' );
 
 class Server {
   constructor( modules ) {
@@ -23,18 +23,19 @@ class Server {
     return this.startServer( routers );
   }
 
-  wrapController( controller,route ) {
+  wrapController( controller, route ) {
     let validate = null;
     if ( route.schema ) {
       validate = this.modules.validator.getValidationFunction( route.schema );
-    };
+    }
     return async ( request, response ) => {
       try {
         await this.authUser( request, route );
         const data = { ...request.body, ...request.query, ...request.params };
         if ( validate && !validate( data ) ) {
-          throw new this.modules.BadRequestError( 'Request data validation error', config.RETURN_SCHEMA ? route.schema : null );
-        };
+          throw new this.modules.BadRequestError( 'Request data validation error',
+            config.RETURN_SCHEMA ? route.schema : null );
+        }
         const result = await controller[ route.handler ]( data, request, response );
         this.reply( response, result );
       } catch ( error ) {
@@ -49,11 +50,11 @@ class Server {
       const user = await this.modules.session.getSessionUser( request.headers.cookie );
       if ( !user ) {
         throw new this.modules.UnauthorizedError();
-      } else if ( route.roles.length !== 0 && roles.indexOf( user.role ) === -1 ) {
+      } else if ( route.roles.length !== 0 && route.roles.indexOf( user.role ) === -1 ) {
         throw new this.modules.ForbiddenError();
-      };
+      }
       request.user = user;
-    };
+    }
   }
 
   async processError( error, response ) {

@@ -5,18 +5,16 @@ const modules = require( './modules' );
 const logger = new Logger();
 
 const start = () => {
-    const server = new Server( modules );
-    server.start( routers );
+  const server = new Server( modules );
+  server.start( routers );
 
-    const exitApp = async ( error ) => {
-      await logger.fatal( error );
-      server.shutdown();
-    };
+  const exitApp = async ( error ) => {
+    await logger.fatal( error );
+    server.shutdown();
+  };
 
-    process.on( 'uncaughtException', exitApp );
-    process.on( 'unhandledRejection', exitApp );
-}
-
-
+  process.on( 'uncaughtException', exitApp );
+  process.on( 'unhandledRejection', exitApp );
+};
 
 start();
