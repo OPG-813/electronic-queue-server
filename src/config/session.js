@@ -11,5 +11,7 @@ module.exports = {
   FUTURE: 'Fri, 01 Jan 2100 00:00:00 GMT',
   LOCATION: 'Path=/; Domain',
   COOKIE_DELETE: `${ this.TOKEN }=deleted; Expires=${ this.EPOCH }; ${ this.LOCATION }=`,
-  COOKIE_HOST: `Expires=${ this.FUTURE }; ${ this.LOCATION }`
+  COOKIE_HOST: `Expires=${ this.FUTURE }; ${ this.LOCATION }`,
+  SESSION_TABLE_NAME: 'Session',
+  USER_TABLE_NAME: 'SystemUser'
 };

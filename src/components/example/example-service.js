@@ -1,15 +1,11 @@
-const db = require( '../../core/db' );
-
 class ExampleService {
+  constructor( core ) {
+    this.core = core;
+  }
+
   async method () {
-    let result = await db.systemUser.create( {
-      data:{
-        phone: '888888888',
-        password: 'testtest',
-        username: '888888888'
-      }
-    } );
-    return result;
+    console.dir( this.core );
+    return 'Ok';
   }
 }
 

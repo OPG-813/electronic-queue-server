@@ -1,8 +1,10 @@
 
-const { Pool, types } = require( 'pg' )
-const logger = require( './logger' )
-const pool = new Pool()
+const { Pool, types } = require( 'pg' );
+const Logger = require( './logger' );
+const logger = new Logger();
+const pool = new Pool();
 const config = require( '../config' ).db;
+const { DataConflict, DataBaseError } = require( './error' );
 
 types.setTypeParser( 1082, ( value ) => {
   return value;
@@ -56,15 +58,14 @@ class DB {
   async query ( text, params ) {
     try {
       const data = params ? params.join(',') : '';
-      logger.sql( `SQL ${ text } PARAMS ${ data }` );
       const result = await pool.query( text, params );
+      logger.sql( `SQL: ${ text } PARAMS: ${ data }` );
       return result.rows;
     } catch ( error ) {
-      const codePrefix = error.code.substring( 0, 2 );
       if ( error.code.startsWith( config.UNIQUE_ERROR_CODE_PREFIX ) ){
-        error.code = '1222';
+        throw new DataConflict( error.message );
       };
-      throw error;
+      throw new DataBaseError( error.message );
     };
   }
 

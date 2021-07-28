@@ -3,15 +3,15 @@ CREATE TABLE SystemUser (
     "username" VARCHAR(64) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
     "phone" VARCHAR(32) NOT NULL,
+    "role" VARCHAR(32) DEFAULT 'USER',
     "surname" VARCHAR(255),
     "name" VARCHAR(255),
     "patronymic" VARCHAR(255),
     "dateOfBirth" DATE,
     "city" VARCHAR(255),
-    "registrationDate" DATE DEFAULT CURRENT_TIMESTAMP,
-    "consentDataProcessing" BOOLEAN DEFAULT false,
-    PRIMARY KEY ("id")
+    "registrationDate" DATE DEFAULT CURRENT_DATE,
+    "consentDataProcessing" BOOLEAN DEFAULT false
 );
-
-CREATE UNIQUE INDEX "SystemUser.username_unique" ON "SystemUser"("username");
-CREATE UNIQUE INDEX "SystemUser.phone_unique" ON "SystemUser"("phone");
+ALTER TABLE SystemUser ADD CONSTRAINT pkSystemUser PRIMARY KEY ( "id" );
+CREATE UNIQUE INDEX iSystemUserUsername ON SystemUser( "username" );
+CREATE UNIQUE INDEX iSystemUserPhone ON SystemUser( "phone" );

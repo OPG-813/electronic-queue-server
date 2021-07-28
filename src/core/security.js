@@ -47,7 +47,7 @@ class Security {
             reject( err );
             return;
           };
-          resolve( serializeHash( hash, salt, config.SCRYPT_PARAMS ) );
+          resolve( this.serializeHash( hash, salt, config.SCRYPT_PARAMS ) );
         } );
       } );
     } );

@@ -19,23 +19,27 @@ class Logger {
   }
 
   async info ( data ) {
-    return this.sendLog( { message: this.prepareData( data ), logType: 'info' } );
+    if ( config.INFO ) {
+      return this.sendLog( { message: this.prepareData( data ), logType: 'info' } );
+    }
   }
 
   async error ( error, data ) {
-    return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`, stack: error.stack, logType: 'error' } );
-  }
-
-  async sqlError ( error, data ) {
-    return this.sendLog( { message: this.prepareData( data ), logType: 'sqlError' } );
+    if ( config.ERROR ) {
+      return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`, stack: error.stack, logType: 'error' } );
+    }
   }
 
   async fatal ( error, data ) {
-    return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`, stack: error.stack, logType: 'fatal' } );
+    if ( config.FATAL ) {
+      return this.sendLog( { message: `${ error.message }\n${ this.prepareData( data ) }`, stack: error.stack, logType: 'fatal' } );
+    }
   }
 
   async sql ( data ) {
-    return this.sendLog( { message: this.prepareData( data ), logType: 'sql' } );
+    if ( config.SQL ) {
+      return this.sendLog( { message: this.prepareData( data ), logType: 'sql' } );
+    }
   }
 
   async getToken () {
@@ -62,4 +66,4 @@ class Logger {
   }
 }
 
-module.exports = new Logger();
+module.exports = Logger;

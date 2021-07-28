@@ -1,5 +1,5 @@
-const cloudStorage = require( '../core/cloudStorage.js' )
-const { getMD5Hash } = require( '../core/common.js' )
+const cloudStorage = require( '../core/cloud-storage' )
+const { getMD5Hash } = require( '../core/common' )
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require( '@aws-sdk/client-s3' )
 
 class MCSCloudStorage extends cloudStorage {
@@ -7,20 +7,20 @@ class MCSCloudStorage extends cloudStorage {
     super( bucketName )
     this.client = new S3Client( {
       region: 'us-east-1',
-      endpoint: { 
+      endpoint: {
         hostname: 'ib.bizmrg.com',
         path: '',
         protocol: 'https'
-     } } ) 
+     } } )
   }
-  
+
   async putToBucket( path, data ) {
     let fileHash = getMD5Hash( data )
     let command = new PutObjectCommand( { Bucket: this.bucketName, Key: path, Body: data } )
     let response = await this.client.send( command )
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
       if ( response.ETag && response.ETag.substring( 1, response.ETag.length - 1 ) === fileHash ) {
-        return true      
+        return true
       } else if ( !response.ETag ) {
         return true
       } else {
@@ -30,11 +30,11 @@ class MCSCloudStorage extends cloudStorage {
       return false
     }
   }
-  
+
   async getFromBucket( path ) {
     let command = new GetObjectCommand( { Bucket: this.bucketName, Key: path } )
     let response = await this.client.send( command )
-    
+
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
       let data = []
       for await ( let chunk of response.Body  ) {
@@ -45,7 +45,7 @@ class MCSCloudStorage extends cloudStorage {
       return ''
     }
   }
-  
+
   async deleteFromBucket( path ) {
     let command = new DeleteObjectCommand( { Bucket: this.bucketName, Key: path } )
     let response = await this.client.send( command )
@@ -55,7 +55,7 @@ class MCSCloudStorage extends cloudStorage {
       return false
     }
   }
-  
+
 }
 
 module.exports = MCSCloudStorage

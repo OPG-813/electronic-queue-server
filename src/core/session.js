@@ -1,6 +1,8 @@
-const db = require( './db' );
+const DB = require( './db' );
 const crypto = require( 'crypto' );
 const config = require( '../config' ).session;
+const { SESSION_TABLE_NAME } = require('../config/session');
+const db = new DB();
 
 class Session {
   parseCookies ( cookie ) {
@@ -11,7 +13,7 @@ class Session {
       const key = parts[ 0 ].trim();
       const value = parts[ 1 ] || '';
       values[ key ] = value.trim();
-    }
+    };
     return values;
   }
 
@@ -19,7 +21,7 @@ class Session {
     const portOffset = host.indexOf( ':' );
     if ( portOffset > -1 ) {
       return host.substr( 0, portOffset );
-    }
+    };
     return host;
   }
 
@@ -30,52 +32,42 @@ class Session {
     for ( let i = 0; i < config.TOKEN_LENGTH; i++ ) {
       const index = ( ( bytes[ i ] * base ) / BYTE ) | 0;
       key += ALPHA_DIGIT[ index ];
-    }
+    };
     return key;
   }
 
-  async startSession ( request, response, userId ) {
+  async startSession ( headerHost, ip, userId ) {
     const token = this.generateToken();
-    const host = this.parseHost( request.headers.host );
-    const ip = request.connection.remoteAddress;
+    const host = this.parseHost( headerHost );
     const cookie = `${ config.TOKEN }=${ token }; ${ config.COOKIE_HOST }=${ host }; SameSite=None; Secure; HttpOnly`;
-    db.query( 'INSERT INTO Session( "userId", "token", "ip" ) VALUES( $1, $2, $3 )', [ userId, token, ip ] );
-    if ( response ) {
-      response.setHeader( 'Set-Cookie', cookie );
-    };
+    await db.insert( config.SESSION_TABLE_NAME, { userId, token, ip } );
+    return cookie;
   }
 
-  async checkSession ( request ) {
-    const token = this.getTokenFromCookie( request );
+  async checkSession ( cookie ) {
+    const token = this.getTokenFromCookie( cookie );
     if ( token !== '' ) {
-      let result = await db.query( 'SELECT "userId" FROM Session WHERE "token" = $1', [ token ] );
-      if ( result.rows && result.rows.length !== 0 ) {
-        let { userId } = result.rows[ 0 ];
-        if ( userId && typeof userId === 'number' ) {
-          return true;
-        };
+      const result = await db.select( config.SESSION_TABLE_NAME, [ 'userId' ], { token } );
+      const { userId } = result[ 0 ];
+      if ( userId ) {
+        return true;
       };
     };
     return false;
   }
 
-  async deleteSession ( request, response ) {
-    const token = this.getTokenFromCookie( request );
-    const host = this.parseHost( request.headers.host );
+  async deleteSession ( cookie, headerHost ) {
+    const token = this.getTokenFromCookie( cookie );
+    const host = this.parseHost( headerHost );
     if ( token !== '' ) {
-      if ( response ) {
-        response.setHeader( 'Set-Cookie', config.COOKIE_DELETE + host );
-      };
+      await db.delete( config.SESSION_TABLE_NAME, { token } );
+      return config.COOKIE_DELETE + host;
     } else {
-      const error = new Error( 'Unable to log out, user is not logged in!' );
-      error.code = '11';
-      throw error;
+      return null;
     };
-    db.query( 'DELETE FROM Session WHERE "token"=$1', [ token ] );
   }
 
-  getTokenFromCookie ( request ) {
-    const { cookie } = request.headers;
+  getTokenFromCookie ( cookie ) {
     if ( cookie && typeof cookie === 'string' ) {
       const cookies = this.parseCookies( cookie );
       const { token } = cookies;
@@ -86,18 +78,15 @@ class Session {
     return '';
   }
 
-  async getSessionUserId ( request ) {
-    const token = this.getTokenFromCookie( request );
+  async getSessionUser ( cookie ) {
+    const token = this.getTokenFromCookie( cookie );
     if ( token !== '' ) {
-      const result = await db.query( 'SELECT "userId" FROM Session WHERE "token"=$1', [ token ] );
-      if ( result.rows.length !== 0 ) {
-        return result.rows[ 0 ].userId;
-      } else {
-        throw new Error( 'No session with this user\'s token!' );
-      }
+      const result = await db.query( `SELECT * FROM ${ config.USER_TABLE_NAME } WHERE "id"=
+      ALL ( SELECT "userId" FROM ${ SESSION_TABLE_NAME } WHERE "token=$1")`, [ token ] );
+      return result[ 0 ] || null;
     } else {
-      throw new Error( 'No token passed!' );
-    }
+      return null;
+    };
   }
 
 }
