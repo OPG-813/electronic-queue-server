@@ -1,13 +1,48 @@
 {
-  "name": "welephant-api-server",
+  "name": "vietnam-api-server",
+  "author": "DanilSord",
   "version": "1.0.0",
-  "private": true,
+  "description": "Stack for developing a REST API server.",
+  "license": "MIT",
+  "keywords": [
+    "vietnam",
+    "template",
+    "stack",
+    "cloud",
+    "nodejs",
+    "api",
+    "server",
+    "service",
+    "rest",
+    "restful",
+    "web",
+    "framework",
+    "router",
+    "routing",
+    "http",
+    "https",
+    "fastify",
+    "nodemailer",
+    "ajv"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DanilSord/api-server"
+  },
+  "bugs": {
+    "url": "https://github.com/DanilSord/api-server/issues"
+  },
+  "homepage": "https://github.com/DanilSord/api-server",
+  "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon --signal SIGTERM --exec \"node src/app.js\"",
     "dev-fix": "nodemon --exec \"npm run fix && node src/app.js\"",
     "lint": "eslint --ignore-path .gitignore .",
     "fix": "eslint --fix --ignore-path .gitignore ."
+  },
+  "engines": {
+    "node": "^12.9 || 14 || 16"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.23.0",

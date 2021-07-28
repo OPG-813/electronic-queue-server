@@ -1,8 +1,8 @@
 const defaultModules = require( '../modules' );
 
-class Core {
+class dependencies {
   constructor( modules ) {
-    this.core = [
+    this.dependencies = [
       'common',
       'db',
       'error',
@@ -13,29 +13,29 @@ class Core {
       'session',
       'validator'
     ];
-    this.modules = {};
-    this.loadModules( modules );
+    this.core = {};
+    this.loadCore( modules );
   }
 
-  loadModules( modules ) {
-    for ( const name of this.core ) {
+  loadCore( modules ) {
+    for ( const name of this.dependencies ) {
       let Module = {};
       if ( Object.prototype.hasOwnProperty.call( modules, name ) ) {
         Module = modules[ name ];
       } else {
         Module = defaultModules[ name ];
       }
-      if ( typeof module === 'function' ) {
-        this.modules[ name ] = new Module();
-      } else if ( typeof module === 'object' ) {
-        this.modules = { ...this.modules, ...module };
+      if ( typeof Module === 'function' ) {
+        this.core[ name ] = new Module();
+      } else if ( typeof Module === 'object' ) {
+        this.core = { ...this.core, ...Module };
       }
     }
   }
 
-  getModules() {
-    return Object.freeze( this.modules );
+  getCore() {
+    return Object.freeze( this.core );
   }
 }
 
-module.exports = Core;
+module.exports = dependencies;

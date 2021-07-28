@@ -19,9 +19,9 @@ class FastifyServer extends Server {
     this.setRoutes( routers );
     try {
       await this.server.listen( this.port, config.SERVER_HOST );
-      this.modules.logger.info( 'Server is listening' );
+      this.coreModules.logger.info( 'Server is listening' );
     } catch ( error ) {
-      this.modules.logger.fatal( error );
+      this.coreModules.logger.fatal( error );
     }
   }
 
@@ -35,7 +35,7 @@ class FastifyServer extends Server {
 
   setRoutes( routers ) {
     for ( const router of routers ) {
-      const controller = new router.Controller( this.modules );
+      const controller = new router.Controller( this.coreModules );
       for ( const route of router.routes ) {
         const handler = this.wrapController( controller, route );
         this.server.route( { method: route.method, url: route.path, handler } );
