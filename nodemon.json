@@ -7,9 +7,11 @@
     "SERVER_HOST": "0.0.0.0",
     "PGHOST": "localhost",
     "PGUSER": "postgres",
-    "PGDATABASE": "",
+    "PGDATABASE": "development",
     "PGPASSWORD": "",
-    "PGPORT": "5432"
+    "PGPORT": "5432",
+    "LOGGER_HOST": "localhost:4000",
+    "LOGGER_PASSWORD": "testtest"
   },
   "watch": [
       "src"
