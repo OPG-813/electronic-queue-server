@@ -48,8 +48,7 @@ class Session {
     const token = this.getTokenFromCookie( cookie );
     if ( token !== '' ) {
       const result = await db.select( config.SESSION_TABLE_NAME, [ 'userId' ], { token } );
-      const { userId } = result[ 0 ];
-      if ( userId ) {
+      if ( result[ 0 ] && result[ 0 ].userId ) {
         return true;
       }
     }
@@ -82,7 +81,7 @@ class Session {
     const token = this.getTokenFromCookie( cookie );
     if ( token !== '' ) {
       const result = await db.query( `SELECT * FROM ${ config.USER_TABLE_NAME } WHERE "id"=
-      ALL ( SELECT "userId" FROM ${ SESSION_TABLE_NAME } WHERE "token=$1")`, [ token ] );
+      ALL ( SELECT "userId" FROM ${ SESSION_TABLE_NAME } WHERE "token"=$1)`, [ token ] );
       return result[ 0 ] || null;
     } else {
       return null;
