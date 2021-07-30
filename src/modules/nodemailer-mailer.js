@@ -2,9 +2,13 @@ const nodemailer = require( 'nodemailer' );
 const SMTPMailer = require( '../core/mailer.js' );
 
 class NodemailerSMTP extends SMTPMailer {
-  constructor( host, port, username, password ) {
-    super( host, port, username, password );
-    this.transport = nodemailer.createTransport( { host, port, auth: { user: username, pass: password } } );
+  constructor() {
+    super();
+    this.transport = nodemailer.createTransport( {
+      host: this.host,
+      port: this.port,
+      auth: { user: this.username, pass: this.password }
+    } );
   }
 
   checkConnection() {

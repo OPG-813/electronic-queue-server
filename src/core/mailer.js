@@ -1,23 +1,19 @@
+const config = require( '../config' ).smtp;
+
 class SMTPMailer {
-  constructor( host, port, username, password ) {
-    this.host = host;
-    this.port = port;
-    this.username = username;
-    this.password = password;
+  constructor() {
+    this.host = config.SMTP_HOST;
+    this.port = config.SMTP_PORT;
+    this.username = config.SMTP_USERNAME;
+    this.password = config.SMTP_PASSWORD;
   }
 
   async check() {
-    if ( !this.checkConnection ) {
-      throw new Error( 'No checkConnection method defined at SMTPMailer!' );
-    }
     const result = await this.checkConnection();
     return result;
   }
 
   async send( message ) {
-    if ( !this.sendMail ) {
-      throw new Error( 'No sendMail method defined at SMTPMailer!' );
-    }
     const result = await this.sendMail( message );
     return result;
   }

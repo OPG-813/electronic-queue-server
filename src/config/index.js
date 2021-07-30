@@ -4,5 +4,6 @@ module.exports = {
   logger: require( './logger' ),
   error: require( './error' ),
   db: require( './db' ),
-  security: require( './security' )
+  security: require( './security' ),
+  smtp: require( './smtp' )
 };
