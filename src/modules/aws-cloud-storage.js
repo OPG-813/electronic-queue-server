@@ -1,33 +1,27 @@
-const cloudStorage = require( '../core/cloud-storage' );
-const { getMD5Hash } = require( '../core/common' );
+const CloudStorage = require( '../core/cloud-storage' );
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require( '@aws-sdk/client-s3' );
+const config = require( '../config' ).cloudStorage;
+const { ServerSideError } = require( '../core/error' );
 
-class MCSCloudStorage extends cloudStorage {
-  constructor( bucketName ) {
-    super( bucketName );
+class MCSCloudStorage extends CloudStorage {
+  constructor() {
+    super();
     this.client = new S3Client( {
-      region: 'us-east-1',
+      region: config.CLOUD_REGION,
       endpoint: {
-        hostname: 'ib.bizmrg.com',
+        hostname: config.CLOUD_HOST,
         path: '',
-        protocol: 'https'
+        protocol: config.CLOUD_PROTOCOL
       } } );
   }
 
-  async putToBucket( path, data ) {
-    const fileHash = getMD5Hash( data );
-    const command = new PutObjectCommand( { Bucket: this.bucketName, Key: path, Body: data } );
+  async putToBucket( path, stream ) {
+    const command = new PutObjectCommand( { Bucket: this.bucketName, Key: path, Body: stream } );
     const response = await this.client.send( command );
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
-      if ( response.ETag && response.ETag.substring( 1, response.ETag.length - 1 ) === fileHash ) {
-        return true;
-      } else if ( !response.ETag ) {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     } else {
-      return false;
+      throw new ServerSideError( 'Problem with file upload to cloud.', response );
     }
   }
 
@@ -36,13 +30,9 @@ class MCSCloudStorage extends cloudStorage {
     const response = await this.client.send( command );
 
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
-      const data = [];
-      for await ( const chunk of response.Body  ) {
-        data.push( chunk );
-      }
-      return Buffer.concat( data );
+      return response.Body;
     } else {
-      return '';
+      throw new ServerSideError( `Problem with file get from cloud. File name: ${ path }`, response );
     }
   }
 
@@ -52,7 +42,7 @@ class MCSCloudStorage extends cloudStorage {
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 204 ) {
       return true;
     } else {
-      return false;
+      throw new ServerSideError( `Problem with file delete from cloud. File name: ${ path }`, response );
     }
   }
 

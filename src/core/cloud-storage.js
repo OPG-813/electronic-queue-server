@@ -1,34 +1,20 @@
+const config = require( '../config' ).cloudStorage;
+
 class CloudStorage {
-  constructor( bucketName ) {
-    this.bucketName = bucketName;
+  constructor() {
+    this.bucketName = config.BUCKET_NAME;
   }
 
-  async put( path, data ) {
-    if ( this.putToBucket ) {
-      if ( !( data instanceof Buffer ) ) {
-        throw new Error( 'Data must be instance of Buffer!' );
-      } else {
-        return this.putToBucket( path, data );
-      }
-    } else {
-      throw new Error( 'Method putToBucket is not defined!' );
-    }
+  async put( path, stream ) {
+    return this.putToBucket( path, stream );
   }
 
   async get( path ) {
-    if ( this.getFromBucket ) {
-      return this.getFromBucket( path );
-    } else {
-      throw new Error( 'Method getFromBucket is not defined' );
-    }
+    return this.getFromBucket( path );
   }
 
   async remove( path ) {
-    if ( this.deleteFromBucket ) {
-      return this.deleteFromBucket( path );
-    } else {
-      throw new Error( 'Method deleteFromBucket is not defined' );
-    }
+    return this.deleteFromBucket( path );
   }
 }
 

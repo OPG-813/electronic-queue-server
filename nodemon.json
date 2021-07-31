@@ -11,7 +11,11 @@
     "PGPASSWORD": "",
     "PGPORT": "5432",
     "LOGGER_HOST": "localhost:4000",
-    "LOGGER_PASSWORD": "testtest"
+    "LOGGER_PASSWORD": "testtest",
+    "BUCKET_NAME": "web-code-developers",
+    "CLOUD_REGION": "us-east-1",
+    "CLOUD_HOST": "ib.bizmrg.com",
+    "CLOUD_PROTOCOL": "https"
   },
   "watch": [
       "src"

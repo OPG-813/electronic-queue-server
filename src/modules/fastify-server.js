@@ -2,6 +2,7 @@ const Server = require( '../core/server' );
 const FastifyFactory = require( 'fastify' );
 const config = require( '../config' ).server;
 const cors = require( 'fastify-cors' );
+const multipart = require( 'fastify-multipart' );
 
 class FastifyServer extends Server {
   constructor( modules ) {
@@ -13,6 +14,7 @@ class FastifyServer extends Server {
       trustProxy: true
     } );
     this.server.register( cors, { origin: true, credentials: true } );
+    this.server.register( multipart, { limits: { fileSize: config.MAX_FILE_SIZE, files: config.MAX_FILE_NUMBER } } );
   }
 
   async startServer( routers ) {

@@ -5,5 +5,6 @@ module.exports = {
   error: require( './error' ),
   db: require( './db' ),
   security: require( './security' ),
-  smtp: require( './smtp' )
+  smtp: require( './smtp' ),
+  cloudStorage: require( './cloud-storage' )
 };

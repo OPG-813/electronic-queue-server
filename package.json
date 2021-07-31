@@ -50,6 +50,7 @@
     "axios": "^0.21.1",
     "fastify": "^3.18.1",
     "fastify-cors": "^6.0.1",
+    "fastify-multipart": "^4.0.7",
     "nodemailer": "^6.6.3",
     "pg": "^8.7.1"
   },
