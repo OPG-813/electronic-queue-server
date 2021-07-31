@@ -15,11 +15,15 @@ class MCSCloudStorage extends CloudStorage {
       } } );
   }
 
-  async putToBucket( path, stream ) {
-    const command = new PutObjectCommand( { Bucket: this.bucketName, Key: path, Body: stream } );
+  async putToBucket( path, stream, isPublic ) {
+    const options = { Bucket: this.bucketName, Key: path, Body: stream };
+    if ( isPublic ) {
+      options.ACL = 'public-read';
+    }
+    const command = new PutObjectCommand( options );
     const response = await this.client.send( command );
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
-      return true;
+      return `${ config.CLOUD_PROTOCOL }://${ config.BUCKET_NAME }.${ config.CLOUD_HOST }/${ path }`;
     } else {
       throw new ServerSideError( 'Problem with file upload to cloud.', response );
     }

@@ -5,8 +5,8 @@ class CloudStorage {
     this.bucketName = config.BUCKET_NAME;
   }
 
-  async put( path, stream ) {
-    return this.putToBucket( path, stream );
+  async put( path, stream, isPublic = false ) {
+    return this.putToBucket( path, stream, isPublic );
   }
 
   async get( path ) {
