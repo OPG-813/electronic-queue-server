@@ -20,7 +20,7 @@ class MCSCloudStorage extends CloudStorage {
     if ( isPublic ) {
       options.ACL = 'public-read';
     }
-    const command = new PutObjectCommand( options );
+    const command = new PutObjectCommand( { Bucket: this.bucketName, Key: path } );
     const response = await this.client.send( command );
     if ( response[ '$metadata' ] && response[ '$metadata' ].httpStatusCode === 200 ) {
       return `${ config.CLOUD_PROTOCOL }://${ config.BUCKET_NAME }.${ config.CLOUD_HOST }/${ path }`;

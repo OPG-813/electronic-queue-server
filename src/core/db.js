@@ -84,12 +84,12 @@ class DB {
     return result[ 0 ];
   }
 
-  async select( table, fields = [ '*' ], conditions = null, orderFields = [ 'id' ], pageOptions = null ) {
-    const keys = fields.join( '", "' );
-    const sql = `SELECT "${ keys }" FROM ${ table }`;
+  async select( table, fields = null, conditions = null, orderFields = [ 'id' ], pageOptions = null ) {
+    const keys = fields && fields.length ? `"${ fields.join( '", "' ) }"` : '*';
+    const sql = `SELECT ${ keys } FROM ${ table }`;
     let whereClause = '';
     let args = [];
-    if ( conditions ) {
+    if ( conditions && Object.keys( conditions ) !== 0 ) {
       const whereData = this.where( conditions );
       whereClause = ' WHERE ' + whereData.clause;
       args = whereData.args;
