@@ -1,12 +1,13 @@
 {
-  "name": "vietnam-api-server",
+  "name": "electronic-queue-api-server",
   "author": "DanilSord",
   "version": "1.0.0",
-  "description": "Stack for developing a REST API server.",
+  "description": "Api server for electronic queue.",
   "license": "MIT",
   "keywords": [
     "vietnam",
-    "template",
+    "electronic-queue",
+    "queue",
     "stack",
     "cloud",
     "nodejs",
@@ -22,17 +23,16 @@
     "http",
     "https",
     "fastify",
-    "nodemailer",
     "ajv"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/DanilSord/api-server"
+    "url": "https://github.com/OPG-813/electronic-queue"
   },
   "bugs": {
-    "url": "https://github.com/DanilSord/api-server/issues"
+    "url": "https://github.com/OPG-813/electronic-queue/issues"
   },
-  "homepage": "https://github.com/DanilSord/api-server",
+  "homepage": "https://github.com/OPG-813/electronic-queue",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -51,7 +51,6 @@
     "fastify": "^3.18.1",
     "fastify-cors": "^6.0.1",
     "fastify-multipart": "^4.0.7",
-    "nodemailer": "^6.6.3",
     "pg": "^8.7.1"
   },
   "devDependencies": {
