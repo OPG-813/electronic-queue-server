@@ -22,7 +22,7 @@ CREATE TABLE SystemStatus (
     "endDate" date DEFAULT '2100-01-01',
     "startTime" time DEFAULT '00:00:00',
     "endTime" time DEFAULT '24:00:00',
-    "timezone" time DEFAULT 'asia/novosibirsk'
+    "timezone" varchar(64) DEFAULT 'Asia/Novosibirsk'
 );
 ALTER TABLE SystemStatus ADD CONSTRAINT pkSystemStatus PRIMARY KEY ( "id" );
 
@@ -46,3 +46,13 @@ CREATE TABLE SystemWindowPurpose (
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT pkSystemWindowPurpose PRIMARY KEY ( "id" );
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT fkSystemWindowPurposeSystemWindowId FOREIGN KEY ( "windowId" ) REFERENCES  SystemWindow( "id" ) ON DELETE CASCADE;
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT fkSystemWindowPurposePurposeId FOREIGN KEY ( "purposeId" ) REFERENCES  Purpose( "id" ) ON DELETE CASCADE;
+
+CREATE TABLE Session (
+    "id" VARCHAR(64) NOT NULL,
+    "userId" VARCHAR(64) NOT NULL,
+    "token" VARCHAR(64) NOT NULL,
+    "ip" VARCHAR(64) NOT NULL
+);
+ALTER TABLE Session ADD CONSTRAINT pkSession PRIMARY KEY ( "id" );
+ALTER TABLE Session ADD CONSTRAINT fkSessionSystemUserUserId FOREIGN KEY ( "userId" ) REFERENCES  SystemUser( "id" ) ON DELETE CASCADE;
+CREATE UNIQUE INDEX iSession ON Session ( "token" );
