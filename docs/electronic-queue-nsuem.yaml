@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Electronic Queue NSUEM
+  version: '1.0'
+  description: An API for electronic queue system from NSUEM.
+  contact:
+    name: Danil
+    url: 'https://github.com/DanilSord'
+    email: kincharov99@gmail.com
+  license:
+    name: MIT
+servers:
+  - url: 'https://api.queue-nsuem.web-code-developers.ru'
+    description: test server
+paths:
+  /user/login:
+    post:
+      summary: ''
+      operationId: post-user-login
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+      description: Аутентификация пользователя по имени пользователя и паролю.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: danil
+                  description: Имя пользователя
+                password:
+                  type: string
+                  example: password
+                  description: Пароль
+              required:
+                - username
+                - password
+        description: Параметры тела запроса.
+components:
+  schemas: {}
+  responses: {}
