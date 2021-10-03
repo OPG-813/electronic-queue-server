@@ -1,10 +1,10 @@
-
 const { Pool, types } = require( 'pg' );
 const Logger = require( './logger' );
 const logger = new Logger();
 const pool = new Pool();
 const config = require( '../config' ).db;
 const { DataConflict, DataBaseError } = require( './error' );
+const { v4: uuidv4 } = require( 'uuid' );
 
 types.setTypeParser( 1082, ( value ) => value );
 
@@ -68,6 +68,9 @@ class DB {
   }
 
   async insert( table, record, returning = [] ) {
+    if ( !record.id ) {
+      record.id = uuidv4();
+    }
     const keys = Object.keys( record );
     const nums = new Array( keys.length );
     const data = new Array( keys.length );

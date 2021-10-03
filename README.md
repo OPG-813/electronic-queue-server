@@ -1,2 +1,2 @@
-# api-server
-Api server for projects. Template.
+# Electronic Queue NSUEM.
+Api server for Electronic Queue System for NSUEM.

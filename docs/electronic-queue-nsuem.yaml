@@ -1,0 +1,242 @@
+openapi: 3.0.0
+info:
+  title: Electronic Queue NSUEM
+  version: '1.0'
+  description: An API for electronic queue system from NSUEM.
+  contact:
+    name: Danil
+    url: 'https://github.com/DanilSord'
+    email: kincharov99@gmail.com
+  license:
+    name: MIT
+servers:
+  - url: 'https://api.queue-nsuem.web-code-developers.ru'
+    description: test server
+paths:
+  /user/login:
+    post:
+      summary: User login
+      operationId: post-user-login
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                    description: |
+                      id
+                  username:
+                    type: string
+                    example: admin
+                    description: Имя пользователя
+                  role:
+                    type: string
+                    example: ADMIN
+                    description: Роль пользователя
+                required:
+                  - id
+                  - username
+                  - role
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      description: Аутентификация пользователя по имени пользователя и паролю.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Имя пользователя
+                  example: admin
+                password:
+                  type: string
+                  description: Пароль
+                  example: Qwerty123!
+              required:
+                - username
+                - password
+        description: Параметры тела запроса.
+      x-internal: false
+    parameters: []
+  /user/logout:
+    get:
+      summary: User logout
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-user-logout
+      description: Выход пользователя из учётной записи.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+  /admin/register:
+    post:
+      summary: Admin register
+      operationId: post-admin-register
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      description: Регистрация администратора в системе.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: admin
+                  description: Имя пользователя
+                password:
+                  type: string
+                  example: Qwerty123!
+                  description: Пароль
+                name:
+                  type: string
+                  example: Admin
+                  description: ФИО администратора
+              required:
+                - username
+                - password
+                - name
+        description: Параметры тела запроса.
+components:
+  schemas:
+    SystemUser:
+      title: SystemUser
+      type: object
+      description: Пользователь системы.
+      properties:
+        id:
+          type: string
+          description: Id пользователя в формате uuid.
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        role:
+          type: string
+          description: Роль пользователя
+          example: ADMIN
+        username:
+          type: string
+          description: Имя пользователя
+          example: admin
+        password:
+          type: string
+          description: Пароль
+          example: Qwerty123!
+      required:
+        - id
+        - role
+        - username
+        - password
+    AdminUser:
+      title: AdminUser
+      type: object
+      description: Администратор системы. Может быть только один.
+      properties:
+        id:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Id в формате uuid
+        userId:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: id связанного пользователя
+        name:
+          type: string
+          example: Админ Такой То
+          description: ФИО администратора
+      required:
+        - id
+        - userId
+        - name
+  responses:
+    Bad-Request:
+      description: Bad request!
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Сообщение об ошибке
+              httpCode:
+                type: number
+                description: HTTP код ошибки
+              data:
+                type: object
+                description: Объект с дополнительной информацией
+            required:
+              - message
+              - httpCode
+          examples: {}
+      headers: {}
+    Conflict:
+      description: Data conflict error!
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Сообщение об ошибке
+              httpCode:
+                type: number
+                description: HTTP код ошибки
+              data:
+                type: object
+                description: Объект с дополнительной информацией
+            required:
+              - message
+              - httpCode
+              - data
+    Internal-Server-Error:
+      description: Internal server error!
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Internal server error!
+                description: Сообщение об ошибке. Internal server error!
+              httpCode:
+                type: number
+                example: 500
+                description: HTTP код ошибки
+              data:
+                type: object
+                description: Объект с дополнительной информацией. Отсутствует.
+            required:
+              - message
+              - httpCode
+  securitySchemes: {}
+security: []
