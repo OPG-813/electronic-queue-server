@@ -1,4 +1,19 @@
+---
+title: Electronic Queue NSUEM v1.0
+language_tabs: []
+toc_footers: []
+includes: []
+search: true
+highlight_theme: darkula
+headingLevel: 1
+
+---
+
+<!-- Generator: Widdershins v4.0.1 -->
+
 <h1 id="electronic-queue-nsuem">Electronic Queue NSUEM v1.0</h1>
+
+> Scroll down for example requests and responses.
 
 An API for electronic queue system from NSUEM.
 
@@ -8,6 +23,12 @@ Base URLs:
 
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
+
+# Authentication
+
+<h1 id="electronic-queue-nsuem-user">User</h1>
+
+APIпользователей.
 
 ## User login
 
@@ -148,6 +169,10 @@ Status Code **500**
 <aside class="success">
 This operation does not require authentication
 </aside>
+
+<h1 id="electronic-queue-nsuem-admin">Admin</h1>
+
+API администратора.
 
 ## Admin register
 
@@ -317,6 +342,10 @@ Status Code **500**
 <aside class="success">
 This operation does not require authentication
 </aside>
+
+<h1 id="electronic-queue-nsuem-system">System</h1>
+
+API системы.
 
 ## System status
 
