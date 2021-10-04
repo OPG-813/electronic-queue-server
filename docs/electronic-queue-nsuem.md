@@ -1,5 +1,3 @@
-<!-- Generator: Widdershins v4.0.1 -->
-
 <h1 id="electronic-queue-nsuem">Electronic Queue NSUEM v1.0</h1>
 
 An API for electronic queue system from NSUEM.
@@ -10,8 +8,6 @@ Base URLs:
 
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
-
-<h1 id="electronic-queue-nsuem-default">Default</h1>
 
 ## User login
 
@@ -89,7 +85,7 @@ Status Code **500**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке. Internal server error!|
+|» message|string|true|none|Сообщение об ошибке.|
 |» httpCode|number|true|none|HTTP код ошибки|
 |» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
 
@@ -113,12 +109,12 @@ This operation does not require authentication
 
 > Example responses
 
-> 500 Response
+> 401 Response
 
 ```json
 {
-  "message": "Internal server error!",
-  "httpCode": 500,
+  "message": "Not uthorized!",
+  "httpCode": "401",
   "data": {}
 }
 ```
@@ -128,15 +124,24 @@ This operation does not require authentication
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
 <h3 id="user-logout-responseschema">Response Schema</h3>
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
 
 Status Code **500**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке. Internal server error!|
+|» message|string|true|none|Сообщение об ошибке.|
 |» httpCode|number|true|none|HTTP код ошибки|
 |» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
 
@@ -177,8 +182,8 @@ This operation does not require authentication
 
 ```json
 {
-  "message": "string",
-  "httpCode": 0,
+  "message": "Data conflict error!",
+  "httpCode": 409,
   "data": {}
 }
 ```
@@ -214,7 +219,186 @@ Status Code **500**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке. Internal server error!|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Admin me
+
+<a id="opIdget-admin-me"></a>
+
+`GET /admin/me`
+
+Получение данных об аккаунте администратора.
+
+<h3 id="admin-me-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|false|Сессионный токен пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "8ce923c0-4157-487d-ab62-8cc48b0df76f",
+  "name": "Admin",
+  "user": {
+    "id": "a01bec54-0fcd-4729-aa9d-0c5043712ff5",
+    "role": "ADMIN",
+    "username": "admin"
+  },
+  "userId": "a01bec54-0fcd-4729-aa9d-0c5043712ff5"
+}
+```
+
+<h3 id="admin-me-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="admin-me-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|Id администратора|
+|» name|string|true|none|ФИО администратора.|
+|» user|object|true|none|Объект с данными о пользователе.|
+|»» id|string|true|none|Id пользователя.|
+|»» role|string|true|none|Роль пользователя.|
+|»» username|string|true|none|Имя пользователя.|
+|» userId|string|true|none|Id пользователя|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## System status
+
+<a id="opIdget-system-status"></a>
+
+`GET /system/status`
+
+Получение данных о состоянии системы.
+
+<h3 id="system-status-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|false|Сессионный токен пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "76fb63b3-1b56-4747-8f81-a9d132cd6642",
+  "endDate": "2100-01-01",
+  "endTime": "24:00:00",
+  "startDate": "2000-01-01",
+  "startTime": "00:00:00",
+  "status": "off",
+  "timezone": "Asia/Novosibirsk"
+}
+```
+
+<h3 id="system-status-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="system-status-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|id системы.|
+|» endDate|string|true|none|Дата, после которой система прекратит приём заявок.|
+|» endTime|string|true|none|Время суток, после которого система прекратит приём заявок.|
+|» startDate|string|true|none|Дата, с которой система начнёт приём заявок.|
+|» startTime|string|true|none|Время, с которого система начнёт приём заявок.|
+|» status|string|true|none|Статус работы системы.|
+|» timezone|string|true|none|Временная зона, в которой идёт отсчёт времени системы.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|status|off|
+|status|on|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
 |» httpCode|number|true|none|HTTP код ошибки|
 |» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
 

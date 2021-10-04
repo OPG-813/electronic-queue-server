@@ -17,7 +17,7 @@ ALTER TABLE AdminUser ADD CONSTRAINT fkAdminUserSystemUserId FOREIGN KEY ( "user
 
 CREATE TABLE SystemStatus (
     "id" VARCHAR(64) NOT NULL,
-    "status" VARCHAR(64),
+    "status" VARCHAR(64) DEFAULT 'off',
     "startDate" date DEFAULT '2000-01-01',
     "endDate" date DEFAULT '2100-01-01',
     "startTime" time DEFAULT '00:00:00',

@@ -25,6 +25,13 @@ class AdminController {
 
     return admin;
   }
+
+  async me( data, request ) {
+    const admin = await this.adminService.getAdminByUserId( request.user.id );
+    admin.user = request.user;
+    delete admin.user.password;
+    return admin;
+  }
 }
 
 module.exports = AdminController;

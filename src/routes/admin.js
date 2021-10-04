@@ -10,6 +10,14 @@ module.exports = {
       schema: component.schemes.register,
       handler: 'register',
       roles: []
+    },
+    {
+      method: 'GET',
+      path: '/admin/me',
+      secure: true,
+      schema: null,
+      handler: 'me',
+      roles: [ 'ADMIN' ]
     }
   ]
 };
