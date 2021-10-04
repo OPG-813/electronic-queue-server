@@ -78,6 +78,8 @@ paths:
       responses:
         '200':
           description: OK
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/Internal-Server-Error'
       operationId: get-user-logout
@@ -125,6 +127,135 @@ paths:
                 - password
                 - name
         description: Параметры тела запроса.
+  /admin/me:
+    get:
+      summary: Admin me
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Id администратора
+                    example: 8ce923c0-4157-487d-ab62-8cc48b0df76f
+                  name:
+                    type: string
+                    description: ФИО администратора.
+                    example: Admin
+                  user:
+                    type: object
+                    required:
+                      - id
+                      - role
+                      - username
+                    description: Объект с данными о пользователе.
+                    properties:
+                      id:
+                        type: string
+                        description: Id пользователя.
+                        example: a01bec54-0fcd-4729-aa9d-0c5043712ff5
+                      role:
+                        type: string
+                        description: Роль пользователя.
+                        example: ADMIN
+                      username:
+                        type: string
+                        description: Имя пользователя.
+                        example: admin
+                  userId:
+                    type: string
+                    description: Id пользователя
+                    example: a01bec54-0fcd-4729-aa9d-0c5043712ff5
+                required:
+                  - id
+                  - name
+                  - user
+                  - userId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-admin-me
+      description: Получение данных об аккаунте администратора.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+  /system/status:
+    get:
+      summary: System status
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 76fb63b3-1b56-4747-8f81-a9d132cd6642
+                    description: id системы.
+                  endDate:
+                    type: string
+                    example: '2100-01-01'
+                    description: 'Дата, после которой система прекратит приём заявок.'
+                  endTime:
+                    type: string
+                    example: '24:00:00'
+                    description: 'Время суток, после которого система прекратит приём заявок.'
+                  startDate:
+                    type: string
+                    example: '2000-01-01'
+                    description: 'Дата, с которой система начнёт приём заявок.'
+                  startTime:
+                    type: string
+                    example: '00:00:00'
+                    description: 'Время, с которого система начнёт приём заявок.'
+                  status:
+                    type: string
+                    enum:
+                      - 'off'
+                      - 'on'
+                    description: Статус работы системы.
+                  timezone:
+                    type: string
+                    example: Asia/Novosibirsk
+                    description: 'Временная зона, в которой идёт отсчёт времени системы.'
+                required:
+                  - id
+                  - endDate
+                  - endTime
+                  - startDate
+                  - startTime
+                  - status
+                  - timezone
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-system-status
+      description: Получение данных о состоянии системы.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
 components:
   schemas:
     SystemUser:
@@ -186,9 +317,11 @@ components:
               message:
                 type: string
                 description: Сообщение об ошибке
+                example: Bad request!
               httpCode:
                 type: number
                 description: HTTP код ошибки
+                example: 400
               data:
                 type: object
                 description: Объект с дополнительной информацией
@@ -207,9 +340,11 @@ components:
               message:
                 type: string
                 description: Сообщение об ошибке
+                example: Data conflict error!
               httpCode:
                 type: number
                 description: HTTP код ошибки
+                example: 409
               data:
                 type: object
                 description: Объект с дополнительной информацией
@@ -226,8 +361,8 @@ components:
             properties:
               message:
                 type: string
-                example: Internal server error!
-                description: Сообщение об ошибке. Internal server error!
+                example: ' Internal server error!'
+                description: Сообщение об ошибке.
               httpCode:
                 type: number
                 example: 500
@@ -235,6 +370,48 @@ components:
               data:
                 type: object
                 description: Объект с дополнительной информацией. Отсутствует.
+            required:
+              - message
+              - httpCode
+    Unauthorized:
+      description: Not uthorized!
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Not uthorized!
+                description: Сообщение об ошибке
+              httpCode:
+                type: string
+                example: '401'
+                description: HTTP код ошибки
+              data:
+                type: object
+                description: Объект с дополнительной информацией
+            required:
+              - message
+              - httpCode
+    Forbidden:
+      description: Not enough rights!
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Not enough rights!
+                description: Сообщение об ошибке.
+              httpCode:
+                type: string
+                description: HTTP код ошибки
+                example: '403'
+              data:
+                type: object
+                description: Объект с дополнительной информацией.
             required:
               - message
               - httpCode
