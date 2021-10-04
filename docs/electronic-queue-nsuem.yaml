@@ -12,6 +12,13 @@ info:
 servers:
   - url: 'https://api.queue-nsuem.web-code-developers.ru'
     description: test server
+tags:
+  - name: User
+    description: APIпользователей.
+  - name: Admin
+    description: API администратора.
+  - name: System
+    description: API системы.
 paths:
   /user/login:
     post:
@@ -70,11 +77,14 @@ paths:
                 - password
         description: Параметры тела запроса.
       x-internal: false
+      tags:
+        - User
     parameters: []
   /user/logout:
     get:
       summary: User logout
-      tags: []
+      tags:
+        - User
       responses:
         '200':
           description: OK
@@ -127,10 +137,13 @@ paths:
                 - password
                 - name
         description: Параметры тела запроса.
+      tags:
+        - Admin
   /admin/me:
     get:
       summary: Admin me
-      tags: []
+      tags:
+        - Admin
       responses:
         '200':
           description: OK
@@ -195,7 +208,6 @@ paths:
   /system/status:
     get:
       summary: System status
-      tags: []
       responses:
         '200':
           description: OK
@@ -256,6 +268,8 @@ paths:
           in: cookie
           name: token
           description: Сессионный токен пользователя.
+      tags:
+        - System
 components:
   schemas:
     SystemUser:
