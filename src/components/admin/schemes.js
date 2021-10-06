@@ -12,6 +12,7 @@ module.exports = {
       name: {
         type: 'string'
       }
-    }
+    },
+    additionalProperties: false
   }
 };

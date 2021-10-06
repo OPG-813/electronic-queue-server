@@ -19,6 +19,8 @@ tags:
     description: API администратора.
   - name: System
     description: API системы.
+  - name: Purpose
+    description: API целей.
 paths:
   /user/login:
     post:
@@ -100,6 +102,7 @@ paths:
           in: cookie
           name: token
           description: Сессионный токен пользователя.
+          required: true
   /admin/register:
     post:
       summary: Admin register
@@ -205,6 +208,7 @@ paths:
           in: cookie
           name: token
           description: Сессионный токен пользователя.
+          required: true
   /system/status:
     get:
       summary: System status
@@ -268,8 +272,234 @@ paths:
           in: cookie
           name: token
           description: Сессионный токен пользователя.
+          required: true
       tags:
         - System
+  /purpose/add:
+    post:
+      summary: Purpose add
+      operationId: post-purpose-add
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: b109fc37-3db3-4b34-ad2d-a3f577f54fbb
+                    description: Id созданной цели.
+                  name:
+                    type: string
+                    example: Цель1
+                    description: Наименование созданной цели.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Цель1
+                  description: Наименование цели.
+              required:
+                - name
+        description: Тело запроса.
+      description: Добавление цели в БД.
+      tags:
+        - Purpose
+    parameters: []
+  /purpose/list:
+    get:
+      summary: Purpose list
+      tags:
+        - Purpose
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+                      description: Id цели.
+                    name:
+                      type: string
+                      example: цель2
+                      description: Наименование цели.
+                  required:
+                    - id
+                    - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-purpose-list
+      description: Получение списка целей.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            example: '5'
+          in: query
+          name: itemsNumber
+          description: Количество элементов на одной странице.
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: Порядковый номер страницы.
+  /purpose/remove:
+    delete:
+      summary: Purpose remove
+      operationId: delete-purpose-remove
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+                    description: id удаленной цели.
+                  name:
+                    type: string
+                    example: Цель 1
+                    description: Наименование удалённой цели.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Purpose
+      description: Удаление цели по id.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+                  description: id цели.
+              required:
+                - id
+        description: Тело запроса.
+  /purpose/update:
+    patch:
+      summary: Purpose update
+      operationId: patch-purpose-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+                    description: Id измененной цели.
+                  name:
+                    type: string
+                    example: цель123
+                    description: Наименование изменённой цели.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Purpose
+      description: Изменение цели по id.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+                  description: Id цели.
+                name:
+                  type: string
+                  example: цель123
+                  description: Наименование цели.
+              required:
+                - id
+        description: Тело запроса.
 components:
   schemas:
     SystemUser:
@@ -319,6 +549,71 @@ components:
       required:
         - id
         - userId
+        - name
+    SystemStatus:
+      title: SystemStatus
+      type: object
+      description: Модель статуса работы системы и её настроек.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id статуса системы. Больше одного статуса не может быть.
+          example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+        status:
+          type: string
+          enum:
+            - 'on'
+            - 'off'
+          description: Значение статуса системы.
+        startDate:
+          type: string
+          format: date
+          example: '2000-01-01'
+          description: Дата начала работы системы.
+        endDate:
+          type: string
+          format: date
+          example: '2100-01-01'
+          description: Дата окончания работы системы.
+        startTime:
+          type: string
+          format: time
+          example: '00:00:00'
+          description: Время суток начала работы системы.
+        endTime:
+          type: string
+          format: time
+          example: '23:00:00'
+          description: Время суток окончания работы системы.
+        timezone:
+          type: string
+          example: Asia/Novosibirsk
+          description: Часовой пояс работы системы.
+      required:
+        - id
+        - status
+        - startDate
+        - endDate
+        - startTime
+        - endTime
+        - timezone
+    Purpose:
+      title: Purpose
+      type: object
+      description: Модель цели посещения.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id цели.
+          example: 7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c
+        name:
+          type: string
+          example: цель1
+          description: Наименование цели.
+      required:
+        - id
         - name
   responses:
     Bad-Request:

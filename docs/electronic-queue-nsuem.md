@@ -1,19 +1,5 @@
----
-title: Electronic Queue NSUEM v1.0
-language_tabs: []
-toc_footers: []
-includes: []
-search: true
-highlight_theme: darkula
-headingLevel: 1
-
----
-
-<!-- Generator: Widdershins v4.0.1 -->
 
 <h1 id="electronic-queue-nsuem">Electronic Queue NSUEM v1.0</h1>
-
-> Scroll down for example requests and responses.
 
 An API for electronic queue system from NSUEM.
 
@@ -23,8 +9,6 @@ Base URLs:
 
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
-
-# Authentication
 
 <h1 id="electronic-queue-nsuem-user">User</h1>
 
@@ -126,7 +110,7 @@ This operation does not require authentication
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|token|cookie|string|false|Сессионный токен пользователя.|
+|token|cookie|string|true|Сессионный токен пользователя.|
 
 > Example responses
 
@@ -264,7 +248,7 @@ This operation does not require authentication
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|token|cookie|string|false|Сессионный токен пользователя.|
+|token|cookie|string|true|Сессионный токен пользователя.|
 
 > Example responses
 
@@ -359,7 +343,7 @@ API системы.
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|token|cookie|string|false|Сессионный токен пользователя.|
+|token|cookie|string|true|Сессионный токен пользователя.|
 
 > Example responses
 
@@ -435,6 +419,384 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
+<h1 id="electronic-queue-nsuem-purpose">Purpose</h1>
+
+API целей.
+
+## Purpose add
+
+<a id="opIdpost-purpose-add"></a>
+
+`POST /purpose/add`
+
+Добавление цели в БД.
+
+> Body parameter
+
+```json
+{
+  "name": "Цель1"
+}
+```
+
+<h3 id="purpose-add-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» name|body|string|true|Наименование цели.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "b109fc37-3db3-4b34-ad2d-a3f577f54fbb",
+  "name": "Цель1"
+}
+```
+
+<h3 id="purpose-add-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="purpose-add-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|Id созданной цели.|
+|» name|string|true|none|Наименование созданной цели.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **409**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|true|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Purpose list
+
+<a id="opIdget-purpose-list"></a>
+
+`GET /purpose/list`
+
+Получение списка целей.
+
+<h3 id="purpose-list-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|itemsNumber|query|string|false|Количество элементов на одной странице.|
+|page|query|string|false|Порядковый номер страницы.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
+    "name": "цель2"
+  }
+]
+```
+
+<h3 id="purpose-list-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="purpose-list-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|Id цели.|
+|» name|string|true|none|Наименование цели.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Purpose remove
+
+<a id="opIddelete-purpose-remove"></a>
+
+`DELETE /purpose/remove`
+
+Удаление цели по id.
+
+> Body parameter
+
+```json
+{
+  "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c"
+}
+```
+
+<h3 id="purpose-remove-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string|true|id цели.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
+  "name": "Цель 1"
+}
+```
+
+<h3 id="purpose-remove-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="purpose-remove-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|id удаленной цели.|
+|» name|string|true|none|Наименование удалённой цели.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Purpose update
+
+<a id="opIdpatch-purpose-update"></a>
+
+`PATCH /purpose/update`
+
+Изменение цели по id.
+
+> Body parameter
+
+```json
+{
+  "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
+  "name": "цель123"
+}
+```
+
+<h3 id="purpose-update-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string|true|Id цели.|
+|» name|body|string|false|Наименование цели.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
+  "name": "цель123"
+}
+```
+
+<h3 id="purpose-update-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="purpose-update-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|Id измененной цели.|
+|» name|string|true|none|Наименование изменённой цели.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **409**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|true|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 # Schemas
 
 <h2 id="tocS_SystemUser">SystemUser</h2>
@@ -490,4 +852,69 @@ AdminUser
 |id|string|true|none|Id в формате uuid|
 |userId|string|true|none|id связанного пользователя|
 |name|string|true|none|ФИО администратора|
+
+<h2 id="tocS_SystemStatus">SystemStatus</h2>
+<!-- backwards compatibility -->
+<a id="schemasystemstatus"></a>
+<a id="schema_SystemStatus"></a>
+<a id="tocSsystemstatus"></a>
+<a id="tocssystemstatus"></a>
+
+```json
+{
+  "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
+  "status": "on",
+  "startDate": "2000-01-01",
+  "endDate": "2100-01-01",
+  "startTime": "00:00:00",
+  "endTime": "23:00:00",
+  "timezone": "Asia/Novosibirsk"
+}
+
+```
+
+SystemStatus
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Id статуса системы. Больше одного статуса не может быть.|
+|status|string|true|none|Значение статуса системы.|
+|startDate|string(date)|true|none|Дата начала работы системы.|
+|endDate|string(date)|true|none|Дата окончания работы системы.|
+|startTime|string(time)|true|none|Время суток начала работы системы.|
+|endTime|string(time)|true|none|Время суток окончания работы системы.|
+|timezone|string|true|none|Часовой пояс работы системы.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|status|on|
+|status|off|
+
+<h2 id="tocS_Purpose">Purpose</h2>
+<!-- backwards compatibility -->
+<a id="schemapurpose"></a>
+<a id="schema_Purpose"></a>
+<a id="tocSpurpose"></a>
+<a id="tocspurpose"></a>
+
+```json
+{
+  "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
+  "name": "цель1"
+}
+
+```
+
+Purpose
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Id цели.|
+|name|string|true|none|Наименование цели.|
 

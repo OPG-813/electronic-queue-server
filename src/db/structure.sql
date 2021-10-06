@@ -37,6 +37,7 @@ CREATE TABLE Purpose (
     "name" VARCHAR(64)
 );
 ALTER TABLE Purpose ADD CONSTRAINT pkPurpose PRIMARY KEY ( "id" );
+CREATE UNIQUE INDEX iPurposeName ON Purpose( "name" );
 
 CREATE TABLE SystemWindowPurpose (
     "id" VARCHAR(64) NOT NULL,

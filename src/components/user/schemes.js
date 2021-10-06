@@ -9,6 +9,7 @@ module.exports = {
       password: {
         type: 'string'
       }
-    }
+    },
+    additionalProperties: false
   }
 };
