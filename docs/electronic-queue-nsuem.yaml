@@ -22,7 +22,7 @@ tags:
   - name: Purpose
     description: API целей.
   - name: Window
-    description: API окон.    
+    description: API окон.
 paths:
   /user/login:
     post:
@@ -904,8 +904,6 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/Internal-Server-Error'
-      tags:
-        - Window
       description: Изменение пользователя.
       parameters:
         - schema:
@@ -930,6 +928,8 @@ paths:
               required:
                 - id
         description: Тело запроса.
+      tags:
+        - User
 components:
   schemas:
     SystemUser:

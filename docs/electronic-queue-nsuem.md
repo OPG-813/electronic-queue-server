@@ -154,6 +154,107 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
+## User update.
+
+<a id="opIdpatch-user-update"></a>
+
+`PATCH /user/update`
+
+Изменение пользователя.
+
+> Body parameter
+
+```json
+{
+  "id": "a01bec54-0fcd-4729-aa9d-0c5043712ff5",
+  "username": "admin"
+}
+```
+
+<h3 id="user-update.-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|false|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string|true|Id пользователя.|
+|» username|body|string|false|Имя пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "a01bec54-0fcd-4729-aa9d-0c5043712ff5",
+  "username": "admin"
+}
+```
+
+<h3 id="user-update.-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="user-update.-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|Id пользователя.|
+|» username|string|true|none|Имя пользователя.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **409**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|true|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 <h1 id="electronic-queue-nsuem-admin">Admin</h1>
 
 API администратора.
@@ -1341,107 +1442,6 @@ Status Code **200**
 |» id|string|true|none|id связи.|
 |» purposeId|string|true|none|id цели.|
 |» windowId|string|true|none|id окна.|
-
-Status Code **400**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке|
-|» httpCode|number|true|none|HTTP код ошибки|
-|» data|object|false|none|Объект с дополнительной информацией|
-
-Status Code **401**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке|
-|» httpCode|string|true|none|HTTP код ошибки|
-|» data|object|false|none|Объект с дополнительной информацией|
-
-Status Code **403**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке.|
-|» httpCode|string|true|none|HTTP код ошибки|
-|» data|object|false|none|Объект с дополнительной информацией.|
-
-Status Code **409**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке|
-|» httpCode|number|true|none|HTTP код ошибки|
-|» data|object|true|none|Объект с дополнительной информацией|
-
-Status Code **500**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» message|string|true|none|Сообщение об ошибке.|
-|» httpCode|number|true|none|HTTP код ошибки|
-|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## User update.
-
-<a id="opIdpatch-user-update"></a>
-
-`PATCH /user/update`
-
-Изменение пользователя.
-
-> Body parameter
-
-```json
-{
-  "id": "a01bec54-0fcd-4729-aa9d-0c5043712ff5",
-  "username": "admin"
-}
-```
-
-<h3 id="user-update.-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|cookie|string|false|Сессионный токен пользователя.|
-|body|body|object|false|Тело запроса.|
-|» id|body|string|true|Id пользователя.|
-|» username|body|string|false|Имя пользователя.|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "id": "a01bec54-0fcd-4729-aa9d-0c5043712ff5",
-  "username": "admin"
-}
-```
-
-<h3 id="user-update.-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
-|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
-
-<h3 id="user-update.-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» id|string|true|none|Id пользователя.|
-|» username|string|true|none|Имя пользователя.|
 
 Status Code **400**
 
