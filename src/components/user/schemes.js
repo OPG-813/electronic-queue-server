@@ -11,5 +11,20 @@ module.exports = {
       }
     },
     additionalProperties: false
+  },
+
+  update: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      },
+      username: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
   }
+
 };

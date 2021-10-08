@@ -32,6 +32,12 @@ class AdminController {
     delete admin.user.password;
     return admin;
   }
+
+  async changePassword( data, request ) {
+    const user = await this.userService.checkPassword( request.user.username, data.oldPassword );
+    await this.userService.changePassword( user.id, data.newPassword );
+    return user;
+  }
 }
 
 module.exports = AdminController;

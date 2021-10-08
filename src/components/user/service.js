@@ -20,6 +20,14 @@ class UserService {
     }
   }
 
+  async changePassword( id, password ) {
+    const hashPassword = await this.core.security.hashPassword( password );
+    return this.core.db.update( 'SystemUser',
+      { password: hashPassword },
+      { id }
+    );
+  }
+
   async addUser( username, password, role ) {
     const hashPassword = await this.core.security.hashPassword( password );
     return this.core.db.insert( 'SystemUser',
@@ -31,6 +39,10 @@ class UserService {
   async isUserRoleExists( role ) {
     const users = await this.core.db.select( 'SystemUser', [ 'id' ], { role } );
     return !!users.length;
+  }
+
+  update( id, fields ) {
+    return this.core.db.update( 'SystemUser', fields, { id }, [ 'id', 'username' ] );
   }
 }
 

@@ -19,5 +19,13 @@ module.exports = {
       handler: 'logout',
       roles: []
     },
+    {
+      method: 'PATCH',
+      path: '/user/update',
+      secure: true,
+      schema: component.schemes.update,
+      handler: 'update',
+      roles: [ 'ADMIN' ]
+    }
   ]
 };

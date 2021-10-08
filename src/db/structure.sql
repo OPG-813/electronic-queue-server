@@ -31,6 +31,7 @@ CREATE TABLE SystemWindow (
     "name" VARCHAR(64)
 );
 ALTER TABLE SystemWindow ADD CONSTRAINT pkSystemWindow PRIMARY KEY ( "id" );
+CREATE UNIQUE INDEX iSystemWindow ON SystemWindow( "name" );
 
 CREATE TABLE Purpose (
     "id" VARCHAR(64) NOT NULL,
@@ -47,6 +48,7 @@ CREATE TABLE SystemWindowPurpose (
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT pkSystemWindowPurpose PRIMARY KEY ( "id" );
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT fkSystemWindowPurposeSystemWindowId FOREIGN KEY ( "windowId" ) REFERENCES  SystemWindow( "id" ) ON DELETE CASCADE;
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT fkSystemWindowPurposePurposeId FOREIGN KEY ( "purposeId" ) REFERENCES  Purpose( "id" ) ON DELETE CASCADE;
+CREATE UNIQUE INDEX windowIdPurposeId ON SystemWindowPurpose ("windowId", "purposeId");
 
 CREATE TABLE Session (
     "id" VARCHAR(64) NOT NULL,

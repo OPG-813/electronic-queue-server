@@ -25,6 +25,12 @@ class UserController {
     response.header( 'Set-Cookie', cookie );
     return 'OK';
   }
+
+  async update( data ) {
+    const id = data.id;
+    delete data.id;
+    return this.userService.update( id, data );
+  }
 }
 
 module.exports = UserController;
