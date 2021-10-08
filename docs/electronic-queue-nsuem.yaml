@@ -904,6 +904,8 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
       description: Изменение пользователя.
       parameters:
         - schema:
