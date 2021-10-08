@@ -21,6 +21,8 @@ tags:
     description: API системы.
   - name: Purpose
     description: API целей.
+  - name: Window
+    description: API окон.    
 paths:
   /user/login:
     post:
@@ -500,6 +502,434 @@ paths:
               required:
                 - id
         description: Тело запроса.
+  /window/add:
+    post:
+      summary: Window add.
+      operationId: post-window-add
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 01d0e442-dcf5-479f-99ac-1f3c80a6c7dd
+                    description: Id окна.
+                  name:
+                    type: string
+                    example: Окно 3
+                    description: Наименование окна.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
+      description: Добавление нового окна.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Окно 1
+                  description: Наименование окна.
+              required:
+                - name
+        description: Тело запроса.
+  /window/list:
+    get:
+      summary: Window list.
+      tags:
+        - Window
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: ddbc9845-a1b1-4eaa-b9be-022c0e06b9fa
+                      description: Id окна.
+                    name:
+                      type: string
+                      example: Окно 2
+                      description: Наименование окна.
+                    purposes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: cbfe44d1-d3ea-4ced-8f9d-f346409332a5
+                            description: Id цели.
+                          name:
+                            type: string
+                            example: цель3
+                            description: Наименование цели.
+                        required:
+                          - id
+                          - name
+                  required:
+                    - id
+                    - name
+                    - purposes
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-window-list
+      description: Получение списка окон с целями.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+  /window/remove:
+    delete:
+      summary: Window remove.
+      operationId: delete-window-remove
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ddbc9845-a1b1-4eaa-b9be-022c0e06b9fa
+                    description: Id удаленного окна.
+                  name:
+                    type: string
+                    example: Окно 2
+                    description: НАименование удаленного окна.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
+      description: Удаление окна.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: ddbc9845-a1b1-4eaa-b9be-022c0e06b9fa
+                  description: Id окна.
+              required:
+                - id
+        description: Тело запроса.
+  /window/update:
+    patch:
+      summary: Window update.
+      operationId: patch-window-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 01d0e442-dcf5-479f-99ac-1f3c80a6c7dd
+                    description: Id изменённого окна.
+                  name:
+                    type: string
+                    example: Окно 123.
+                    description: Наименование изменённого окна.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
+      description: Изменения информации об окне.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: ddbc9845-a1b1-4eaa-b9be-022c0e06b9fa
+                  description: Id окна.
+                name:
+                  type: string
+                  example: Окно 123
+                  description: Наименование окна.
+              required:
+                - id
+        description: Тело запроса.
+  /window/addPurposes:
+    post:
+      summary: Window addPurpose.
+      operationId: post-window-addPurposes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 33b50b73-7886-4660-bee5-f6fe8157aa8d
+                      description: id связи.
+                    purposeId:
+                      type: string
+                      example: cbfe44d1-d3ea-4ced-8f9d-f346409332a5
+                      description: id цели.
+                    windowId:
+                      type: string
+                      example: 01d0e442-dcf5-479f-99ac-1f3c80a6c7dd
+                      description: id окна.
+                  required:
+                    - id
+                    - purposeId
+                    - windowId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
+      description: Добавление списка целей окну.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 01d0e442-dcf5-479f-99ac-1f3c80a6c7dd
+                  description: Id окна.
+                purposes:
+                  type: array
+                  description: Список целей.
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01d0e442-dcf5-479f-99ac-1f3c80a6c7dd
+                        description: Id целей.
+                    required:
+                      - id
+              required:
+                - id
+                - purposes
+        description: Тело запроса.
+  /admin/changePassword:
+    patch:
+      summary: Admin changePassword.
+      operationId: patch-admin-changePassword
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: a01bec54-0fcd-4729-aa9d-0c5043712ff5
+                    description: Id администратора.
+                  role:
+                    type: string
+                    example: ADMIN
+                    description: Роль.
+                  username:
+                    type: string
+                    example: admin
+                    description: Имя пользователя администратора.
+                required:
+                  - id
+                  - role
+                  - username
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Admin
+      description: Изменение пароля администратора.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                  example: test
+                  description: Старый пароль.
+                newPassword:
+                  type: string
+                  example: test1
+                  description: Новый пароль.
+              required:
+                - oldPassword
+                - newPassword
+        description: Тело запроса.
+  /user/update:
+    patch:
+      summary: User update.
+      operationId: patch-user-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: a01bec54-0fcd-4729-aa9d-0c5043712ff5
+                    description: Id пользователя.
+                  username:
+                    type: string
+                    example: admin
+                    description: Имя пользователя.
+                required:
+                  - id
+                  - username
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
+      description: Изменение пользователя.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: a01bec54-0fcd-4729-aa9d-0c5043712ff5
+                  description: Id пользователя.
+                username:
+                  type: string
+                  example: admin
+                  description: Имя пользователя.
+              required:
+                - id
+        description: Тело запроса.
 components:
   schemas:
     SystemUser:
@@ -612,6 +1042,22 @@ components:
           type: string
           example: цель1
           description: Наименование цели.
+      required:
+        - id
+        - name
+    SystemWindow:
+      title: SystemWindow
+      type: object
+      description: Окно.
+      properties:
+        id:
+          type: string
+          description: id окна.
+          format: uuid
+        name:
+          type: string
+          description: НАименование окна.
+          example: Окно 1
       required:
         - id
         - name

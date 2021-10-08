@@ -10,6 +10,14 @@ module.exports = {
       schema: null,
       handler: 'status',
       roles: [ 'ADMIN' ]
+    },
+    {
+      method: 'PATCH',
+      path: '/system/update',
+      secure: true,
+      schema: component.schemes.update,
+      handler: 'update',
+      roles: [ 'ADMIN' ]
     }
   ]
 };

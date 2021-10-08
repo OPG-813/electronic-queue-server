@@ -19,6 +19,18 @@ class SystemService {
 
     return systemStatus;
   }
+
+  async update( id, fields ) {
+    return this.core.db.update( 'SystemStatus', fields, { id }, [
+      'id',
+      'status',
+      'startDate',
+      'endDate',
+      'startTime',
+      'endTime',
+      'timezone'
+    ] );
+  }
 }
 
 module.exports = SystemService;

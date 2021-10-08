@@ -14,5 +14,20 @@ module.exports = {
       }
     },
     additionalProperties: false
+  },
+
+  changePassword: {
+    type: 'object',
+    required: [ 'oldPassword', 'newPassword' ],
+    properties: {
+      oldPassword: {
+        type: 'string',
+      },
+      newPassword: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
   }
+
 };
