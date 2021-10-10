@@ -18,6 +18,14 @@ module.exports = {
       schema: component.schemes.update,
       handler: 'update',
       roles: [ 'ADMIN' ]
-    }
+    },
+    {
+      method: 'GET',
+      path: '/system/getTimezones',
+      secure: true,
+      schema: null,
+      handler: 'getTimezones',
+      roles: [ 'ADMIN' ]
+    },
   ]
 };

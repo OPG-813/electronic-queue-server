@@ -31,6 +31,12 @@ class SystemService {
       'timezone'
     ] );
   }
+  
+  getTimezones() {
+    return this.core.db.query( `SELECT name, utc_offset FROM pg_timezone_names 
+      WHERE name LIKE 'Asia%' OR name LIKE 'Europe%' 
+      ORDER BY utc_offset asc` );
+  }
 }
 
 module.exports = SystemService;
