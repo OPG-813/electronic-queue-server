@@ -15,6 +15,10 @@ class SystemController {
     delete data.id;
     return this.systemService.update( id, data );
   }
+  
+  getTimezones() {
+    return this.systemService.getTimezones();
+  }
 }
 
 module.exports = SystemController;
