@@ -10,9 +10,7 @@ Base URLs:
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
 
-<h1 id="electronic-queue-nsuem-user">User</h1>
-
-APIпользователей.
+API пользователей.
 
 ## User login
 
@@ -585,6 +583,84 @@ Status Code **200**
 |---|---|
 |status|off|
 |status|on|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## System getTimezones.
+
+<a id="opIdget-system-getTimezones"></a>
+
+`GET /system/getTimezones`
+
+Получение списка временных зон.
+
+<h3 id="system-gettimezones.-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|false|Сессионный токен пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "name": "Asia/Tehran",
+    "utc_offset": {
+      "hours": "3",
+      "minutes": "30"
+    }
+  }
+]
+```
+
+<h3 id="system-gettimezones.-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="system-gettimezones.-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» name|string|true|none|Наименование временной зоны.|
+|» utc_offset|object|false|none|none|
+|»» hours|string|true|none|Часы смещения.|
+|»» minutes|string|false|none|Минуты смещения.|
 
 Status Code **401**
 

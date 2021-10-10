@@ -930,6 +930,54 @@ paths:
         description: Тело запроса.
       tags:
         - User
+  /system/getTimezones:
+    get:
+      summary: System getTimezones.
+      tags:
+        - System
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: Asia/Tehran
+                      description: Наименование временной зоны.
+                    utc_offset:
+                      type: object
+                      properties:
+                        hours:
+                          type: string
+                          example: '3'
+                          description: Часы смещения.
+                        minutes:
+                          type: string
+                          example: '30'
+                          description: Минуты смещения.
+                      required:
+                        - hours
+                  required:
+                    - name
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-system-getTimezones
+      description: Получение списка временных зон.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
 components:
   schemas:
     SystemUser:
