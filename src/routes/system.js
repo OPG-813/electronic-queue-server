@@ -6,10 +6,10 @@ module.exports = {
     {
       method: 'GET',
       path: '/system/status',
-      secure: true,
+      secure: false,
       schema: null,
       handler: 'status',
-      roles: [ 'ADMIN' ]
+      roles: []
     },
     {
       method: 'PATCH',

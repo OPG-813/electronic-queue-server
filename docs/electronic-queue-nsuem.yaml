@@ -14,7 +14,7 @@ servers:
     description: test server
 tags:
   - name: User
-    description: APIпользователей.
+    description: API пользователей.
   - name: Admin
     description: API администратора.
   - name: System
@@ -268,13 +268,7 @@ paths:
           $ref: '#/components/responses/Internal-Server-Error'
       operationId: get-system-status
       description: Получение данных о состоянии системы.
-      parameters:
-        - schema:
-            type: string
-          in: cookie
-          name: token
-          description: Сессионный токен пользователя.
-          required: true
+      parameters: []
       tags:
         - System
   /purpose/add:
@@ -978,6 +972,70 @@ paths:
           in: cookie
           name: token
           description: Сессионный токен пользователя.
+  /window/removePurpose:
+    delete:
+      summary: Window removePurpose.
+      operationId: delete-window-removePurpose
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 073f3bbe-bbbb-4e95-b797-11b6700bd636
+                    description: Id связи между окном и целью.
+                  purposeId:
+                    type: string
+                    example: 073f3bbe-bbbb-4e95-b797-11b6700bd636
+                    description: Id цели удаленной цели.
+                  windowId:
+                    type: string
+                    example: 073f3bbe-bbbb-4e95-b797-11b6700bd636
+                    description: Id окна.
+                required:
+                  - id
+                  - purposeId
+                  - windowId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Window
+      description: Удаление цели у окна.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                windowId:
+                  type: string
+                  example: 073f3bbe-bbbb-4e95-b797-11b6700bd636
+                  description: Id окна.
+                purposeId:
+                  type: string
+                  example: 073f3bbe-bbbb-4e95-b797-11b6700bd636
+                  description: Id цели.
+              required:
+                - windowId
+                - purposeId
+        description: Тело запроса.
 components:
   schemas:
     SystemUser:
