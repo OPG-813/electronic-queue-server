@@ -10,6 +10,9 @@ Base URLs:
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
 
+
+<h1 id="electronic-queue-nsuem-user">User</h1>
+
 API пользователей.
 
 ## User login
@@ -531,12 +534,6 @@ API системы.
 `GET /system/status`
 
 Получение данных о состоянии системы.
-
-<h3 id="system-status-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|cookie|string|true|Сессионный токен пользователя.|
 
 > Example responses
 
@@ -1550,6 +1547,100 @@ Status Code **409**
 |» message|string|true|none|Сообщение об ошибке|
 |» httpCode|number|true|none|HTTP код ошибки|
 |» data|object|true|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Window removePurpose.
+
+<a id="opIddelete-window-removePurpose"></a>
+
+`DELETE /window/removePurpose`
+
+Удаление цели у окна.
+
+> Body parameter
+
+```json
+{
+  "windowId": "073f3bbe-bbbb-4e95-b797-11b6700bd636",
+  "purposeId": "073f3bbe-bbbb-4e95-b797-11b6700bd636"
+}
+```
+
+<h3 id="window-removepurpose.-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» windowId|body|string|true|Id окна.|
+|» purposeId|body|string|true|Id цели.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "073f3bbe-bbbb-4e95-b797-11b6700bd636",
+  "purposeId": "073f3bbe-bbbb-4e95-b797-11b6700bd636",
+  "windowId": "073f3bbe-bbbb-4e95-b797-11b6700bd636"
+}
+```
+
+<h3 id="window-removepurpose.-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="window-removepurpose.-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string|true|none|Id связи между окном и целью.|
+|» purposeId|string|true|none|Id цели удаленной цели.|
+|» windowId|string|true|none|Id окна.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
 
 Status Code **500**
 

@@ -21,6 +21,22 @@ module.exports = {
     additionalProperties: false
   },
 
+  removePurpose: {
+    type: 'object',
+    required: [ 'windowId', 'purposeId' ],
+    properties: {
+      windowId: {
+        type: 'string'
+      },
+      
+      purposeId: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
+  },
+
+
   update: {
     type: 'object',
     required: [ 'id' ],

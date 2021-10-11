@@ -33,7 +33,11 @@ class WindowService {
     }
     return Promise.allSettled( inserts );
   }
-
+  
+  removePurpose( id, purposeId ) {
+    return this.core.db.delete( 'SystemWindowPurpose', { windowId: id, purposeId }, [ 'id', 'purposeId', 'windowId' ] );
+  }
+  
   remove( id ) {
     return this.core.db.delete( 'SystemWindow', { id }, [ 'id', 'name' ] );
   }

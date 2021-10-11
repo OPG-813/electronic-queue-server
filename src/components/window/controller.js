@@ -41,6 +41,10 @@ class WindowController {
     }
     return results;
   }
+  
+  removePurpose( data ) {
+    return this.windowService.removePurpose( data.windowId, data.purposeId );
+  }
 }
 
 module.exports = WindowController;

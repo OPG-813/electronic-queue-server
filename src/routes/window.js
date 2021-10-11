@@ -28,6 +28,14 @@ module.exports = {
       roles: [ 'ADMIN' ]
     },
     {
+      method: 'DELETE',
+      path: '/window/removePurpose',
+      secure: true,
+      schema: component.schemes.removePurpose,
+      handler: 'removePurpose',
+      roles: [ 'ADMIN' ]
+    },
+    {
       method: 'PATCH',
       path: '/window/update',
       secure: true,
