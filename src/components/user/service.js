@@ -35,14 +35,22 @@ class UserService {
       [ 'username', 'role', 'id' ]
     );
   }
-
+ 
   async isUserRoleExists( role ) {
     const users = await this.core.db.select( 'SystemUser', [ 'id' ], { role } );
     return !!users.length;
   }
 
-  update( id, fields ) {
+  async update( id, fields ) {
+    if ( fields.password ) {
+      fields.password = await this.core.security.hashPassword( fields.password );
+    }
     return this.core.db.update( 'SystemUser', fields, { id }, [ 'id', 'username' ] );
+  }
+  
+  remove( id ) {
+    console.log( id )
+    return this.core.db.delete( 'SystemUser', { id } );
   }
 }
 
