@@ -59,6 +59,10 @@ class WorkerController {
   getStatus( data ) {
     return this.service.getStatus( data.id );
   }
+  
+  getPeriodStats() {
+    return { ticketsNumber: 0, averageTicketServiceTime: 0 };
+  }
 }
 
 module.exports = WorkerController;

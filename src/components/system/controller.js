@@ -19,6 +19,14 @@ class SystemController {
   getTimezones() {
     return this.systemService.getTimezones();
   }
+  
+  getCurrentStats() {
+    return { waitingTickets: 0, activeWorkersNumber: 0, activeWindowNumber: 0 };
+  }
+  
+  getPeriodStats() {
+    return { ticketsNumber: 0, averageTicketServiceTime: 0, averageTicketWaitingTime: 0 };
+  }
 }
 
 module.exports = SystemController;

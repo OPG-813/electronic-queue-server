@@ -1,19 +1,19 @@
-const component = require( '../components/worker' );
+const component = require( '../components/field' );
 
 module.exports = {
   Controller: component.controller,
   routes: [
     {
       method: 'POST',
-      path: '/worker/create',
+      path: '/field/create',
       secure: true,
       schema: component.schemes.create,
       handler: 'create',
-      roles: [ 'ADMIN' ]
+      roles: []
     },
     {
       method: 'GET',
-      path: '/worker/get',
+      path: '/field/get',
       secure: true,
       schema: component.schemes.get,
       handler: 'get',
@@ -21,7 +21,7 @@ module.exports = {
     },
     {
       method: 'GET',
-      path: '/worker/list',
+      path: '/field/list',
       secure: true,
       schema: component.schemes.list,
       handler: 'list',
@@ -29,35 +29,35 @@ module.exports = {
     },
     {
       method: 'GET',
-      path: '/worker/getPeriodStats',
+      path: '/field/getType',
       secure: true,
-      schema: component.schemes.getPeriodStats,
-      handler: 'getPeriodStats',
-      roles: [ 'ADMIN' ]
+      schema: component.schemes.getType,
+      handler: 'getType',
+      roles: []
     },
     {
       method: 'GET',
-      path: '/worker/getStatus',
+      path: '/field/listType',
       secure: true,
-      schema: component.schemes.getStatus,
-      handler: 'getStatus',
+      schema: component.schemes.listType,
+      handler: 'listType',
       roles: []
     },
     {
       method: 'DELETE',
-      path: '/worker/remove',
+      path: '/field/remove',
       secure: true,
       schema: component.schemes.remove,
       handler: 'remove',
-      roles: [ 'ADMIN' ]
+      roles: []
     },
     {
       method: 'PATCH',
-      path: '/worker/update',
+      path: '/field/update',
       secure: true,
       schema: component.schemes.update,
       handler: 'update',
-      roles: [ 'ADMIN' ]
+      roles: []
     }
   ]
 };

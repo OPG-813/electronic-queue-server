@@ -12,6 +12,22 @@ module.exports = {
       roles: []
     },
     {
+      method: 'GET',
+      path: '/system/getCurrentStats',
+      secure: true,
+      schema: null,
+      handler: 'getCurrentStats',
+      roles: [ 'ADMIN' ]
+    },
+    {
+      method: 'GET',
+      path: '/system/getPeriodStats',
+      secure: true,
+      schema: component.schemes.getPeriodStats,
+      handler: 'getPeriodStats',
+      roles: [ 'ADMIN' ]
+    },
+    {
       method: 'PATCH',
       path: '/system/update',
       secure: true,
