@@ -100,9 +100,12 @@ CREATE TABLE Ticket (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
     "workerId" VARCHAR(64),
     "statusId" VARCHAR(64) NOT NULL,
+    "purposeId" VARCHAR(64) NOT NULL,
     "codePrefix" VARCHAR(16)  NOT NULL,
     "codeNumber" INTEGER NOT NULL,
-    "processingTime" time DEFAULT '00:00:00',
+    "serviceTime " time DEFAULT '00:00:00',
+    "startServiceTime " time DEFAULT '00:00:00',
+    "issuanceTime " time DEFAULT '00:00:00',
     "waitingTime" time DEFAULT '00:00:00'
 );
 
