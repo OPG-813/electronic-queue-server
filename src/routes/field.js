@@ -9,7 +9,7 @@ module.exports = {
       secure: true,
       schema: component.schemes.create,
       handler: 'create',
-      roles: []
+      roles: [ 'ADMIN' ]
     },
     {
       method: 'GET',
@@ -49,7 +49,7 @@ module.exports = {
       secure: true,
       schema: component.schemes.remove,
       handler: 'remove',
-      roles: []
+      roles: [ 'ADMIN' ]
     },
     {
       method: 'PATCH',
@@ -57,7 +57,7 @@ module.exports = {
       secure: true,
       schema: component.schemes.update,
       handler: 'update',
-      roles: []
+      roles: [ 'ADMIN' ]
     }
   ]
 };

@@ -23,6 +23,10 @@ tags:
     description: API целей.
   - name: Window
     description: API окон.
+  - name: Worker
+    description: API работников.
+  - name: Field
+    description: API дополнительных полей.
 paths:
   /user/login:
     post:
@@ -498,7 +502,7 @@ paths:
         description: Тело запроса.
   /window/add:
     post:
-      summary: Window add.
+      summary: Window add
       operationId: post-window-add
       responses:
         '200':
@@ -554,7 +558,7 @@ paths:
         description: Тело запроса.
   /window/list:
     get:
-      summary: Window list.
+      summary: Window list
       tags:
         - Window
       responses:
@@ -614,7 +618,7 @@ paths:
           required: true
   /window/remove:
     delete:
-      summary: Window remove.
+      summary: Window remove
       operationId: delete-window-remove
       responses:
         '200':
@@ -668,7 +672,7 @@ paths:
         description: Тело запроса.
   /window/update:
     patch:
-      summary: Window update.
+      summary: Window update
       operationId: patch-window-update
       responses:
         '200':
@@ -728,7 +732,7 @@ paths:
         description: Тело запроса.
   /window/addPurposes:
     post:
-      summary: Window addPurpose.
+      summary: Window addPurpose
       operationId: post-window-addPurposes
       responses:
         '200':
@@ -803,7 +807,7 @@ paths:
         description: Тело запроса.
   /admin/changePassword:
     patch:
-      summary: Admin changePassword.
+      summary: Admin changePassword
       operationId: patch-admin-changePassword
       responses:
         '200':
@@ -867,7 +871,7 @@ paths:
         description: Тело запроса.
   /user/update:
     patch:
-      summary: User update.
+      summary: User update
       operationId: patch-user-update
       responses:
         '200':
@@ -926,7 +930,7 @@ paths:
         - User
   /system/getTimezones:
     get:
-      summary: System getTimezones.
+      summary: System getTimezones
       tags:
         - System
       responses:
@@ -974,7 +978,7 @@ paths:
           description: Сессионный токен пользователя.
   /window/removePurpose:
     delete:
-      summary: Window removePurpose.
+      summary: Window removePurpose
       operationId: delete-window-removePurpose
       responses:
         '200':
@@ -1035,6 +1039,992 @@ paths:
               required:
                 - windowId
                 - purposeId
+        description: Тело запроса.
+  /worker/create:
+    post:
+      summary: Worker create
+      operationId: post-worker-create
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 74da7556-c917-482e-86b5-ab184045bd14
+                    format: uuid
+                    description: Идентификатор сотрудника.
+                required:
+                  - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Worker
+      description: Добавление нового сотрудника.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    name:
+                      type: string
+                      example: name
+                      description: Имя сотрудника.
+                credentials:
+                  type: object
+                  required:
+                    - username
+                    - password
+                  properties:
+                    username:
+                      type: string
+                      example: username
+                      description: Имя пользователя.
+                    password:
+                      type: string
+                      example: password
+                      description: Пароль сотрудника.
+              required:
+                - worker
+                - credentials
+        description: Тело запроса.
+  /worker/get:
+    get:
+      summary: Worker get
+      tags:
+        - Worker
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 74da7556-c917-482e-86b5-ab184045bd14
+                    format: uuid
+                    description: Идентификатор сотрудника.
+                  name:
+                    type: string
+                    example: Worker5
+                    description: Имя сотрудника.
+                  statusId:
+                    type: string
+                    format: uuid
+                    example: e6c4f69d-f964-49b7-84a2-b3973cd236d8
+                    description: Идентификатор статуса сотрудника.
+                  userId:
+                    type: string
+                    format: uuid
+                    example: 90eeed0b-2a0d-4939-8557-f22f041d9c9d
+                    description: Идентификатор пользователя.
+                  windowId:
+                    type: string
+                    format: uuid
+                    example: 90eeed0b-2a0d-4939-8557-f22f041d9c9d
+                    description: 'Идентификатор окна, за которым работает сотрудник.'
+                required:
+                  - id
+                  - name
+                  - statusId
+                  - userId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-worker-get
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+        - schema:
+            type: string
+            format: uuid
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+          in: query
+          name: id
+          required: true
+          description: Идентификатор пользователя.
+      description: Получение сотрудника.
+  /worker/list:
+    get:
+      summary: Worker list
+      tags:
+        - Worker
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 988bf769-eda9-4950-82ac-92a3cb76edb1
+                      format: uuid
+                      description: Идентификатор сотрудника.
+                    name:
+                      type: string
+                      example: Worker2
+                      description: Имя сотрудника.
+                    statusId:
+                      type: string
+                      example: e6c4f69d-f964-49b7-84a2-b3973cd236d8
+                      format: uuid
+                      description: Идентификатор статуса сотрудника.
+                    userId:
+                      type: string
+                      example: a89c77f9-ac92-4531-a013-90ca5ab2be6d
+                      format: uuid
+                      description: Идентификатор пользователя.
+                    windowId:
+                      type: string
+                      example: a89c77f9-ac92-4531-a013-90ca5ab2be6d
+                      format: uuid
+                      description: 'Идентификатор окна, за которым работает сотрудник.'
+                  required:
+                    - id
+                    - name
+                    - statusId
+                    - userId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-worker-list
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+        - schema:
+            type: string
+            format: uuid
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+          in: query
+          name: statusId
+          description: Фильтр. Идентификатор статуса пользователя.
+        - schema:
+            type: string
+            format: uuid
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+          in: query
+          name: windowId
+          description: Фильтр. Идентификатор окна.
+        - schema:
+            type: string
+            example: '2'
+          in: query
+          name: itemsNumber
+          description: Количество объектов на странице.
+        - schema:
+            type: string
+            example: '1'
+          in: query
+          name: page
+          description: Порядковый номер страницы.
+      description: Получение списка сотрудников.
+  /worker/getPeriodStats:
+    get:
+      summary: Worker getPeriodStats
+      tags:
+        - Worker
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  averageTicketServiceTime:
+                    type: number
+                    example: 0
+                    description: Среднее время обработки талона.
+                  ticketsNumber:
+                    type: number
+                    example: 0
+                    description: Количество талонов.
+                required:
+                  - averageTicketServiceTime
+                  - ticketsNumber
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-worker-getPeriodStats
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+        - schema:
+            type: string
+            example: '2021-01-20'
+          in: query
+          name: startDate
+          required: true
+          description: Начальная дата.
+        - schema:
+            type: string
+            example: '2021-01-22'
+          in: query
+          name: endDate
+          required: true
+          description: Конечная дата.
+      description: Получение статистики сотрудника за определённый период времени.
+  /worker/getStatus:
+    get:
+      summary: Worker getStatus
+      tags:
+        - Worker
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: e6c4f69d-f964-49b7-84a2-b3973cd236d8
+                    format: uuid
+                    description: Идентификатор статуса.
+                  name:
+                    type: string
+                    example: not work
+                    description: Название статуса.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-worker-getStatus
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+        - schema:
+            type: string
+            format: uuid
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+          in: query
+          name: id
+          required: true
+          description: Идентификатор статуса сотрудника.
+      description: Получение названия статуса сотрудника.
+  /worker/remove:
+    delete:
+      summary: Worker remove
+      operationId: delete-worker-remove
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 988bf769-eda9-4950-82ac-92a3cb76edb1
+                    format: uuid
+                    description: Идентификатор сотрудника.
+                  userId:
+                    type: string
+                    example: a89c77f9-ac92-4531-a013-90ca5ab2be6d
+                    format: uuid
+                    description: Идентификатор пользователя.
+                required:
+                  - id
+                  - userId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Worker
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+      description: Удаление сотрудника.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Идентификатор сотрудника.
+                  example: 74da7556-c917-482e-86b5-ab184045bd14
+              required:
+                - id
+        description: Тело запроса.
+  /worker/update:
+    patch:
+      summary: Worker update
+      operationId: patch-worker-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 7d870e0e-6ca4-4bb0-af89-5b32b81e5297
+                      format: uuid
+                  required:
+                    - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Worker
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          description: Сессионный токен пользователя.
+          required: true
+          name: token
+      description: Изменение данных сотрудника.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Идентификатор сотрудника.
+                  example: 74da7556-c917-482e-86b5-ab184045bd14
+                updates:
+                  type: object
+                  description: Объект с изменениями.
+                  properties:
+                    worker:
+                      type: object
+                      description: Объект с данными сотрудника.
+                      properties:
+                        name:
+                          type: string
+                          example: name
+                          description: Имя сотрудника.
+                    credentials:
+                      type: object
+                      description: Объект с данными авторизации.
+                      properties:
+                        username:
+                          type: string
+                          example: username
+                          description: Имя пользователя.
+                        password:
+                          type: string
+                          example: password
+                          description: Пароль.
+              required:
+                - id
+                - updates
+        description: Тело запроса.
+  /system/getCurrentStats:
+    get:
+      summary: Sytem getCurrentStats
+      tags:
+        - System
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activeWindowNumber:
+                    type: number
+                    example: 0
+                    description: Количество работающих окон.
+                  activeWorkersNumber:
+                    type: number
+                    example: 0
+                    description: Количество работающих сотрудников.
+                  waitingTickets:
+                    type: number
+                    example: 0
+                    description: Количество ожидающих в очереди заявок.
+                required:
+                  - activeWindowNumber
+                  - activeWorkersNumber
+                  - waitingTickets
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-system-getCurrentStats
+      description: Получение общей статистики на текущий момент.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+  /system/getPeriodStats:
+    get:
+      summary: System getPeriodStats
+      tags:
+        - System
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  averageTicketServiceTime:
+                    type: number
+                    example: 0
+                    description: Среднее время обработки заявки.
+                  averageTicketWaitingTime:
+                    type: number
+                    example: 0
+                    description: Среднее время ожидания заявки в очереди.
+                  ticketsNumber:
+                    type: number
+                    example: 0
+                    description: Общее количество обработанных заявок.
+                required:
+                  - averageTicketServiceTime
+                  - averageTicketWaitingTime
+                  - ticketsNumber
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-system-getPeriodStats
+      description: Получение общей статистики за период времени.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            example: '2021-01-20'
+          in: query
+          name: startDate
+          description: Начальная дата.
+          required: true
+        - schema:
+            type: string
+            example: '2021-01-20'
+          in: query
+          name: endDate
+          description: Конечная дата.
+          required: true
+  /field/create:
+    post:
+      summary: Field create
+      operationId: post-field-create
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 7d870e0e-6ca4-4bb0-af89-5b32b81e5297
+                    format: uuid
+                    description: Идентификатор поля.
+                required:
+                  - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Field
+      description: Создание дополнительного поля.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                purposeId:
+                  type: string
+                  example: 74da7556-c917-482e-86b5-ab184045bd14
+                  format: uuid
+                  description: 'Идентификатор цели, к которой добавляется поле.'
+                fieldTypeId:
+                  type: string
+                  example: 74da7556-c917-482e-86b5-ab184045bd14
+                  format: uuid
+                  description: Идентификатор типа поля.
+                name:
+                  type: string
+                  example: name
+                  description: Наименование поля.
+              required:
+                - purposeId
+                - fieldTypeId
+                - name
+        description: Тело запроса.
+  /field/get:
+    get:
+      summary: Field get
+      tags:
+        - Field
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ac184494-d143-4033-8260-e2dbe266925b
+                    format: uuid
+                    description: Идентификатор поля.
+                  fieldTypeId:
+                    type: string
+                    example: ac184494-d143-4033-8260-e2dbe266925b
+                    format: uuid
+                    description: Идентификатор типа поля.
+                  name:
+                    type: string
+                    example: ФИО
+                    description: Наименование поля.
+                  purposeId:
+                    type: string
+                    format: uuid
+                    example: 9baa9c0c-374e-4633-96c1-e5214a599ead
+                    description: 'Идентификатор цели, за которой закреплено поле.'
+                required:
+                  - id
+                  - fieldTypeId
+                  - name
+                  - purposeId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-field-get
+      description: Получение дополнительного поля.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+            format: uuid
+          in: query
+          name: id
+          required: true
+          description: Идентификатор поля.
+  /field/list:
+    get:
+      summary: Field list
+      tags:
+        - Field
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 978307cb-fd94-41de-a3f7-8e0d777dd97b
+                      format: uuid
+                      description: Идентификатор поля.
+                    fieldTypeId:
+                      type: string
+                      example: 978307cb-fd94-41de-a3f7-8e0d777dd97b
+                      format: uuid
+                      description: Идентификатор типа поля.
+                    name:
+                      type: string
+                      example: Номер телефона
+                      description: Наименование поля.
+                    purposeId:
+                      type: string
+                      example: 9baa9c0c-374e-4633-96c1-e5214a599ead
+                      format: uuid
+                      description: 'Идентификатор цели, за которой закреплено поле.'
+                  required:
+                    - id
+                    - fieldTypeId
+                    - name
+                    - purposeId
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          description: Internal Server Error
+      operationId: get-field-list
+      description: Получение списка дополнительных полей.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+            format: uuid
+          in: query
+          name: purposeId
+          description: Фильтр. Идентификатор цели.
+        - schema:
+            type: string
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+            format: uuid
+          in: query
+          name: fieldTypeId
+          description: Фильтр. Идентификатор типа поля.
+        - schema:
+            type: string
+            example: '2'
+          in: query
+          name: itemsNumber
+          description: Количество объектов на странице.
+        - schema:
+            type: string
+            example: '1'
+          in: query
+          name: page
+          description: Номер страницы.
+  /field/getType:
+    get:
+      summary: Field getType
+      tags:
+        - Field
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ac184494-d143-4033-8260-e2dbe266925b
+                    format: uuid
+                    description: Идентификатор  типа поля.
+                  name:
+                    type: string
+                    example: number
+                    description: Наименование типа поля.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-field-getType
+      description: Получение типа дополнительного поля.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            example: 74da7556-c917-482e-86b5-ab184045bd14
+            format: uuid
+          in: query
+          name: id
+          required: true
+          description: Идентификатор типа поля.
+  /field/listType:
+    get:
+      summary: Field listType
+      tags:
+        - Field
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: ac184494-d143-4033-8260-e2dbe266925b
+                      format: uuid
+                      description: Идентификатор типа поля.
+                    name:
+                      type: string
+                      example: number
+                      description: Наименование типа поля.
+                  required:
+                    - id
+                    - name
+        '400':
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-field-listType
+      description: Получение списка доступных типов дополнительных полей.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            example: '2'
+          in: query
+          name: itemsNumber
+          description: Количество объектов на странице.
+        - schema:
+            type: string
+            example: '1'
+          in: query
+          name: page
+          description: Номер страницы.
+  /field/remove:
+    delete:
+      summary: Field remove
+      operationId: delete-field-remove
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 978307cb-fd94-41de-a3f7-8e0d777dd97b
+                    format: uuid
+                    description: Идентификатор поля.
+                required:
+                  - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Field
+      description: Удаление дополнительного поля.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 74da7556-c917-482e-86b5-ab184045bd14
+                  format: uuid
+                  description: Идентификатор поля.
+              required:
+                - id
+        description: Тело запроса.
+  /field/update:
+    patch:
+      summary: Field update
+      operationId: patch-field-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 7d870e0e-6ca4-4bb0-af89-5b32b81e5297
+                      format: uuid
+                      description: Идентификатор поля.
+                  required:
+                    - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Field
+      description: Изменение дополнительного поля.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 74da7556-c917-482e-86b5-ab184045bd14
+                  format: uuid
+                  description: Идентификатор поля.
+                updates:
+                  type: object
+                  description: Объект с изменениями.
+                  properties:
+                    name:
+                      type: string
+                      example: name
+                      description: Наименование поля.
+                    fieldTypeId:
+                      type: string
+                      example: 74da7556-c917-482e-86b5-ab184045bd14
+                      description: Идентификатор типа поля.
+              required:
+                - id
+                - updates
         description: Тело запроса.
 components:
   schemas:
@@ -1166,6 +2156,177 @@ components:
           example: Окно 1
       required:
         - id
+        - name
+    WorkerStatus:
+      title: WorkerStatus
+      type: object
+      description: Статус работника.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор статуса.
+        name:
+          type: string
+          example: not work
+          description: Наименование статуса.
+      required:
+        - id
+        - name
+    TicketStatus:
+      title: TicketStatus
+      type: object
+      description: Статус талона.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор статуса талона.
+        name:
+          type: string
+          example: wait
+          description: Наименование статуса талона.
+      required:
+        - id
+        - name
+    FieldType:
+      title: FieldType
+      type: object
+      description: Тип поля.
+      properties:
+        id:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: Идентификатор типа поля.
+        name:
+          type: string
+          example: number
+          description: НАименование типа поля.
+      required:
+        - id
+        - name
+    Worker:
+      title: Worker
+      type: object
+      description: Сотрудник.
+      properties:
+        id:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: Идентификатор сотрудника.
+        userId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор пользователя.
+        statusId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор статуса пользователя.
+        windowId:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: 'Идентификатор окна, в котором работает сотрудник.'
+        name:
+          type: string
+          example: Worker 1
+          description: Имя сотрудника.
+      required:
+        - id
+        - userId
+        - statusId
+        - name
+    Ticket:
+      title: Ticket
+      type: object
+      description: Талон
+      properties:
+        id:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: Идентификатор талона.
+        workerId:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: Идентификатор сотрудника.
+        statusId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор статуса талона.
+        purposeId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор цели.
+        codePrefix:
+          type: string
+          example: Т
+          description: Префикс цели.
+        codeNumber:
+          type: string
+          example: '12'
+          description: Порядковый номер для префикса цели.
+        serviceTime:
+          type: string
+          example: '00:00:00'
+          description: Время обслуживания талона.
+        startServiceTime:
+          type: string
+          example: '00:00:00'
+          description: Время начала обслуживания.
+        issuanceTime:
+          type: string
+          example: '00:00:00'
+          description: Время выдачи талона.
+        waitingTime:
+          type: string
+          example: '00:00:00'
+          description: Время ожидания талона в очереди.
+      required:
+        - id
+        - workerId
+        - statusId
+        - purposeId
+        - codePrefix
+        - codeNumber
+        - issuanceTime
+    AdditionalField:
+      title: AdditionalField
+      type: object
+      description: Дополнительное поле.
+      properties:
+        id:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: Идентификатор поля.
+        purposeId:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          description: Идентификатор цели.
+        fieldTypeId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Идентификатор типа поля.
+        name:
+          type: string
+          example: number
+          description: Наименование поля.
+      required:
+        - id
+        - purposeId
+        - fieldTypeId
         - name
   responses:
     Bad-Request:

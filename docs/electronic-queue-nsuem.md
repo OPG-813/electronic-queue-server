@@ -1,5 +1,19 @@
+---
+title: Electronic Queue NSUEM v1.0
+language_tabs: []
+toc_footers: []
+includes: []
+search: true
+highlight_theme: darkula
+headingLevel: 1
+
+---
+
+<!-- Generator: Widdershins v4.0.1 -->
 
 <h1 id="electronic-queue-nsuem">Electronic Queue NSUEM v1.0</h1>
+
+> Scroll down for example requests and responses.
 
 An API for electronic queue system from NSUEM.
 
@@ -10,6 +24,7 @@ Base URLs:
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
 
+# Authentication
 
 <h1 id="electronic-queue-nsuem-user">User</h1>
 
@@ -155,7 +170,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## User update.
+## User update
 
 <a id="opIdpatch-user-update"></a>
 
@@ -172,7 +187,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="user-update.-parameters">Parameters</h3>
+<h3 id="user-update-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -192,7 +207,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="user-update.-responses">Responses</h3>
+<h3 id="user-update-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -203,7 +218,7 @@ This operation does not require authentication
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="user-update.-responseschema">Response Schema</h3>
+<h3 id="user-update-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -429,7 +444,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## Admin changePassword.
+## Admin changePassword
 
 <a id="opIdpatch-admin-changePassword"></a>
 
@@ -446,7 +461,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="admin-changepassword.-parameters">Parameters</h3>
+<h3 id="admin-changepassword-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -467,7 +482,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="admin-changepassword.-responses">Responses</h3>
+<h3 id="admin-changepassword-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -477,7 +492,7 @@ This operation does not require authentication
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="admin-changepassword.-responseschema">Response Schema</h3>
+<h3 id="admin-changepassword-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -609,7 +624,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## System getTimezones.
+## System getTimezones
 
 <a id="opIdget-system-getTimezones"></a>
 
@@ -617,7 +632,7 @@ This operation does not require authentication
 
 Получение списка временных зон.
 
-<h3 id="system-gettimezones.-parameters">Parameters</h3>
+<h3 id="system-gettimezones-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -639,7 +654,7 @@ This operation does not require authentication
 ]
 ```
 
-<h3 id="system-gettimezones.-responses">Responses</h3>
+<h3 id="system-gettimezones-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -648,7 +663,7 @@ This operation does not require authentication
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="system-gettimezones.-responseschema">Response Schema</h3>
+<h3 id="system-gettimezones-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -658,6 +673,163 @@ Status Code **200**
 |» utc_offset|object|false|none|none|
 |»» hours|string|true|none|Часы смещения.|
 |»» minutes|string|false|none|Минуты смещения.|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Sytem getCurrentStats
+
+<a id="opIdget-system-getCurrentStats"></a>
+
+`GET /system/getCurrentStats`
+
+Получение общей статистики на текущий момент.
+
+<h3 id="sytem-getcurrentstats-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "activeWindowNumber": 0,
+  "activeWorkersNumber": 0,
+  "waitingTickets": 0
+}
+```
+
+<h3 id="sytem-getcurrentstats-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="sytem-getcurrentstats-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» activeWindowNumber|number|true|none|Количество работающих окон.|
+|» activeWorkersNumber|number|true|none|Количество работающих сотрудников.|
+|» waitingTickets|number|true|none|Количество ожидающих в очереди заявок.|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## System getPeriodStats
+
+<a id="opIdget-system-getPeriodStats"></a>
+
+`GET /system/getPeriodStats`
+
+Получение общей статистики за период времени.
+
+<h3 id="system-getperiodstats-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|startDate|query|string|true|Начальная дата.|
+|endDate|query|string|true|Конечная дата.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "averageTicketServiceTime": 0,
+  "averageTicketWaitingTime": 0,
+  "ticketsNumber": 0
+}
+```
+
+<h3 id="system-getperiodstats-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="system-getperiodstats-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» averageTicketServiceTime|number|true|none|Среднее время обработки заявки.|
+|» averageTicketWaitingTime|number|true|none|Среднее время ожидания заявки в очереди.|
+|» ticketsNumber|number|true|none|Общее количество обработанных заявок.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
 
 Status Code **401**
 
@@ -1069,7 +1241,7 @@ This operation does not require authentication
 
 API окон.
 
-## Window add.
+## Window add
 
 <a id="opIdpost-window-add"></a>
 
@@ -1085,7 +1257,7 @@ API окон.
 }
 ```
 
-<h3 id="window-add.-parameters">Parameters</h3>
+<h3 id="window-add-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1104,7 +1276,7 @@ API окон.
 }
 ```
 
-<h3 id="window-add.-responses">Responses</h3>
+<h3 id="window-add-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -1115,7 +1287,7 @@ API окон.
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="window-add.-responseschema">Response Schema</h3>
+<h3 id="window-add-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1168,7 +1340,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## Window list.
+## Window list
 
 <a id="opIdget-window-list"></a>
 
@@ -1176,7 +1348,7 @@ This operation does not require authentication
 
 Получение списка окон с целями.
 
-<h3 id="window-list.-parameters">Parameters</h3>
+<h3 id="window-list-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1201,7 +1373,7 @@ This operation does not require authentication
 ]
 ```
 
-<h3 id="window-list.-responses">Responses</h3>
+<h3 id="window-list-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -1211,7 +1383,7 @@ This operation does not require authentication
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="window-list.-responseschema">Response Schema</h3>
+<h3 id="window-list-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1259,7 +1431,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## Window remove.
+## Window remove
 
 <a id="opIddelete-window-remove"></a>
 
@@ -1275,7 +1447,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-remove.-parameters">Parameters</h3>
+<h3 id="window-remove-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1294,7 +1466,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-remove.-responses">Responses</h3>
+<h3 id="window-remove-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -1304,7 +1476,7 @@ This operation does not require authentication
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="window-remove.-responseschema">Response Schema</h3>
+<h3 id="window-remove-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1349,7 +1521,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## Window update.
+## Window update
 
 <a id="opIdpatch-window-update"></a>
 
@@ -1366,7 +1538,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-update.-parameters">Parameters</h3>
+<h3 id="window-update-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1386,7 +1558,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-update.-responses">Responses</h3>
+<h3 id="window-update-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -1397,7 +1569,7 @@ This operation does not require authentication
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="window-update.-responseschema">Response Schema</h3>
+<h3 id="window-update-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1450,7 +1622,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## Window addPurpose.
+## Window addPurpose
 
 <a id="opIdpost-window-addPurposes"></a>
 
@@ -1471,7 +1643,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-addpurpose.-parameters">Parameters</h3>
+<h3 id="window-addpurpose-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1495,7 +1667,7 @@ This operation does not require authentication
 ]
 ```
 
-<h3 id="window-addpurpose.-responses">Responses</h3>
+<h3 id="window-addpurpose-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -1506,7 +1678,7 @@ This operation does not require authentication
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="window-addpurpose.-responseschema">Response Schema</h3>
+<h3 id="window-addpurpose-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1560,7 +1732,7 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
-## Window removePurpose.
+## Window removePurpose
 
 <a id="opIddelete-window-removePurpose"></a>
 
@@ -1577,7 +1749,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-removepurpose.-parameters">Parameters</h3>
+<h3 id="window-removepurpose-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1598,7 +1770,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="window-removepurpose.-responses">Responses</h3>
+<h3 id="window-removepurpose-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -1608,7 +1780,7 @@ This operation does not require authentication
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
-<h3 id="window-removepurpose.-responseschema">Response Schema</h3>
+<h3 id="window-removepurpose-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1617,6 +1789,1205 @@ Status Code **200**
 |» id|string|true|none|Id связи между окном и целью.|
 |» purposeId|string|true|none|Id цели удаленной цели.|
 |» windowId|string|true|none|Id окна.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="electronic-queue-nsuem-worker">Worker</h1>
+
+API работников.
+
+## Worker create
+
+<a id="opIdpost-worker-create"></a>
+
+`POST /worker/create`
+
+Добавление нового сотрудника.
+
+> Body parameter
+
+```json
+{
+  "worker": {
+    "name": "name"
+  },
+  "credentials": {
+    "username": "username",
+    "password": "password"
+  }
+}
+```
+
+<h3 id="worker-create-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» worker|body|object|true|none|
+|»» name|body|string|true|Имя сотрудника.|
+|» credentials|body|object|true|none|
+|»» username|body|string|true|Имя пользователя.|
+|»» password|body|string|true|Пароль сотрудника.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "74da7556-c917-482e-86b5-ab184045bd14"
+}
+```
+
+<h3 id="worker-create-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-create-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор сотрудника.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **409**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|true|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Worker get
+
+<a id="opIdget-worker-get"></a>
+
+`GET /worker/get`
+
+Получение сотрудника.
+
+<h3 id="worker-get-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|id|query|string(uuid)|true|Идентификатор пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "74da7556-c917-482e-86b5-ab184045bd14",
+  "name": "Worker5",
+  "statusId": "e6c4f69d-f964-49b7-84a2-b3973cd236d8",
+  "userId": "90eeed0b-2a0d-4939-8557-f22f041d9c9d",
+  "windowId": "90eeed0b-2a0d-4939-8557-f22f041d9c9d"
+}
+```
+
+<h3 id="worker-get-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-get-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор сотрудника.|
+|» name|string|true|none|Имя сотрудника.|
+|» statusId|string(uuid)|true|none|Идентификатор статуса сотрудника.|
+|» userId|string(uuid)|true|none|Идентификатор пользователя.|
+|» windowId|string(uuid)|false|none|Идентификатор окна, за которым работает сотрудник.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Worker list
+
+<a id="opIdget-worker-list"></a>
+
+`GET /worker/list`
+
+Получение списка сотрудников.
+
+<h3 id="worker-list-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|statusId|query|string(uuid)|false|Фильтр. Идентификатор статуса пользователя.|
+|windowId|query|string(uuid)|false|Фильтр. Идентификатор окна.|
+|itemsNumber|query|string|false|Количество объектов на странице.|
+|page|query|string|false|Порядковый номер страницы.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "id": "988bf769-eda9-4950-82ac-92a3cb76edb1",
+    "name": "Worker2",
+    "statusId": "e6c4f69d-f964-49b7-84a2-b3973cd236d8",
+    "userId": "a89c77f9-ac92-4531-a013-90ca5ab2be6d",
+    "windowId": "a89c77f9-ac92-4531-a013-90ca5ab2be6d"
+  }
+]
+```
+
+<h3 id="worker-list-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-list-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор сотрудника.|
+|» name|string|true|none|Имя сотрудника.|
+|» statusId|string(uuid)|true|none|Идентификатор статуса сотрудника.|
+|» userId|string(uuid)|true|none|Идентификатор пользователя.|
+|» windowId|string(uuid)|false|none|Идентификатор окна, за которым работает сотрудник.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Worker getPeriodStats
+
+<a id="opIdget-worker-getPeriodStats"></a>
+
+`GET /worker/getPeriodStats`
+
+Получение статистики сотрудника за определённый период времени.
+
+<h3 id="worker-getperiodstats-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|startDate|query|string|true|Начальная дата.|
+|endDate|query|string|true|Конечная дата.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "averageTicketServiceTime": 0,
+  "ticketsNumber": 0
+}
+```
+
+<h3 id="worker-getperiodstats-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-getperiodstats-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» averageTicketServiceTime|number|true|none|Среднее время обработки талона.|
+|» ticketsNumber|number|true|none|Количество талонов.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Worker getStatus
+
+<a id="opIdget-worker-getStatus"></a>
+
+`GET /worker/getStatus`
+
+Получение названия статуса сотрудника.
+
+<h3 id="worker-getstatus-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|id|query|string(uuid)|true|Идентификатор статуса сотрудника.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "e6c4f69d-f964-49b7-84a2-b3973cd236d8",
+  "name": "not work"
+}
+```
+
+<h3 id="worker-getstatus-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-getstatus-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор статуса.|
+|» name|string|true|none|Название статуса.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Worker remove
+
+<a id="opIddelete-worker-remove"></a>
+
+`DELETE /worker/remove`
+
+Удаление сотрудника.
+
+> Body parameter
+
+```json
+{
+  "id": "74da7556-c917-482e-86b5-ab184045bd14"
+}
+```
+
+<h3 id="worker-remove-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string(uuid)|true|Идентификатор сотрудника.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "988bf769-eda9-4950-82ac-92a3cb76edb1",
+  "userId": "a89c77f9-ac92-4531-a013-90ca5ab2be6d"
+}
+```
+
+<h3 id="worker-remove-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-remove-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор сотрудника.|
+|» userId|string(uuid)|true|none|Идентификатор пользователя.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Worker update
+
+<a id="opIdpatch-worker-update"></a>
+
+`PATCH /worker/update`
+
+Изменение данных сотрудника.
+
+> Body parameter
+
+```json
+{
+  "id": "74da7556-c917-482e-86b5-ab184045bd14",
+  "updates": {
+    "worker": {
+      "name": "name"
+    },
+    "credentials": {
+      "username": "username",
+      "password": "password"
+    }
+  }
+}
+```
+
+<h3 id="worker-update-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string(uuid)|true|Идентификатор сотрудника.|
+|» updates|body|object|true|Объект с изменениями.|
+|»» worker|body|object|false|Объект с данными сотрудника.|
+|»»» name|body|string|false|Имя сотрудника.|
+|»» credentials|body|object|false|Объект с данными авторизации.|
+|»»» username|body|string|false|Имя пользователя.|
+|»»» password|body|string|false|Пароль.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "id": "7d870e0e-6ca4-4bb0-af89-5b32b81e5297"
+  }
+]
+```
+
+<h3 id="worker-update-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Data conflict error!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="worker-update-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|none|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **409**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|true|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="electronic-queue-nsuem-field">Field</h1>
+
+API дополнительных полей.
+
+## Field create
+
+<a id="opIdpost-field-create"></a>
+
+`POST /field/create`
+
+Создание дополнительного поля.
+
+> Body parameter
+
+```json
+{
+  "purposeId": "74da7556-c917-482e-86b5-ab184045bd14",
+  "fieldTypeId": "74da7556-c917-482e-86b5-ab184045bd14",
+  "name": "name"
+}
+```
+
+<h3 id="field-create-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» purposeId|body|string(uuid)|true|Идентификатор цели, к которой добавляется поле.|
+|» fieldTypeId|body|string(uuid)|true|Идентификатор типа поля.|
+|» name|body|string|true|Наименование поля.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "7d870e0e-6ca4-4bb0-af89-5b32b81e5297"
+}
+```
+
+<h3 id="field-create-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="field-create-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор поля.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Field get
+
+<a id="opIdget-field-get"></a>
+
+`GET /field/get`
+
+Получение дополнительного поля.
+
+<h3 id="field-get-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|id|query|string(uuid)|true|Идентификатор поля.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "ac184494-d143-4033-8260-e2dbe266925b",
+  "fieldTypeId": "ac184494-d143-4033-8260-e2dbe266925b",
+  "name": "ФИО",
+  "purposeId": "9baa9c0c-374e-4633-96c1-e5214a599ead"
+}
+```
+
+<h3 id="field-get-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="field-get-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор поля.|
+|» fieldTypeId|string(uuid)|true|none|Идентификатор типа поля.|
+|» name|string|true|none|Наименование поля.|
+|» purposeId|string(uuid)|true|none|Идентификатор цели, за которой закреплено поле.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Field list
+
+<a id="opIdget-field-list"></a>
+
+`GET /field/list`
+
+Получение списка дополнительных полей.
+
+<h3 id="field-list-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|purposeId|query|string(uuid)|false|Фильтр. Идентификатор цели.|
+|fieldTypeId|query|string(uuid)|false|Фильтр. Идентификатор типа поля.|
+|itemsNumber|query|string|false|Количество объектов на странице.|
+|page|query|string|false|Номер страницы.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "id": "978307cb-fd94-41de-a3f7-8e0d777dd97b",
+    "fieldTypeId": "978307cb-fd94-41de-a3f7-8e0d777dd97b",
+    "name": "Номер телефона",
+    "purposeId": "9baa9c0c-374e-4633-96c1-e5214a599ead"
+  }
+]
+```
+
+<h3 id="field-list-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|None|
+
+<h3 id="field-list-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор поля.|
+|» fieldTypeId|string(uuid)|true|none|Идентификатор типа поля.|
+|» name|string|true|none|Наименование поля.|
+|» purposeId|string(uuid)|true|none|Идентификатор цели, за которой закреплено поле.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Field getType
+
+<a id="opIdget-field-getType"></a>
+
+`GET /field/getType`
+
+Получение типа дополнительного поля.
+
+<h3 id="field-gettype-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|id|query|string(uuid)|true|Идентификатор типа поля.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "ac184494-d143-4033-8260-e2dbe266925b",
+  "name": "number"
+}
+```
+
+<h3 id="field-gettype-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="field-gettype-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор  типа поля.|
+|» name|string|true|none|Наименование типа поля.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Field listType
+
+<a id="opIdget-field-listType"></a>
+
+`GET /field/listType`
+
+Получение списка доступных типов дополнительных полей.
+
+<h3 id="field-listtype-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|itemsNumber|query|string|false|Количество объектов на странице.|
+|page|query|string|false|Номер страницы.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "id": "ac184494-d143-4033-8260-e2dbe266925b",
+    "name": "number"
+  }
+]
+```
+
+<h3 id="field-listtype-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="field-listtype-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор типа поля.|
+|» name|string|true|none|Наименование типа поля.|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Field remove
+
+<a id="opIddelete-field-remove"></a>
+
+`DELETE /field/remove`
+
+Удаление дополнительного поля.
+
+> Body parameter
+
+```json
+{
+  "id": "74da7556-c917-482e-86b5-ab184045bd14"
+}
+```
+
+<h3 id="field-remove-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string(uuid)|true|Идентификатор поля.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "978307cb-fd94-41de-a3f7-8e0d777dd97b"
+}
+```
+
+<h3 id="field-remove-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="field-remove-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор поля.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Field update
+
+<a id="opIdpatch-field-update"></a>
+
+`PATCH /field/update`
+
+Изменение дополнительного поля.
+
+> Body parameter
+
+```json
+{
+  "id": "74da7556-c917-482e-86b5-ab184045bd14",
+  "updates": {
+    "name": "name",
+    "fieldTypeId": "74da7556-c917-482e-86b5-ab184045bd14"
+  }
+}
+```
+
+<h3 id="field-update-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string(uuid)|true|Идентификатор поля.|
+|» updates|body|object|true|Объект с изменениями.|
+|»» name|body|string|false|Наименование поля.|
+|»» fieldTypeId|body|string|false|Идентификатор типа поля.|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "id": "7d870e0e-6ca4-4bb0-af89-5b32b81e5297"
+  }
+]
+```
+
+<h3 id="field-update-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="field-update-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор поля.|
 
 Status Code **400**
 
@@ -1798,4 +3169,174 @@ SystemWindow
 |---|---|---|---|---|
 |id|string(uuid)|true|none|id окна.|
 |name|string|true|none|НАименование окна.|
+
+<h2 id="tocS_WorkerStatus">WorkerStatus</h2>
+<!-- backwards compatibility -->
+<a id="schemaworkerstatus"></a>
+<a id="schema_WorkerStatus"></a>
+<a id="tocSworkerstatus"></a>
+<a id="tocsworkerstatus"></a>
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "not work"
+}
+
+```
+
+WorkerStatus
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Идентификатор статуса.|
+|name|string|true|none|Наименование статуса.|
+
+<h2 id="tocS_TicketStatus">TicketStatus</h2>
+<!-- backwards compatibility -->
+<a id="schematicketstatus"></a>
+<a id="schema_TicketStatus"></a>
+<a id="tocSticketstatus"></a>
+<a id="tocsticketstatus"></a>
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "wait"
+}
+
+```
+
+TicketStatus
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Идентификатор статуса талона.|
+|name|string|true|none|Наименование статуса талона.|
+
+<h2 id="tocS_FieldType">FieldType</h2>
+<!-- backwards compatibility -->
+<a id="schemafieldtype"></a>
+<a id="schema_FieldType"></a>
+<a id="tocSfieldtype"></a>
+<a id="tocsfieldtype"></a>
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "number"
+}
+
+```
+
+FieldType
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Идентификатор типа поля.|
+|name|string|true|none|НАименование типа поля.|
+
+<h2 id="tocS_Worker">Worker</h2>
+<!-- backwards compatibility -->
+<a id="schemaworker"></a>
+<a id="schema_Worker"></a>
+<a id="tocSworker"></a>
+<a id="tocsworker"></a>
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "statusId": "123e4567-e89b-12d3-a456-426614174000",
+  "windowId": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "Worker 1"
+}
+
+```
+
+Worker
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Идентификатор сотрудника.|
+|userId|string(uuid)|true|none|Идентификатор пользователя.|
+|statusId|string(uuid)|true|none|Идентификатор статуса пользователя.|
+|windowId|string(uuid)|false|none|Идентификатор окна, в котором работает сотрудник.|
+|name|string|true|none|Имя сотрудника.|
+
+<h2 id="tocS_Ticket">Ticket</h2>
+<!-- backwards compatibility -->
+<a id="schematicket"></a>
+<a id="schema_Ticket"></a>
+<a id="tocSticket"></a>
+<a id="tocsticket"></a>
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "workerId": "123e4567-e89b-12d3-a456-426614174000",
+  "statusId": "123e4567-e89b-12d3-a456-426614174000",
+  "purposeId": "123e4567-e89b-12d3-a456-426614174000",
+  "codePrefix": "Т",
+  "codeNumber": "12",
+  "serviceTime": "00:00:00",
+  "startServiceTime": "00:00:00",
+  "issuanceTime": "00:00:00",
+  "waitingTime": "00:00:00"
+}
+
+```
+
+Ticket
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Идентификатор талона.|
+|workerId|string(uuid)|true|none|Идентификатор сотрудника.|
+|statusId|string(uuid)|true|none|Идентификатор статуса талона.|
+|purposeId|string(uuid)|true|none|Идентификатор цели.|
+|codePrefix|string|true|none|Префикс цели.|
+|codeNumber|string|true|none|Порядковый номер для префикса цели.|
+|serviceTime|string|false|none|Время обслуживания талона.|
+|startServiceTime|string|false|none|Время начала обслуживания.|
+|issuanceTime|string|true|none|Время выдачи талона.|
+|waitingTime|string|false|none|Время ожидания талона в очереди.|
+
+<h2 id="tocS_AdditionalField">AdditionalField</h2>
+<!-- backwards compatibility -->
+<a id="schemaadditionalfield"></a>
+<a id="schema_AdditionalField"></a>
+<a id="tocSadditionalfield"></a>
+<a id="tocsadditionalfield"></a>
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "purposeId": "123e4567-e89b-12d3-a456-426614174000",
+  "fieldTypeId": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "number"
+}
+
+```
+
+AdditionalField
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|id|string(uuid)|true|none|Идентификатор поля.|
+|purposeId|string(uuid)|true|none|Идентификатор цели.|
+|fieldTypeId|string(uuid)|true|none|Идентификатор типа поля.|
+|name|string|true|none|Наименование поля.|
 
