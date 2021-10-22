@@ -87,7 +87,7 @@ CREATE TABLE Worker (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
     "userId" VARCHAR(64) NOT NULL,
     "statusId" VARCHAR(64) NOT NULL,
-    "windowId" VARCHAR(16)  NOT NULL,
+    "windowId" VARCHAR(16),
     "name" VARCHAR(255) NOT NULL
 );
 
