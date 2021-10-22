@@ -28,6 +28,14 @@ module.exports = {
       roles: []
     },
     {
+      method: 'GET',
+      path: '/worker/getStatus',
+      secure: true,
+      schema: component.schemes.getStatus,
+      handler: 'getStatus',
+      roles: []
+    },
+    {
       method: 'DELETE',
       path: '/worker/remove',
       secure: true,

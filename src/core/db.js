@@ -56,8 +56,8 @@ class DB {
   async query( text, params ) {
     try {
       const data = params ? params.join( ',' ) : '';
-      const result = await pool.query( text, params );
       logger.sql( `SQL: ${ text } PARAMS: ${ data }` );
+      const result = await pool.query( text, params );
       return result.rows;
     } catch ( error ) {
       if ( error.code.startsWith( config.UNIQUE_ERROR_CODE_PREFIX ) ) {
@@ -92,7 +92,7 @@ class DB {
     const sql = `SELECT ${ keys } FROM ${ table }`;
     let whereClause = '';
     let args = [];
-    if ( conditions && Object.keys( conditions ) !== 0 ) {
+    if ( conditions && Object.keys( conditions ).length !== 0 ) {
       const whereData = this.where( conditions );
       whereClause = ' WHERE ' + whereData.clause;
       args = whereData.args;

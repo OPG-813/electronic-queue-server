@@ -11,7 +11,7 @@ CREATE UNIQUE INDEX iSystemUserUsername ON SystemUser( "username" );
 
 CREATE TABLE AdminUser (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "userId" VARCHAR(64) NOT NULL,
+    "userId" uuid NOT NULL,
     "name" VARCHAR(255) NOT NULL
 );
 ALTER TABLE AdminUser ADD CONSTRAINT pkAdminUser PRIMARY KEY ( "id" );
@@ -44,8 +44,8 @@ CREATE UNIQUE INDEX iPurposeName ON Purpose( "name" );
 
 CREATE TABLE SystemWindowPurpose (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "windowId" VARCHAR(64) NOT NULL,
-    "purposeId" VARCHAR(64) NOT NULL
+    "windowId" uuid NOT NULL,
+    "purposeId" uuid NOT NULL
 );
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT pkSystemWindowPurpose PRIMARY KEY ( "id" );
 ALTER TABLE SystemWindowPurpose ADD CONSTRAINT fkSystemWindowPurposeSystemWindowId FOREIGN KEY ( "windowId" ) REFERENCES  SystemWindow( "id" ) ON DELETE CASCADE;
@@ -54,7 +54,7 @@ CREATE UNIQUE INDEX windowIdPurposeId ON SystemWindowPurpose ("windowId", "purpo
 
 CREATE TABLE Session (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "userId" VARCHAR(64) NOT NULL,
+    "userId" uuid NOT NULL,
     "token" VARCHAR(64) NOT NULL,
     "ip" VARCHAR(64) NOT NULL
 );
@@ -85,9 +85,9 @@ ALTER TABLE FieldType ADD CONSTRAINT pkFieldType PRIMARY KEY ( "id" );
 
 CREATE TABLE Worker (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "userId" VARCHAR(64) NOT NULL,
-    "statusId" VARCHAR(64) NOT NULL,
-    "windowId" VARCHAR(16)  NOT NULL,
+    "userId" uuid NOT NULL,
+    "statusId" uuid NOT NULL,
+    "windowId" uuid,
     "name" VARCHAR(255) NOT NULL
 );
 
@@ -98,9 +98,9 @@ ALTER TABLE Worker ADD CONSTRAINT fkWorkerWorkerStatusStatusId FOREIGN KEY ( "st
 
 CREATE TABLE Ticket (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "workerId" VARCHAR(64),
-    "statusId" VARCHAR(64) NOT NULL,
-    "purposeId" VARCHAR(64) NOT NULL,
+    "workerId" uuid,
+    "statusId" uuid NOT NULL,
+    "purposeId" uuid NOT NULL,
     "codePrefix" VARCHAR(16)  NOT NULL,
     "codeNumber" INTEGER NOT NULL,
     "serviceTime " time DEFAULT '00:00:00',
@@ -115,8 +115,8 @@ ALTER TABLE Ticket ADD CONSTRAINT fkTicketTicketStatusStatusId FOREIGN KEY ( "st
 
 CREATE TABLE AdditionalField (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "purposeId" VARCHAR(64) NOT NULL,
-    "fieldTypeId" VARCHAR(64) NOT NULL,
+    "purposeId" uuid NOT NULL,
+    "fieldTypeId" uuid NOT NULL,
     "name" VARCHAR(255) NOT NULL
 );
 

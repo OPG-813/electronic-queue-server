@@ -7,7 +7,7 @@ class TicketController {
   }
 
   create( data ) {
-    return this.purposeService.add( data );
+    return this.service.create( data );
   }
 
   get( data ) {

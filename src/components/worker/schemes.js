@@ -1,14 +1,31 @@
 module.exports = {
   create: {
     type: 'object',
-    required: [ 'name', 'userId' ],
+    required: [ 'worker', 'credentials' ],
     properties: {
-      name: {
-        type: 'string'
+      worker: {
+        type: 'object',
+        required: [ 'name' ],
+        properties: {
+          name: {
+            type: 'string'
+          }
+        },
+        additionalProperties: false
       },
-      userId: {
-        type: 'string'
-      }
+      credentials: {
+        type: 'object',
+        required: [ 'username', 'password' ],
+        properties: {
+          username: {
+            type: 'string'
+          },
+          password: {
+            type: 'string'
+          }
+        },
+        additionalProperties: false
+      }      
     },
     additionalProperties: false
   },
@@ -24,36 +41,34 @@ module.exports = {
     additionalProperties: false
   },
 
+  getStatus: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
+
   list: {
     type: 'object',
     required: [],
     properties: {
-      filters: {
-        type: 'object',
-        required: [],
-        properties: {
-          statusId: {
-            type: 'string'
-          },
-          windowId: {
-            type: 'string'
-          }
-        },
-        additionalProperties: false
+      statusId: {
+        type: 'string'
       },
-      pages: {
-        type: 'object',
-        required: [ 'itemsNumber', 'page' ],
-        properties: {
-          itemsNumber: {
-            type: 'string',
-          },
-          page: {
-            type: 'string'
-          }
-        },
-        additionalProperties: false
+      windowId: {
+        type: 'string'
       },
+      itemsNumber: {
+        type: 'string'
+      },
+      page: {
+        type: 'string'
+      }
     },
     additionalProperties: false
   },
@@ -81,13 +96,33 @@ module.exports = {
         type: 'object',
         required: [],
         properties: {
-          name: {
-            type: 'string'
-          }
+          worker: {
+            type: 'object',
+            default: {},
+            properties: {
+              name: {
+                type: 'string',
+              }
+            },
+            additionalProperties: false
+          },
+          credentials: {
+            type: 'object',
+            default: {},
+            properties: {
+              username: {
+                type: 'string'
+              },
+              password: {
+                type: 'string'
+              } 
+            },
+            additionalProperties: false
+          },
         },
         additionalProperties: false
-      }
+      },
     },
     additionalProperties: false
   },
-};
+}

@@ -7,20 +7,28 @@ class WorkerService {
     return this.core.db.insert( 'Worker', data, [ 'id' ] );
   }
 
-  get( id ) {
-    return this.core.db.select( 'Worker', null, { id }, [] );
+  async get( id ) {
+    return ( await this.core.db.select( 'Worker', null, { id } ) )[ 0 ];
   }
 
   list( filters, pages ) {
-    return this.core.db.select( 'Worker', null, filters, [], pages );
+    return this.core.db.select( 'Worker', null, filters, [ 'id' ], pages );
   }
 
-  remove( id ) {
-    return this.core.db.delete( 'Worker', { id }, [ 'id' ] );
+  async remove( id ) {
+    return ( await this.core.db.delete( 'Worker', { id }, [ 'id', 'userId' ] ) )[ 0 ];
   }
 
   update( id, updates ) {
     return this.core.db.update( 'Worker', updates, { id }, [ 'id' ] );
+  }
+  
+  async getStatusByName( name ) {
+    return ( await this.core.db.select( 'WorkerStatus', [], { name } ) )[ 0 ];
+  }
+  
+  async getStatus( id ) {
+    return ( await this.core.db.select( 'WorkerStatus', [], { id } ) )[ 0 ];
   }
 }
 
