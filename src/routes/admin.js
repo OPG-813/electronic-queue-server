@@ -26,6 +26,14 @@ module.exports = {
       schema: component.schemes.changePassword,
       handler: 'changePassword',
       roles: [ 'ADMIN' ]
+    },
+    {
+      method: 'PATCH',
+      path: '/admin/update',
+      secure: true,
+      schema: component.schemes.update,
+      handler: 'update',
+      roles: [ 'ADMIN' ]
     }
   ]
 };

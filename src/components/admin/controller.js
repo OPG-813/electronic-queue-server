@@ -38,6 +38,10 @@ class AdminController {
     await this.userService.changePassword( user.id, data.newPassword );
     return user;
   }
+
+  update( data ) {
+    return this.adminService.update( data.id, data.updates );
+  }
 }
 
 module.exports = AdminController;
