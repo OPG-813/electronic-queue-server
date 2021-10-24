@@ -28,6 +28,26 @@ module.exports = {
       }
     },
     additionalProperties: false
-  }
+  },
 
+  update: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      },
+      updates: {
+        type: 'object',
+        default: {},
+        properties: {
+          name: {
+            type: 'string'
+          }
+        },
+        additionalProperties: false
+      }
+    },
+    additionalProperties: false
+  }
 };

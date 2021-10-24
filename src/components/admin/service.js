@@ -14,6 +14,10 @@ class AdminService {
     }
     return admin;
   }
+
+  async update( id, updates ) {
+    return ( await this.core.db.update( 'AdminUser', updates, { id }, [ 'id' ] ) )[ 0 ];
+  }
 }
 
 module.exports = AdminService;
