@@ -2026,6 +2026,66 @@ paths:
                 - id
                 - updates
         description: Тело запроса.
+  /admin/update:
+    patch:
+      summary: Admin update.
+      operationId: patch-admin-update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Идентификатор администратора.
+                    format: uuid
+                    example: 7d870e0e-6ca4-4bb0-af89-5b32b81e5297
+                required:
+                  - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Admin
+      description: Изменение данных администатора.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Идентификатор администратора.
+                  example: 7d870e0e-6ca4-4bb0-af89-5b32b81e5297
+                updates:
+                  type: object
+                  description: Объект с новыми данными.
+                  properties:
+                    name:
+                      type: string
+                      example: ФИО
+                      description: Имя администратора.
+              required:
+                - id
+                - updates
+        description: Тело запроса.
 components:
   schemas:
     SystemUser:

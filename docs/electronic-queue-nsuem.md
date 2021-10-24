@@ -538,6 +538,99 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
+## Admin update.
+
+<a id="opIdpatch-admin-update"></a>
+
+`PATCH /admin/update`
+
+Изменение данных администатора.
+
+> Body parameter
+
+```json
+{
+  "id": "7d870e0e-6ca4-4bb0-af89-5b32b81e5297",
+  "updates": {
+    "name": "ФИО"
+  }
+}
+```
+
+<h3 id="admin-update.-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|body|body|object|false|Тело запроса.|
+|» id|body|string(uuid)|true|Идентификатор администратора.|
+|» updates|body|object|true|Объект с новыми данными.|
+|»» name|body|string|false|Имя администратора.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "7d870e0e-6ca4-4bb0-af89-5b32b81e5297"
+}
+```
+
+<h3 id="admin-update.-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="admin-update.-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор администратора.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 <h1 id="electronic-queue-nsuem-system">System</h1>
 
 API системы.
