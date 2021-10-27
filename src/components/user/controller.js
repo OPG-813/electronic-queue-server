@@ -31,6 +31,10 @@ class UserController {
     delete data.id;
     return this.userService.update( id, data );
   }
+  
+  get( data ) {
+    return this.userService.get( data.id );
+  }
 }
 
 module.exports = UserController;

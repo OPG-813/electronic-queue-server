@@ -52,6 +52,10 @@ class UserService {
     console.log( id )
     return this.core.db.delete( 'SystemUser', { id } );
   }
+  
+  async get( id ) {
+    return ( await this.core.db.select( 'SystemUser', [ 'id', 'username', 'role' ], { id } ) )[ 0 ];
+  }
 }
 
 module.exports = UserService;
