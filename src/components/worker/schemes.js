@@ -128,12 +128,15 @@ module.exports = {
   
   getPeriodStats: {
     type: 'object',
-    required: [ 'startDate', 'endDate' ],
+    required: [ 'startDate', 'endDate', 'id' ],
     properties: {
       startDate: {
         type: 'string'
       },
       endDate: {
+        type: 'string'
+      },
+      id: {
         type: 'string'
       }
     },
