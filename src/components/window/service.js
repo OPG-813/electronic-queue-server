@@ -45,6 +45,10 @@ class WindowService {
   update( id, fields ) {
     return this.core.db.update( 'SystemWindow', { ...fields }, { id }, [ 'id', 'name' ] );
   }
+  
+  async get( id ) {
+    return ( await this.core.db.select( 'SystemWindow', null, { id } ) )[ 0 ];
+  }
 }
 
 module.exports = WindowService;

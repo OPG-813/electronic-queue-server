@@ -10,6 +10,17 @@ module.exports = {
     additionalProperties: false
   },
 
+  get: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
+  },
+
   remove: {
     type: 'object',
     required: [ 'id' ],
