@@ -60,8 +60,8 @@ class WorkerController {
     return this.service.getStatus( data.id );
   }
   
-  getPeriodStats() {
-    return { ticketsNumber: 0, averageTicketServiceTime: 0 };
+  getPeriodStats( data ) {
+    return { ticketsNumber: 0, averageTicketServiceTime: 0, id: data.id };
   }
 }
 
