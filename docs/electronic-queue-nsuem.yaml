@@ -1283,9 +1283,15 @@ paths:
                     type: number
                     example: 0
                     description: Количество талонов.
+                  id:
+                    type: string
+                    example: 04e71908-3729-40f4-b772-4f94495f7baa
+                    format: uuid
+                    description: Идентификатор работника.
                 required:
                   - averageTicketServiceTime
                   - ticketsNumber
+                  - id
         '400':
           $ref: '#/components/responses/Bad-Request'
         '401':
@@ -1316,6 +1322,14 @@ paths:
           name: endDate
           required: true
           description: Конечная дата.
+        - schema:
+            type: string
+            example: 04e71908-3729-40f4-b772-4f94495f7baa
+            format: uuid
+          in: query
+          name: id
+          description: Идентификатор работника.
+          required: true
       description: Получение статистики сотрудника за определённый период времени.
   /worker/getStatus:
     get:
@@ -2086,6 +2100,114 @@ paths:
                 - id
                 - updates
         description: Тело запроса.
+  /user/get:
+    get:
+      summary: User get
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 04e71908-3729-40f4-b772-4f94495f7baa
+                    format: uuid
+                    description: Идентификатор пользователя.
+                  role:
+                    type: string
+                    example: ADMIN
+                    description: Роль пользователя.
+                  username:
+                    type: string
+                    description: Имя пользователя.
+                required:
+                  - id
+                  - role
+                  - username
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-user-get
+      description: Получение пользователя по id.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          required: true
+          description: Сессионный токен пользователя.
+        - schema:
+            type: string
+            format: uuid
+            example: 04e71908-3729-40f4-b772-4f94495f7baa
+          in: query
+          name: id
+          description: Идентификатор пользователя.
+          required: true
+  /window/get:
+    get:
+      summary: Window get
+      tags:
+        - Window
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ee8921b5-a465-4df5-984f-2d6087a3cfb4
+                    format: uuid
+                    description: Идентификатор окна.
+                  name:
+                    type: string
+                    example: Окно 10
+                    description: Наименование окна.
+                required:
+                  - id
+                  - name
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-window-get
+      description: Получение окна по id.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+            format: uuid
+            example: ee8921b5-a465-4df5-984f-2d6087a3cfb4
+          in: query
+          name: id
+          description: Идентификатор окна.
+          required: true
 components:
   schemas:
     SystemUser:
