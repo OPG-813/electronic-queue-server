@@ -13,6 +13,17 @@ module.exports = {
     additionalProperties: false
   },
 
+  get: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
   update: {
     type: 'object',
     required: [ 'id' ],

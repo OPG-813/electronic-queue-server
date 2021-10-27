@@ -20,6 +20,14 @@ module.exports = {
       roles: []
     },
     {
+      method: 'GET',
+      path: '/user/get',
+      secure: true,
+      schema: component.schemes.get,
+      handler: 'get',
+      roles: []
+    },
+    {
       method: 'PATCH',
       path: '/user/update',
       secure: true,
