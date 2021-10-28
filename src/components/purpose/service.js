@@ -4,7 +4,7 @@ class PurposeService {
   }
 
   add( name ) {
-    return this.core.db.insert( 'Purpose', { name }, [ 'id', 'name' ] );
+    return this.core.db.insert( 'Purpose', { name }, [ 'id', 'name', 'prefix' ] );
   }
 
   list( pages ) {
@@ -12,11 +12,11 @@ class PurposeService {
   }
 
   remove( id ) {
-    return this.core.db.delete( 'Purpose', { id }, [ 'id', 'name' ] );
+    return this.core.db.delete( 'Purpose', { id }, [ 'id', 'name', 'prefix' ] );
   }
 
   update( id, fields ) {
-    return this.core.db.update( 'Purpose', { ...fields }, { id }, [ 'id', 'name' ] );
+    return this.core.db.update( 'Purpose', { ...fields }, { id }, [ 'id', 'name', 'prefix' ] );
   }
 }
 
