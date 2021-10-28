@@ -1,9 +1,13 @@
 module.exports = {
   add: {
     type: 'object',
-    required: [ 'name' ],
+    required: [ 'name', 'prefix' ],
     properties: {
       name: {
+        type: 'string',
+        minLength: 1,
+      },
+      prefix: {
         type: 'string',
         minLength: 1,
       }
@@ -45,6 +49,10 @@ module.exports = {
       },
       id: {
         type: 'string'
+      },
+      prefix: {
+        type: 'string',
+        minLength: 1,
       }
     },
     additionalProperties: false

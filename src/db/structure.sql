@@ -37,7 +37,8 @@ CREATE UNIQUE INDEX iSystemWindow ON SystemWindow( "name" );
 
 CREATE TABLE Purpose (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
-    "name" VARCHAR(64)
+    "name" VARCHAR(64),
+    "prefix" VARCHAR(16)
 );
 ALTER TABLE Purpose ADD CONSTRAINT pkPurpose PRIMARY KEY ( "id" );
 CREATE UNIQUE INDEX iPurposeName ON Purpose( "name" );

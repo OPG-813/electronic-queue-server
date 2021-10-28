@@ -1051,7 +1051,8 @@ API целей.
 
 ```json
 {
-  "name": "Цель1"
+  "name": "Цель1",
+  "prefix": "A"
 }
 ```
 
@@ -1062,6 +1063,7 @@ API целей.
 |token|cookie|string|true|Сессионный токен пользователя.|
 |body|body|object|false|Тело запроса.|
 |» name|body|string|true|Наименование цели.|
+|» prefix|body|string|true|Префикс цели, для формирования номера талона.|
 
 > Example responses
 
@@ -1070,7 +1072,8 @@ API целей.
 ```json
 {
   "id": "b109fc37-3db3-4b34-ad2d-a3f577f54fbb",
-  "name": "Цель1"
+  "name": "Цель1",
+  "prefix": "A"
 }
 ```
 
@@ -1093,6 +1096,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|Id созданной цели.|
 |» name|string|true|none|Наименование созданной цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1162,7 +1166,8 @@ This operation does not require authentication
 [
   {
     "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-    "name": "цель2"
+    "name": "цель2",
+    "prefix": "A"
   }
 ]
 ```
@@ -1185,6 +1190,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|Id цели.|
 |» name|string|true|none|Наименование цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1253,7 +1259,8 @@ This operation does not require authentication
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "Цель 1"
+  "name": "Цель 1",
+  "prefix": "A"
 }
 ```
 
@@ -1275,6 +1282,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|id удаленной цели.|
 |» name|string|true|none|Наименование удалённой цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1325,7 +1333,8 @@ This operation does not require authentication
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "цель123"
+  "name": "цель123",
+  "prefix": "A"
 }
 ```
 
@@ -1337,6 +1346,7 @@ This operation does not require authentication
 |body|body|object|false|Тело запроса.|
 |» id|body|string|true|Id цели.|
 |» name|body|string|false|Наименование цели.|
+|» prefix|body|string|false|Префикс цели, для формирования номера талона.|
 
 > Example responses
 
@@ -1345,7 +1355,8 @@ This operation does not require authentication
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "цель123"
+  "name": "цель123",
+  "prefix": "A"
 }
 ```
 
@@ -1368,6 +1379,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|Id измененной цели.|
 |» name|string|true|none|Наименование изменённой цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -3388,7 +3400,8 @@ SystemStatus
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "цель1"
+  "name": "цель1",
+  "prefix": "A"
 }
 
 ```
@@ -3401,6 +3414,7 @@ Purpose
 |---|---|---|---|---|
 |id|string(uuid)|true|none|Id цели.|
 |name|string|true|none|Наименование цели.|
+|prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 <h2 id="tocS_SystemWindow">SystemWindow</h2>
 <!-- backwards compatibility -->

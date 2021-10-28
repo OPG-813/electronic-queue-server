@@ -295,9 +295,14 @@ paths:
                     type: string
                     example: Цель1
                     description: Наименование созданной цели.
+                  prefix:
+                    type: string
+                    example: A
+                    description: 'Префикс цели, для формирования номера талона.'
                 required:
                   - id
                   - name
+                  - prefix
         '400':
           $ref: '#/components/responses/Bad-Request'
         '401':
@@ -325,8 +330,13 @@ paths:
                   type: string
                   example: Цель1
                   description: Наименование цели.
+                prefix:
+                  type: string
+                  example: A
+                  description: 'Префикс цели, для формирования номера талона.'
               required:
                 - name
+                - prefix
         description: Тело запроса.
       description: Добавление цели в БД.
       tags:
@@ -355,9 +365,14 @@ paths:
                       type: string
                       example: цель2
                       description: Наименование цели.
+                    prefix:
+                      type: string
+                      example: A
+                      description: 'Префикс цели, для формирования номера талона.'
                   required:
                     - id
                     - name
+                    - prefix
         '400':
           $ref: '#/components/responses/Bad-Request'
         '401':
@@ -406,9 +421,14 @@ paths:
                     type: string
                     example: Цель 1
                     description: Наименование удалённой цели.
+                  prefix:
+                    type: string
+                    description: 'Префикс цели, для формирования номера талона.'
+                    example: A
                 required:
                   - id
                   - name
+                  - prefix
         '400':
           $ref: '#/components/responses/Bad-Request'
         '401':
@@ -460,9 +480,14 @@ paths:
                     type: string
                     example: цель123
                     description: Наименование изменённой цели.
+                  prefix:
+                    type: string
+                    example: A
+                    description: 'Префикс цели, для формирования номера талона.'
                 required:
                   - id
                   - name
+                  - prefix
         '400':
           $ref: '#/components/responses/Bad-Request'
         '401':
@@ -497,6 +522,10 @@ paths:
                   type: string
                   example: цель123
                   description: Наименование цели.
+                prefix:
+                  type: string
+                  example: A
+                  description: 'Префикс цели, для формирования номера талона.'
               required:
                 - id
         description: Тело запроса.
@@ -2320,9 +2349,14 @@ components:
           type: string
           example: цель1
           description: Наименование цели.
+        prefix:
+          type: string
+          example: A
+          description: 'Префикс цели, для формирования номера талона.'
       required:
         - id
         - name
+        - prefix
     SystemWindow:
       title: SystemWindow
       type: object
