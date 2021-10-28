@@ -3,8 +3,8 @@ class PurposeService {
     this.core = core;
   }
 
-  add( name ) {
-    return this.core.db.insert( 'Purpose', { name }, [ 'id', 'name', 'prefix' ] );
+  add( name, prefix ) {
+    return this.core.db.insert( 'Purpose', { name, prefix }, [ 'id', 'name', 'prefix' ] );
   }
 
   list( pages ) {
