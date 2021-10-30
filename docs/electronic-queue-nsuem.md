@@ -1,19 +1,5 @@
----
-title: Electronic Queue NSUEM v1.0
-language_tabs: []
-toc_footers: []
-includes: []
-search: true
-highlight_theme: darkula
-headingLevel: 1
 
----
-
-<!-- Generator: Widdershins v4.0.1 -->
-
-<h1 id="electronic-queue-nsuem">Electronic Queue NSUEM v1.0</h1>
-
-> Scroll down for example requests and responses.
+<h1 id="electronic-queue-nsuem">Electronic Queue NSUEM v1.9.0</h1>
 
 An API for electronic queue system from NSUEM.
 
@@ -23,8 +9,6 @@ Base URLs:
 
 Email: <a href="mailto:kincharov99@gmail.com">Danil</a> Web: <a href="https://github.com/DanilSord">Danil</a> 
  License: MIT
-
-# Authentication
 
 <h1 id="electronic-queue-nsuem-user">User</h1>
 
@@ -738,7 +722,8 @@ API системы.
   "startDate": "2000-01-01",
   "startTime": "00:00:00",
   "status": "off",
-  "timezone": "Asia/Novosibirsk"
+  "timezone": "Asia/Novosibirsk",
+  "currentTime": "17:26:20+07"
 }
 ```
 
@@ -764,6 +749,7 @@ Status Code **200**
 |» startTime|string|true|none|Время, с которого система начнёт приём заявок.|
 |» status|string|true|none|Статус работы системы.|
 |» timezone|string|true|none|Временная зона, в которой идёт отсчёт времени системы.|
+|» currentTime|string(time)|true|none|Текущее время системы.|
 
 #### Enumerated Values
 
@@ -2034,7 +2020,10 @@ This operation does not require authentication
 > 200 Response
 
 ```json
-{}
+{
+  "id": "ee8921b5-a465-4df5-984f-2d6087a3cfb4",
+  "name": "Окно 10"
+}
 ```
 
 ```xml
@@ -2054,6 +2043,13 @@ This operation does not require authentication
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
 
 <h3 id="window-get-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор окна.|
+|» name|string|true|none|Наименование окна.|
 
 Status Code **400**
 

@@ -4,32 +4,21 @@ class SystemService {
   }
 
   async getSystemStatus() {
-    const systemStatus = ( await this.core.db.select( 'SystemStatus' ) )[ 0 ];
+    const systemStatus = ( await this.core.db.query( 
+      'SELECT *, CURRENT_TIME( 0 ) AT TIME ZONE ( timezone ) AS "currentTime" FROM SystemStatus' ) )[ 0 ];
     if ( !systemStatus ) {
-      return this.core.db.insert( 'SystemStatus', {}, [
-        'id',
-        'status',
-        'startDate',
-        'endDate',
-        'startTime',
-        'endTime',
-        'timezone'
-      ] );
+      await this.core.db.insert( 'SystemStatus', {} );
+      return ( await this.core.db.query( 
+        'SELECT *, CURRENT_TIME( 0 ) AT TIME ZONE ( timezone ) AS "currentTime" FROM SystemStatus' ) )[ 0 ];
     }
 
     return systemStatus;
   }
 
   async update( id, fields ) {
-    return this.core.db.update( 'SystemStatus', fields, { id }, [
-      'id',
-      'status',
-      'startDate',
-      'endDate',
-      'startTime',
-      'endTime',
-      'timezone'
-    ] );
+    await this.core.db.update( 'SystemStatus', fields, { id } );
+    return ( await this.core.db.query( 
+      'SELECT *, CURRENT_TIME( 0 ) AT TIME ZONE ( timezone ) AS "currentTime" FROM SystemStatus' ) )[ 0 ];
   }
   
   getTimezones() {
