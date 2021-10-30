@@ -271,6 +271,89 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
+## User get
+
+<a id="opIdget-user-get"></a>
+
+`GET /user/get`
+
+Получение пользователя по id.
+
+<h3 id="user-get-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|id|query|string(uuid)|true|Идентификатор пользователя.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "04e71908-3729-40f4-b772-4f94495f7baa",
+  "role": "ADMIN",
+  "username": "string"
+}
+```
+
+<h3 id="user-get-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="user-get-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» id|string(uuid)|true|none|Идентификатор пользователя.|
+|» role|string|true|none|Роль пользователя.|
+|» username|string|true|none|Имя пользователя.|
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 <h1 id="electronic-queue-nsuem-admin">Admin</h1>
 
 API администратора.
@@ -968,7 +1051,8 @@ API целей.
 
 ```json
 {
-  "name": "Цель1"
+  "name": "Цель1",
+  "prefix": "A"
 }
 ```
 
@@ -979,6 +1063,7 @@ API целей.
 |token|cookie|string|true|Сессионный токен пользователя.|
 |body|body|object|false|Тело запроса.|
 |» name|body|string|true|Наименование цели.|
+|» prefix|body|string|true|Префикс цели, для формирования номера талона.|
 
 > Example responses
 
@@ -987,7 +1072,8 @@ API целей.
 ```json
 {
   "id": "b109fc37-3db3-4b34-ad2d-a3f577f54fbb",
-  "name": "Цель1"
+  "name": "Цель1",
+  "prefix": "A"
 }
 ```
 
@@ -1010,6 +1096,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|Id созданной цели.|
 |» name|string|true|none|Наименование созданной цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1079,7 +1166,8 @@ This operation does not require authentication
 [
   {
     "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-    "name": "цель2"
+    "name": "цель2",
+    "prefix": "A"
   }
 ]
 ```
@@ -1102,6 +1190,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|Id цели.|
 |» name|string|true|none|Наименование цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1170,7 +1259,8 @@ This operation does not require authentication
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "Цель 1"
+  "name": "Цель 1",
+  "prefix": "A"
 }
 ```
 
@@ -1192,6 +1282,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|id удаленной цели.|
 |» name|string|true|none|Наименование удалённой цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1242,7 +1333,8 @@ This operation does not require authentication
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "цель123"
+  "name": "цель123",
+  "prefix": "A"
 }
 ```
 
@@ -1254,6 +1346,7 @@ This operation does not require authentication
 |body|body|object|false|Тело запроса.|
 |» id|body|string|true|Id цели.|
 |» name|body|string|false|Наименование цели.|
+|» prefix|body|string|false|Префикс цели, для формирования номера талона.|
 
 > Example responses
 
@@ -1262,7 +1355,8 @@ This operation does not require authentication
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "цель123"
+  "name": "цель123",
+  "prefix": "A"
 }
 ```
 
@@ -1285,6 +1379,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» id|string|true|none|Id измененной цели.|
 |» name|string|true|none|Наименование изменённой цели.|
+|» prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 Status Code **400**
 
@@ -1919,6 +2014,83 @@ Status Code **500**
 This operation does not require authentication
 </aside>
 
+## Window get
+
+<a id="opIdget-window-get"></a>
+
+`GET /window/get`
+
+Получение окна по id.
+
+<h3 id="window-get-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|token|cookie|string|true|Сессионный токен пользователя.|
+|id|query|string(uuid)|true|Идентификатор окна.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{}
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<id>ee8921b5-a465-4df5-984f-2d6087a3cfb4</id>
+<name>Окно 10</name>
+```
+
+<h3 id="window-get-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request!|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Not uthorized!|Inline|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Not enough rights!|Inline|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error!|Inline|
+
+<h3 id="window-get-responseschema">Response Schema</h3>
+
+Status Code **400**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **401**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией|
+
+Status Code **403**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|string|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией.|
+
+Status Code **500**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» message|string|true|none|Сообщение об ошибке.|
+|» httpCode|number|true|none|HTTP код ошибки|
+|» data|object|false|none|Объект с дополнительной информацией. Отсутствует.|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 <h1 id="electronic-queue-nsuem-worker">Worker</h1>
 
 API работников.
@@ -2206,6 +2378,7 @@ This operation does not require authentication
 |token|cookie|string|true|Сессионный токен пользователя.|
 |startDate|query|string|true|Начальная дата.|
 |endDate|query|string|true|Конечная дата.|
+|id|query|string(uuid)|true|Идентификатор работника.|
 
 > Example responses
 
@@ -2214,7 +2387,8 @@ This operation does not require authentication
 ```json
 {
   "averageTicketServiceTime": 0,
-  "ticketsNumber": 0
+  "ticketsNumber": 0,
+  "id": "04e71908-3729-40f4-b772-4f94495f7baa"
 }
 ```
 
@@ -2236,6 +2410,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» averageTicketServiceTime|number|true|none|Среднее время обработки талона.|
 |» ticketsNumber|number|true|none|Количество талонов.|
+|» id|string(uuid)|true|none|Идентификатор работника.|
 
 Status Code **400**
 
@@ -3225,7 +3400,8 @@ SystemStatus
 ```json
 {
   "id": "7378034e-0b57-4d4e-a2e8-7bcb52bbdd7c",
-  "name": "цель1"
+  "name": "цель1",
+  "prefix": "A"
 }
 
 ```
@@ -3238,6 +3414,7 @@ Purpose
 |---|---|---|---|---|
 |id|string(uuid)|true|none|Id цели.|
 |name|string|true|none|Наименование цели.|
+|prefix|string|true|none|Префикс цели, для формирования номера талона.|
 
 <h2 id="tocS_SystemWindow">SystemWindow</h2>
 <!-- backwards compatibility -->

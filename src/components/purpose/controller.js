@@ -7,7 +7,7 @@ class PurposeController {
   }
 
   async add( data ) {
-    return this.purposeService.add( data.name );
+    return this.purposeService.add( data.name, data.prefix );
   }
 
   async list( data ) {
