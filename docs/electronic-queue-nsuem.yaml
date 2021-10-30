@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Electronic Queue NSUEM
-  version: '1.0'
+  version: 1.9.0
   description: An API for electronic queue system from NSUEM.
   contact:
     name: Danil
@@ -256,6 +256,11 @@ paths:
                     type: string
                     example: Asia/Novosibirsk
                     description: 'Временная зона, в которой идёт отсчёт времени системы.'
+                  currentTime:
+                    type: string
+                    example: '17:26:20+07'
+                    format: time
+                    description: Текущее время системы.
                 required:
                   - id
                   - endDate
@@ -264,6 +269,7 @@ paths:
                   - startTime
                   - status
                   - timezone
+                  - currentTime
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -2195,7 +2201,19 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  id:
+                    type: string
+                    example: ee8921b5-a465-4df5-984f-2d6087a3cfb4
+                    format: uuid
+                    description: Идентификатор окна.
+                  name:
+                    type: string
+                    example: Окно 10
+                    description: Наименование окна.
+                required:
+                  - id
+                  - name
             application/xml:
               schema:
                 type: object
