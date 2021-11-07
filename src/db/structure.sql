@@ -1,4 +1,6 @@
 CREATE EXTENSION "pgcrypto";
+CREATE OR REPLACE FUNCTION SYSTEM_TIMEZONE() RETURNS varchar(64) LANGUAGE SQL AS $$ SELECT "timezone" FROM SystemStatus; $$;
+CREATE OR REPLACE FUNCTION TICKET_CODE( ipurposeId uuid ) RETURNS bigint LANGUAGE SQL AS $$ SELECT COUNT( id ) FROM Ticket WHERE "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date ) AND "purposeId" = ipurposeId; $$;
 
 CREATE TABLE SystemUser (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
@@ -104,9 +106,10 @@ CREATE TABLE Ticket (
     "purposeId" uuid NOT NULL,
     "codePrefix" VARCHAR(16)  NOT NULL,
     "codeNumber" INTEGER NOT NULL,
-    "serviceTime " time DEFAULT '00:00:00',
-    "startServiceTime " time DEFAULT '00:00:00',
-    "issuanceTime " time DEFAULT '00:00:00',
+    "issuanceDate" date DEFAULT CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ),
+    "serviceTime" time DEFAULT '00:00:00',
+    "startServiceTime" time DEFAULT '00:00:00',
+    "issuanceTime" time DEFAULT CURRENT_TIME( 0 ) AT TIME ZONE( SYSTEM_TIMEZONE() ),
     "waitingTime" time DEFAULT '00:00:00'
 );
 
