@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Electronic Queue NSUEM
-  version: 1.9.0
+  version: 1.10.0
   description: An API for electronic queue system from NSUEM.
   contact:
     name: Danil
@@ -27,6 +27,8 @@ tags:
     description: API работников.
   - name: Field
     description: API дополнительных полей.
+  - name: Ticket
+    description: API талонов.
 paths:
   /user/login:
     post:
@@ -390,12 +392,6 @@ paths:
       operationId: get-purpose-list
       description: Получение списка целей.
       parameters:
-        - schema:
-            type: string
-          in: cookie
-          name: token
-          description: Сессионный токен пользователя.
-          required: true
         - schema:
             type: string
             example: '5'
@@ -2255,6 +2251,73 @@ paths:
           name: id
           description: Идентификатор окна.
           required: true
+  /ticket/create:
+    post:
+      summary: Ticket create
+      operationId: post-ticket-create
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 2f205768-1936-4013-8f70-0e52bef3c07d
+                    format: uuid
+                    description: Идентификатор талона.
+                  issuanceDate:
+                    type: string
+                    format: date
+                    example: '2021-11-06'
+                    description: Дата выдачи талона.
+                  issuanceTime:
+                    type: string
+                    example: '08:54:15'
+                    format: time
+                    description: Время выдачи талона.
+                  peopleBefore:
+                    type: string
+                    example: '0'
+                    description: Количество талонов перед данным в очереди.
+                  ticketNumber:
+                    type: string
+                    example: жж-1
+                    description: Номер талона.
+                  windowName:
+                    type: string
+                    example: Окно!
+                    description: Наименование окна.
+                required:
+                  - id
+                  - issuanceDate
+                  - issuanceTime
+                  - peopleBefore
+                  - ticketNumber
+                  - windowName
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Ticket
+      description: Создание талона.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                purposeId:
+                  type: string
+                  format: uuid
+                  description: Идентификатор цели.
+                  example: f244a96f-c603-494c-a3a0-8e730322e90a
+              required:
+                - purposeId
+        description: Тело запроса.
 components:
   schemas:
     SystemUser:
@@ -2513,18 +2576,27 @@ components:
           type: string
           example: '00:00:00'
           description: Время обслуживания талона.
+          format: time
         startServiceTime:
           type: string
           example: '00:00:00'
           description: Время начала обслуживания.
+          format: time
         issuanceTime:
           type: string
           example: '00:00:00'
           description: Время выдачи талона.
+          format: time
         waitingTime:
           type: string
           example: '00:00:00'
           description: Время ожидания талона в очереди.
+          format: time
+        issuanceDate:
+          type: string
+          description: Дата выдачи талона.
+          format: date
+          example: '2021-11-06'
       required:
         - id
         - workerId
