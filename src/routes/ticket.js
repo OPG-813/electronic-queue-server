@@ -6,7 +6,7 @@ module.exports = {
     {
       method: 'POST',
       path: '/ticket/create',
-      secure: true,
+      secure: false,
       schema: component.schemes.create,
       handler: 'create',
       roles: []

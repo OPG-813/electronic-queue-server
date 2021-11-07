@@ -5,6 +5,7 @@ const purpose = require( './purpose' );
 const window = require( './window' );
 const worker = require( './worker' );
 const field = require( './field' );
+const ticket = require( './ticket' );
 
 module.exports = [
   user,
@@ -13,5 +14,6 @@ module.exports = [
   purpose,
   window,
   worker,
-  field
+  field,
+  ticket
 ];

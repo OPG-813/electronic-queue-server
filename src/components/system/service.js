@@ -4,11 +4,11 @@ class SystemService {
   }
 
   async getSystemStatus() {
-    const systemStatus = ( await this.core.db.query( 
+    const systemStatus = ( await this.core.db.query(
       'SELECT *, CURRENT_TIME( 0 ) AT TIME ZONE ( timezone ) AS "currentTime" FROM SystemStatus' ) )[ 0 ];
     if ( !systemStatus ) {
       await this.core.db.insert( 'SystemStatus', {} );
-      return ( await this.core.db.query( 
+      return ( await this.core.db.query(
         'SELECT *, CURRENT_TIME( 0 ) AT TIME ZONE ( timezone ) AS "currentTime" FROM SystemStatus' ) )[ 0 ];
     }
 
@@ -17,13 +17,13 @@ class SystemService {
 
   async update( id, fields ) {
     await this.core.db.update( 'SystemStatus', fields, { id } );
-    return ( await this.core.db.query( 
+    return ( await this.core.db.query(
       'SELECT *, CURRENT_TIME( 0 ) AT TIME ZONE ( timezone ) AS "currentTime" FROM SystemStatus' ) )[ 0 ];
   }
-  
+
   getTimezones() {
-    return this.core.db.query( `SELECT name, utc_offset FROM pg_timezone_names 
-      WHERE name LIKE 'Asia%' OR name LIKE 'Europe%' 
+    return this.core.db.query( `SELECT name, utc_offset FROM pg_timezone_names
+      WHERE name LIKE 'Asia%' OR name LIKE 'Europe%'
       ORDER BY utc_offset asc` );
   }
 }
