@@ -44,6 +44,7 @@ CREATE TABLE Purpose (
 );
 ALTER TABLE Purpose ADD CONSTRAINT pkPurpose PRIMARY KEY ( "id" );
 CREATE UNIQUE INDEX iPurposeName ON Purpose( "name" );
+CREATE UNIQUE INDEX iPurposePrefix ON Purpose( "prefix" );
 
 CREATE TABLE SystemWindowPurpose (
     "id" uuid DEFAULT gen_random_uuid() NOT NULL,
