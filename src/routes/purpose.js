@@ -14,10 +14,10 @@ module.exports = {
     {
       method: 'GET',
       path: '/purpose/list',
-      secure: true,
+      secure: false,
       schema: component.schemes.list,
       handler: 'list',
-      roles: [ 'ADMIN' ]
+      roles: []
     },
     {
       method: 'DELETE',

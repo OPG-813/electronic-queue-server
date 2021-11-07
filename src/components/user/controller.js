@@ -31,8 +31,8 @@ class UserController {
     delete data.id;
     return this.userService.update( id, data );
   }
-  
-  get( data ) {
+
+  async get( data ) {
     return this.userService.get( data.id );
   }
 }
