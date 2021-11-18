@@ -29,6 +29,9 @@ class TicketService {
   }
 
   async findWorker( workers ) {
+    if ( !workers.length ) {
+      throw new this.core.BadRequestError( 'Нет подходящих сотрудников!' );
+    }
     let result = workers[ 0 ].id;
     let min = ( await this.core.db.query( `SELECT COUNT( id ) FROM Ticket
     WHERE "workerId" = $1
