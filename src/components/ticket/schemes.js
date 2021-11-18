@@ -67,5 +67,77 @@ module.exports = {
       }
     },
     additionalProperties: false
+  },
+
+  getQueue: {
+    type: 'object',
+    required: [ 'workerId' ],
+    properties: {
+      workerId: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
+  callNext: {
+    type: 'object',
+    required: [ 'workerId' ],
+    properties: {
+      workerId: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
+  cancelTicket: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
+  startService: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
+  finishService: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string',
+      }
+    },
+    additionalProperties: false
+  },
+
+  move: {
+    type: 'object',
+    required: [ 'id', 'purposeId', 'priority' ],
+    properties: {
+      id: {
+        type: 'string',
+      },
+      purposeId: {
+        type: 'string',
+      },
+      priority: {
+        type: 'boolean',
+      }
+    },
+    additionalProperties: false
   }
 };

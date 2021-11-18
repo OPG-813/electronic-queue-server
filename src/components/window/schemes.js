@@ -39,7 +39,7 @@ module.exports = {
       windowId: {
         type: 'string'
       },
-      
+
       purposeId: {
         type: 'string'
       }

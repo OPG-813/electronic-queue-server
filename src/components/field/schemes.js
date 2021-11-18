@@ -25,7 +25,7 @@ module.exports = {
       }
     },
     additionalProperties: false
-  },    
+  },
 
   getType: {
     type: 'object',
@@ -36,7 +36,7 @@ module.exports = {
       }
     },
     additionalProperties: false
-  },    
+  },
 
   listType: {
     type: 'object',

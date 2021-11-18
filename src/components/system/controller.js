@@ -15,15 +15,15 @@ class SystemController {
     delete data.id;
     return this.systemService.update( id, data );
   }
-  
+
   getTimezones() {
     return this.systemService.getTimezones();
   }
-  
+
   getCurrentStats() {
     return { waitingTickets: 0, activeWorkersNumber: 0, activeWindowNumber: 0 };
   }
-  
+
   getPeriodStats() {
     return { ticketsNumber: 0, averageTicketServiceTime: 0, averageTicketWaitingTime: 0 };
   }

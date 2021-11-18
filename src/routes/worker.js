@@ -58,6 +58,22 @@ module.exports = {
       schema: component.schemes.update,
       handler: 'update',
       roles: [ 'ADMIN' ]
+    },
+    {
+      method: 'PATCH',
+      path: '/worker/selectWindow',
+      secure: true,
+      schema: component.schemes.selectWindow,
+      handler: 'selectWindow',
+      roles: [ 'WORKER' ]
+    },
+    {
+      method: 'PATCH',
+      path: '/worker/goBreak',
+      secure: true,
+      schema: component.schemes.goBreak,
+      handler: 'goBreak',
+      roles: [ 'WORKER' ]
     }
   ]
 };

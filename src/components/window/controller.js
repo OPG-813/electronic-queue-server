@@ -41,11 +41,11 @@ class WindowController {
     }
     return results;
   }
-  
+
   removePurpose( data ) {
     return this.windowService.removePurpose( data.windowId, data.purposeId );
   }
-  
+
   get( data ) {
     return this.windowService.get( data.id );
   }

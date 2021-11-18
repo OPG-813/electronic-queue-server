@@ -135,7 +135,6 @@ INSERT INTO WorkerStatus (name) VALUES ('not work');
 
 INSERT INTO TicketStatus (name) VALUES ('wait');
 INSERT INTO TicketStatus (name) VALUES ('served');
-INSERT INTO TicketStatus (name) VALUES ('finished');
 INSERT INTO TicketStatus (name) VALUES ('called');
 INSERT INTO TicketStatus (name) VALUES ('absent');
 
