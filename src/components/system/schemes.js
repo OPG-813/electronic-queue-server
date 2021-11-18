@@ -29,7 +29,7 @@ module.exports = {
     },
     additionalProperties: false
   },
-  
+
   getPeriodStats: {
     type: 'object',
     required: [ 'startDate', 'endDate' ],

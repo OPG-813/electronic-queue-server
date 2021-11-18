@@ -25,7 +25,7 @@ module.exports = {
           }
         },
         additionalProperties: false
-      }      
+      }
     },
     additionalProperties: false
   },
@@ -115,7 +115,7 @@ module.exports = {
               },
               password: {
                 type: 'string'
-              } 
+              }
             },
             additionalProperties: false
           },
@@ -125,7 +125,7 @@ module.exports = {
     },
     additionalProperties: false
   },
-  
+
   getPeriodStats: {
     type: 'object',
     required: [ 'startDate', 'endDate', 'id' ],
@@ -141,5 +141,28 @@ module.exports = {
       }
     },
     additionalProperties: false
+  },
+
+  selectWindow: {
+    type: 'object',
+    required: [ 'windowId' ],
+    properties: {
+      windowId: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
+  },
+
+  goBreak: {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+      id: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
   }
-}
+};
+

@@ -33,11 +33,11 @@ class WindowService {
     }
     return Promise.allSettled( inserts );
   }
-  
+
   removePurpose( id, purposeId ) {
     return this.core.db.delete( 'SystemWindowPurpose', { windowId: id, purposeId }, [ 'id', 'purposeId', 'windowId' ] );
   }
-  
+
   remove( id ) {
     return this.core.db.delete( 'SystemWindow', { id }, [ 'id', 'name' ] );
   }
@@ -45,7 +45,7 @@ class WindowService {
   update( id, fields ) {
     return this.core.db.update( 'SystemWindow', { ...fields }, { id }, [ 'id', 'name' ] );
   }
-  
+
   async get( id ) {
     return ( await this.core.db.select( 'SystemWindow', null, { id } ) )[ 0 ];
   }

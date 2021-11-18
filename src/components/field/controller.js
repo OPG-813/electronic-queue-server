@@ -9,7 +9,7 @@ class FieldController {
   create( data ) {
     return this.service.create( data );
   }
-  
+
   get( data ) {
     return this.service.get( data.id );
   }
@@ -20,7 +20,7 @@ class FieldController {
     delete data.page;
     return this.service.list( data, pages );
   }
-  
+
   remove( data ) {
     return this.service.remove( data.id );
   }
@@ -28,11 +28,11 @@ class FieldController {
   update( data ) {
     return this.service.update( data.id, data.updates );
   }
-  
+
   getType( data ) {
     return this.service.getType( data.id );
   }
-  
+
   listType( data ) {
     const pages = this.core.getObjectWithProperties( [ 'itemsNumber', 'page' ], data );
     delete data.itemsNumber;

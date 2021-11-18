@@ -19,10 +19,9 @@ class WorkerController {
         statusId: status.id } );
       return worker;
     } catch ( error ) {
-      console.log( user.id )
       await this.userService.remove( user.id );
       throw error;
-    } 
+    }
   }
 
   get( data ) {
@@ -48,20 +47,28 @@ class WorkerController {
       worker = await this.get( { id: data.id } );
       await this.userService.update( worker.userId, data.updates.credentials );
     }
-    
+
     if ( data.updates.worker ) {
       worker = await this.service.update( data.id, data.updates.worker );
     }
-    
-    return worker;   
+
+    return worker;
   }
-  
+
   getStatus( data ) {
     return this.service.getStatus( data.id );
   }
-  
+
   getPeriodStats( data ) {
     return { ticketsNumber: 0, averageTicketServiceTime: 0, id: data.id };
+  }
+
+  selectWindow( data, request  ) {
+    return this.service.selectWindow( data.windowId, request.user.id );
+  }
+
+  goBreak( data ) {
+    return this.service.goBreak( data.id );
   }
 }
 

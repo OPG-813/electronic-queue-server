@@ -35,7 +35,7 @@ class UserService {
       [ 'username', 'role', 'id' ]
     );
   }
- 
+
   async isUserRoleExists( role ) {
     const users = await this.core.db.select( 'SystemUser', [ 'id' ], { role } );
     return !!users.length;
@@ -47,12 +47,12 @@ class UserService {
     }
     return this.core.db.update( 'SystemUser', fields, { id }, [ 'id', 'username' ] );
   }
-  
+
   remove( id ) {
-    console.log( id )
+    console.log( id );
     return this.core.db.delete( 'SystemUser', { id } );
   }
-  
+
   async get( id ) {
     return ( await this.core.db.select( 'SystemUser', [ 'id', 'username', 'role' ], { id } ) )[ 0 ];
   }
