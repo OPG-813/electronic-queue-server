@@ -39,7 +39,7 @@ class WorkerService {
   goBreak( id ) {
     return this.core.db.query( ` UPDATE Worker
     SET "statusId" = ( SELECT id from WorkerStatus WHERE name = 'break' )
-    WHERE id = $1;`, [ id ] );
+    WHERE id = $1 RETURNING *;`, [ id ] );
   }
 }
 
