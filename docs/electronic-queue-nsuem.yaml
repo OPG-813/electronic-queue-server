@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Electronic Queue NSUEM
-  version: 1.10.0
+  version: 1.11.0
   description: An API for electronic queue system from NSUEM.
   contact:
     name: Danil
@@ -2318,6 +2318,342 @@ paths:
               required:
                 - purposeId
         description: Тело запроса.
+  /worker/selectWindow:
+    patch:
+      summary: Worker selectWindow.
+      operationId: patch-worker-selectWindow
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id сотрудника
+                required:
+                  - id
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Worker
+      description: Выбор окна сотрудником.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          required: true
+          description: Сессионный токен пользователя.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                windowId:
+                  type: string
+              required:
+                - windowId
+        description: ''
+  /worker/goBreak:
+    patch:
+      summary: Worker goBreak
+      operationId: patch-worker-goBreak
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Worker'
+              examples: {}
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          description: Internal Server Error
+      tags:
+        - Worker
+      description: Уход сотрудника на перерыв.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: id сотрудника
+              required:
+                - id
+        description: ''
+  /ticket/getQueue:
+    get:
+      summary: Ticket getQueue
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-ticket-getQueue
+      tags:
+        - Ticket
+      description: Получить текущую очередь для сотрудника.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: workerId
+          description: id сотрудника
+  /ticket/callNext:
+    patch:
+      summary: Ticket callNext
+      operationId: patch-ticket-callNext
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Ticket
+      description: Вызвать следующий талон.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workerId:
+                  type: string
+                  description: Id сотрудника.
+              required:
+                - workerId
+  /ticket/cancelTicket:
+    patch:
+      summary: Ticket cancelTicket
+      operationId: patch-ticket-cancelTicket
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Ticket
+      description: 'Отменить талон, не явился.'
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Id талона.
+              required:
+                - id
+  /ticket/startService:
+    patch:
+      summary: Ticket startService.
+      operationId: patch-ticket-startService
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Ticket
+      description: Начать обслуживание талона.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Id талона.
+              required:
+                - id
+  /ticket/finishService:
+    patch:
+      summary: Ticket finishService
+      operationId: patch-ticket-finishService
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Ticket
+      description: Закончить обслуживание талона.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Id талона.
+              required:
+                - id
+  /ticket/move:
+    patch:
+      summary: Ticket move.
+      operationId: patch-ticket-move
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Ticket
+      description: Перенаправить талон.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Id талона.
+                purposeId:
+                  type: string
+                  description: Id новой цели.
+                priority:
+                  type: string
+                  description: 'Флаг, нужно ли ставить в начало очереди.'
+              required:
+                - id
+                - purposeId
+                - priority
 components:
   schemas:
     SystemUser:
