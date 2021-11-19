@@ -82,6 +82,14 @@ module.exports = {
       schema: component.schemes.move,
       handler: 'move',
       roles: [ 'WORKER' ]
+    },
+    {
+      method: 'GET',
+      path: '/ticket/getCalledTickets',
+      secure: false,
+      schema: component.schemes.getCalledTickets,
+      handler: 'getCalledTickets',
+      roles: [ '' ]
     }
   ]
 };

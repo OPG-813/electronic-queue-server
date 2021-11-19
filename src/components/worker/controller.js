@@ -59,8 +59,12 @@ class WorkerController {
     return this.service.getStatus( data.id );
   }
 
-  getPeriodStats( data ) {
-    return { ticketsNumber: 0, averageTicketServiceTime: 0, id: data.id };
+  async getPeriodStats( data ) {
+    return {
+      ticketsNumber: await this.service.getPeriodTicketsNumber( data.id, data.startDate, data.endDate ),
+      averageTicketServiceTime: await this.service.getAverageTicketServiceTime( data.id, data.startDate, data.endDate ),
+      id: data.id
+    };
   }
 
   selectWindow( data, request  ) {
@@ -69,6 +73,10 @@ class WorkerController {
 
   goBreak( data ) {
     return this.service.goBreak( data.id );
+  }
+
+  finishWork( data ) {
+    return this.service.finishWork( data.id );
   }
 }
 

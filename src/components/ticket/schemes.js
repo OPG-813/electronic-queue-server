@@ -139,5 +139,12 @@ module.exports = {
       }
     },
     additionalProperties: false
+  },
+
+  getCalledTickets: {
+    type: 'object',
+    required: [],
+    properties: {},
+    additionalProperties: false
   }
 };

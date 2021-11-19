@@ -74,6 +74,14 @@ module.exports = {
       schema: component.schemes.goBreak,
       handler: 'goBreak',
       roles: [ 'WORKER' ]
+    },
+    {
+      method: 'PATCH',
+      path: '/worker/finishWork',
+      secure: true,
+      schema: component.schemes.finishWork,
+      handler: 'finishWork',
+      roles: [ 'WORKER' ]
     }
   ]
 };
