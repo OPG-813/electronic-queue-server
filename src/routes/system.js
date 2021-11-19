@@ -41,7 +41,7 @@ module.exports = {
       secure: true,
       schema: null,
       handler: 'getTimezones',
-      roles: [ 'ADMIN' ]
+      roles: [ 'ADMIN', 'WORKER' ]
     },
   ]
 };
