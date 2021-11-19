@@ -17,7 +17,7 @@ module.exports = {
       secure: true,
       schema: component.schemes.list,
       handler: 'list',
-      roles: [ 'ADMIN' ]
+      roles: [ 'ADMIN', 'WORKER' ]
     },
     {
       method: 'GET',
@@ -25,7 +25,7 @@ module.exports = {
       secure: true,
       schema: component.schemes.get,
       handler: 'get',
-      roles: [ 'ADMIN' ]
+      roles: [ 'ADMIN', 'WORKER' ]
     },
     {
       method: 'DELETE',
