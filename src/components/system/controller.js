@@ -1,9 +1,13 @@
 const SystemService = require( './service' );
+const WorkerService = require( '../worker/service' );
+const TicketService = require( '../ticket/service' );
 
 class SystemController {
   constructor( core ) {
     this.core = core;
     this.systemService = new SystemService( core );
+    this.workerService = new WorkerService( core );
+    this.ticketService = new TicketService( core );
   }
 
   async status() {
@@ -20,12 +24,20 @@ class SystemController {
     return this.systemService.getTimezones();
   }
 
-  getCurrentStats() {
-    return { waitingTickets: 0, activeWorkersNumber: 0, activeWindowNumber: 0 };
+  async getCurrentStats() {
+    return {
+      waitingTickets: ( await this.ticketService.getWaitingTickets() ).length,
+      activeWorkersNumber: ( await this.workerService.getActiveWorkers() ).length,
+      activeWindowNumber: await this.workerService.getActiveWindowsNumber()
+    };
   }
 
-  getPeriodStats() {
-    return { ticketsNumber: 0, averageTicketServiceTime: 0, averageTicketWaitingTime: 0 };
+  async getPeriodStats( data ) {
+    return {
+      ticketsNumber: await this.ticketService.getPeriodTicketsNumber( data.startDate, data.endDate ),
+      averageTicketServiceTime: await this.ticketService.getAverageTicketServiceTime( data.startDate, data.endDate ),
+      averageTicketWaitingTime: await this.ticketService.getAverageTicketWaitingTime( data.startDate, data.endDate )
+    };
   }
 }
 

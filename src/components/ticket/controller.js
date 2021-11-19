@@ -45,6 +45,10 @@ class TicketController {
   move( data ) {
     return this.service.move( data.id, data.purposeId, data.priority );
   }
+
+  getCalledTickets() {
+    return this.service.getCalledTickets();
+  }
 }
 
 module.exports = TicketController;

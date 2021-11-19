@@ -2648,12 +2648,103 @@ paths:
                   type: string
                   description: Id новой цели.
                 priority:
-                  type: string
+                  type: boolean
                   description: 'Флаг, нужно ли ставить в начало очереди.'
               required:
                 - id
                 - purposeId
                 - priority
+  /ticket/getCalledTickets:
+    get:
+      summary: Ticket getCalledTickets
+      tags:
+        - Ticket
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Id талона.
+                  ticketNumber:
+                    type: string
+                    description: Номер талона.
+                  windowName:
+                    type: string
+                    description: Номер окна.
+                  issuanceTime:
+                    type: string
+                    description: Время обращения.
+                  issuanceDate:
+                    type: string
+                    description: Дата обращения.
+                required:
+                  - id
+                  - ticketNumber
+                  - windowName
+                  - issuanceTime
+                  - issuanceDate
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      operationId: get-ticket-getCalledTickets
+      description: 'Получение всех талонов, ожидающих в очереди.'
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+  /worker/finishWork:
+    patch:
+      summary: Worker finishWork.
+      operationId: patch-worker-finishWork
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Worker'
+        '400':
+          $ref: '#/components/responses/Bad-Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal-Server-Error'
+      tags:
+        - Worker
+      description: Завершение работы сотрудником.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: Сессионный токен пользователя.
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: id сотрудника.
+              required:
+                - id
 components:
   schemas:
     SystemUser:

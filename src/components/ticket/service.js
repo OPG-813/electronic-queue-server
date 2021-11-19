@@ -1,9 +1,15 @@
+const SystemService = require( '../system/service' );
+
 class TicketService {
   constructor( core ) {
     this.core = core;
+    this.systemService = new SystemService( core );
   }
 
   async create( data ) {
+    if ( !( await this.systemService.checkTime() ) ) {
+      throw new this.core.BadRequestError( 'Рабочее время системы закончилось!' );
+    }
     const workerId = await this.findWorker( await this.getSuitableWorkers( data.purposeId ) );
     const ticket = ( await this.core.db.query( `
       INSERT INTO Ticket( "workerId", "statusId", "purposeId", "codePrefix", "codeNumber" )
@@ -21,10 +27,36 @@ class TicketService {
     };
   }
 
+  async getCalledTickets() {
+    const tickets = await this.core.db.query( `SELECT * FROM Ticket WHERE
+    "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'called' )
+    AND "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) as date);` );
+    const result = [];
+    for ( const ticket of tickets ) {
+      result.push(
+        {
+          id: ticket.id,
+          ticketNumber: `${ ticket.codePrefix }-${ ticket.codeNumber }`,
+          windowName: ( await this.getWindowName( ticket.workerId ) ).name,
+          issuanceTime: ticket.issuanceTime,
+          issuanceDate: ticket.issuanceDate,
+        }
+      );
+    }
+
+    return result;
+  }
+
+  async getWaitingTickets() {
+    return this.core.db.query( `SELECT * FROM Ticket WHERE
+    "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' )
+    AND "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) as date);` );
+  }
+
   async getSuitableWorkers( purposeId ) {
     return this.core.db.query( `SELECT * FROM WORKER
      WHERE "windowId" IN
-     ( SELECT "windowId" FROM SystemWindowPurpose WHERE "purposeId" = '$1' )
+     ( SELECT "windowId" FROM SystemWindowPurpose WHERE "purposeId" = $1 )
      AND "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' );`, [ purposeId ] );
   }
 
@@ -54,6 +86,27 @@ class TicketService {
     return result;
   }
 
+  async getPeriodTicketsNumber( start, end ) {
+    return ( await this.core.db.query( `SELECT COUNT( id ) FROM Ticket
+    WHERE "issuanceDate" > $1
+    AND "issuanceDate" < $2
+    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );` ), [ start, end ] )[ 0 ].count;
+  }
+
+  async getAverageTicketServiceTime( start, end ) {
+    return ( await this.core.db.query( `SELECT AVG( "serviceTime" ) FROM Ticket
+    WHERE "issuanceDate" > $1
+    AND "issuanceDate" < $2
+    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );` ), [ start, end ] )[ 0 ].avg;
+  }
+
+  async getAverageTicketWaitingTime( start, end ) {
+    return ( await this.core.db.query( `SELECT AVG( "waitingTime" ) FROM Ticket
+    WHERE "issuanceDate" > $1
+    AND "issuanceDate" < $2
+    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );` ), [ start, end ] )[ 0 ].avg;
+  }
+
   async getPeopleBefore( workerId, issuanceTime ) {
     return ( await this.core.db.query( `SELECT COUNT( id )
     FROM Ticket WHERE "workerId" = $1
@@ -75,7 +128,8 @@ class TicketService {
   getQueue( workerId ) {
     return this.core.db.query( `SELECT * FROM Ticket
       WHERE workerId = $1 AND
-      statusId = ( SELECT id FROM TicketStatus WHERE name = 'wait' )`,
+      statusId = ( SELECT id FROM TicketStatus WHERE name = 'wait' ) AND
+      "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date )`,
     [ workerId ] );
   }
 
@@ -94,19 +148,14 @@ class TicketService {
     AND "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date );`, [ workerId ] ) )[ 0 ] ).min;
   }
 
-  async getMaxTime( workerId ) {
-    return ( ( await this.core.db.query( `SELECT MAX( "waitingTime" ) FROM Ticket
-    WHERE "workerId" = $1
-    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' )
-    AND "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date );`, [ workerId ] ) )[ 0 ] ).max;
-  }
-
   async callNext( workerId ) {
     const minTime = this.getMinTime( workerId );
     return ( await this.core.db.query( `UPDATE TICKET
     SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'called' ),
     "waitingTime" = CAST( CURRENT_TIME(0) AT TIME ZONE( SYSTEM_TIMEZONE() ) AS time ) - "issuanceTime"
-    WHERE "issuanceTime" = $1 AND "workerId" = $2 RETURNING *`, [ minTime, workerId ] ) )[ 0 ];
+    WHERE "issuanceTime" = $1 AND "workerId" = $2 AND
+    "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date )
+    RETURNING *`, [ minTime, workerId ] ) )[ 0 ];
   }
 
   async cancelTicket( id ) {
