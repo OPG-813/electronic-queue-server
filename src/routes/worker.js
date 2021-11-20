@@ -82,6 +82,14 @@ module.exports = {
       schema: component.schemes.finishWork,
       handler: 'finishWork',
       roles: [ 'WORKER' ]
+    },
+    {
+      method: 'GET',
+      path: '/worker/me',
+      secure: true,
+      schema: component.schemes.me,
+      handler: 'me',
+      roles: [ 'WORKER' ]
     }
   ]
 };

@@ -78,6 +78,10 @@ class WorkerController {
   finishWork( data ) {
     return this.service.finishWork( data.id );
   }
+
+  me( data, request ) {
+    return this.service.me( request.user.id );
+  }
 }
 
 module.exports = WorkerController;

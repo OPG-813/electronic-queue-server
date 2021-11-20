@@ -99,6 +99,10 @@ class WorkerService {
   finishWork( id ) {
     return this.freeWorker( id, 'not work' );
   }
+
+  me( userId ) {
+    return this.core.db.select( 'Worker', null, { userId } );
+  }
 }
 
 module.exports = WorkerService;
