@@ -174,6 +174,13 @@ module.exports = {
       }
     },
     additionalProperties: false
+  },
+
+  me: {
+    type: 'object',
+    required: [],
+    properties: {},
+    additionalProperties: false
   }
 };
 
