@@ -51,15 +51,15 @@ class WorkerService {
     WHERE "issuanceDate" > $1
     AND "issuanceDate" < $2
     AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' )
-    AND "workerId" = $3;` ), [ start, end, id ] )[ 0 ].count;
+    AND "workerId" = $3;`, [ start, end, id ] ) )[ 0 ].count;
   }
 
   async getAverageTicketServiceTime( id, start, end ) {
-    return ( await this.core.db.query( `SELECT AVG( "serviceTime" ) FROM Ticket
+    return ( await this.core.db.query( `SELECT CAST( AVG( "serviceTime" ) AS time(0) ) FROM Ticket
     WHERE "issuanceDate" > $1
     AND "issuanceDate" < $2
     AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' )
-    AND "workerId" = $3;` ), [ start, end, id ] )[ 0 ].avg;
+    AND "workerId" = $3;`, [ start, end, id ] ) )[ 0 ].avg || '0';
   }
 
   async selectWindow( windowId, userId ) {
@@ -81,8 +81,9 @@ class WorkerService {
     } else {
       try {
         for ( const ticket of waitingTickets ) {
-          await this.ticketService.move( ticket.id, ticket.purpose, false );
+          await this.ticketService.move( ticket.id, ticket.purposeId, false );
         }
+        return result;
       } catch ( error ) {
         this.core.db.query( ` UPDATE Worker
     SET "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' )

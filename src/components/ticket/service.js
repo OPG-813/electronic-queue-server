@@ -54,10 +54,11 @@ class TicketService {
   }
 
   async getSuitableWorkers( purposeId ) {
-    return this.core.db.query( `SELECT * FROM WORKER
-     WHERE "windowId" IN
-     ( SELECT "windowId" FROM SystemWindowPurpose WHERE "purposeId" = $1 )
-     AND "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' );`, [ purposeId ] );
+    const result = await this.core.db.query( `SELECT * FROM WORKER
+    WHERE "windowId" IN
+    ( SELECT "windowId" FROM SystemWindowPurpose WHERE "purposeId" = $1 )
+    AND "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' );`, [ purposeId ] );
+    return result;
   }
 
   async findWorker( workers ) {
@@ -90,21 +91,21 @@ class TicketService {
     return ( await this.core.db.query( `SELECT COUNT( id ) FROM Ticket
     WHERE "issuanceDate" > $1
     AND "issuanceDate" < $2
-    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );` ), [ start, end ] )[ 0 ].count;
+    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );`, [ start, end ] ) )[ 0 ].count;
   }
 
   async getAverageTicketServiceTime( start, end ) {
-    return ( await this.core.db.query( `SELECT AVG( "serviceTime" ) FROM Ticket
+    return ( await this.core.db.query( `SELECT CAST( AVG( "serviceTime" ) AS time(0) ) FROM Ticket
     WHERE "issuanceDate" > $1
     AND "issuanceDate" < $2
-    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );` ), [ start, end ] )[ 0 ].avg;
+    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );`, [ start, end ] ) )[ 0 ].avg || '0';
   }
 
   async getAverageTicketWaitingTime( start, end ) {
-    return ( await this.core.db.query( `SELECT AVG( "waitingTime" ) FROM Ticket
+    return ( await this.core.db.query( `SELECT CAST( AVG( "waitingTime" ) AS time(0) ) FROM Ticket
     WHERE "issuanceDate" > $1
     AND "issuanceDate" < $2
-    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );` ), [ start, end ] )[ 0 ].avg;
+    AND "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'served' );`, [ start, end ] ) )[ 0 ].avg || '0';
   }
 
   async getPeopleBefore( workerId, issuanceTime ) {
@@ -127,8 +128,8 @@ class TicketService {
 
   getQueue( workerId ) {
     return this.core.db.query( `SELECT * FROM Ticket
-      WHERE workerId = $1 AND
-      statusId = ( SELECT id FROM TicketStatus WHERE name = 'wait' ) AND
+      WHERE "workerId" = $1 AND
+      "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ) AND
       "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date )`,
     [ workerId ] );
   }
@@ -149,24 +150,32 @@ class TicketService {
   }
 
   async callNext( workerId ) {
-    const minTime = this.getMinTime( workerId );
-    return ( await this.core.db.query( `UPDATE TICKET
+    const minTime = await this.getMinTime( workerId );
+
+    if ( !minTime ) {
+      throw new this.core.BadRequestError( 'Нет подходящих талонов!' );
+    }
+
+    const result = ( await this.core.db.query( `UPDATE TICKET
     SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'called' ),
     "waitingTime" = CAST( CURRENT_TIME(0) AT TIME ZONE( SYSTEM_TIMEZONE() ) AS time ) - "issuanceTime"
     WHERE "issuanceTime" = $1 AND "workerId" = $2 AND
     "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date )
-    RETURNING *`, [ minTime, workerId ] ) )[ 0 ];
+    RETURNING *`, [ minTime, workerId ] ) );
+    return result ? result : {};
   }
 
   async cancelTicket( id ) {
-    return ( await this.core.db.query( `UPDATE TICKET
+    const result = ( await this.core.db.query( `UPDATE TICKET
     SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'absent' )
     WHERE "id" = $1 RETURNING *`, [ id ] ) )[ 0 ];
+    return result;
   }
 
   async startService( id ) {
     return ( await this.core.db.query( `UPDATE TICKET SET
-    "startServiceTime" = CURRENT_TIME(0) AT TIME ZONE( SYSTEM_TIMEZONE() )
+    "startServiceTime" = CURRENT_TIME(0) AT TIME ZONE( SYSTEM_TIMEZONE() ),
+    "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'serving' )
     WHERE "id" = $1 RETURNING *`, [ id ] ) )[ 0 ];
   }
 
@@ -179,19 +188,34 @@ class TicketService {
 
   async move( id, purposeId, priority ) {
     const workerId = await await this.findWorker( await this.getSuitableWorkers( purposeId ) );
-
-    if ( priority ) {
-      const minTime = this.getMinTime( workerId );
-      return ( await this.core.db.query( `UPDATE TICKET
-    SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ),
-    "workerId" = $2,
-    "issuanceTime" = $3 - '00:00:30'
-    WHERE "id" = $1 RETURNING *`, [ id, workerId, minTime ] ) )[ 0 ];
+    const minTime = await this.getMinTime( workerId );
+    if ( priority && minTime ) {
+      const result = ( await this.core.db.query( `UPDATE TICKET
+      SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ),
+      "workerId" = $2,
+      "issuanceTime" = CAST( $3 AS time ) - CAST( '00:00:30' AS time )
+      WHERE "id" = $1 RETURNING *`, [ id, workerId, minTime ] ) )[ 0 ];
+      return {
+        id: result.id,
+        ticketNumber: `${ result.codePrefix }-${ result.codeNumber }`,
+        peopleBefore: ( await this.getPeopleBefore( result.workerId, result.issuanceTime ) ).count,
+        windowName: ( await this.getWindowName( result.workerId ) ).name,
+        issuanceTime: result.issuanceTime,
+        issuanceDate: result.issuanceDate,
+      };
     } else {
-      return ( await this.core.db.query( `UPDATE TICKET
-    SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ),
-    "workerId" = $2,
-    WHERE "id" = $1 RETURNING *`, [ id, workerId ] ) )[ 0 ];
+      const result = ( await this.core.db.query( `UPDATE TICKET
+      SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ),
+      "workerId" = $2
+      WHERE id = $1 RETURNING *`, [ id, workerId ] ) )[ 0 ];
+      return {
+        id: result.id,
+        ticketNumber: `${ result.codePrefix }-${ result.codeNumber }`,
+        peopleBefore: ( await this.getPeopleBefore( result.workerId, result.issuanceTime ) ).count,
+        windowName: ( await this.getWindowName( result.workerId ) ).name,
+        issuanceTime: result.issuanceTime,
+        issuanceDate: result.issuanceDate,
+      };
     }
   }
 }

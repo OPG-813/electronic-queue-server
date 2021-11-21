@@ -11,6 +11,10 @@ class PurposeService {
     return this.core.db.select( 'Purpose', null, null, [ 'name' ], pages );
   }
 
+  get( id ) {
+    return this.core.db.select( 'Purpose', null, { id } );
+  }
+
   remove( id ) {
     return this.core.db.delete( 'Purpose', { id }, [ 'id', 'name', 'prefix' ] );
   }
