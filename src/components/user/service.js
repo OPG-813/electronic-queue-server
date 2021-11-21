@@ -49,7 +49,6 @@ class UserService {
   }
 
   remove( id ) {
-    console.log( id );
     return this.core.db.delete( 'SystemUser', { id } );
   }
 

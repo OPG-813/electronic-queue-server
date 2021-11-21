@@ -20,6 +20,14 @@ module.exports = {
       roles: []
     },
     {
+      method: 'GET',
+      path: '/purpose/get',
+      secure: false,
+      schema: component.schemes.get,
+      handler: 'get',
+      roles: []
+    },
+    {
       method: 'DELETE',
       path: '/purpose/remove',
       secure: true,

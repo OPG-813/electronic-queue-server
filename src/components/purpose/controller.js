@@ -10,6 +10,10 @@ class PurposeController {
     return this.purposeService.add( data.name, data.prefix );
   }
 
+  async get( data ) {
+    return this.purposeService.get( data.id );
+  }
+
   async list( data ) {
     const pages = this.core.getObjectWithProperties( [ 'itemsNumber', 'page' ], data );
     return this.purposeService.list( pages );
