@@ -72,8 +72,18 @@ class WorkerService {
 
   async freeWorker( id, status ) {
     const waitingTickets = await this.ticketService.getQueue( id );
+    const workingTickets = await this.core.db.query( `SELECT * FROM Ticket WHERE "workerId" = $1
+    AND ( "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'called' )
+    OR "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'serving' ) )`, [ id ] );
+
+    if ( workingTickets.length ) {
+      throw new this.core.BadRequestError( 'Нельзя покинуть рабочее место во время обслуживания талона!' );
+    }
+
+    const worker = await this.get( id );
     const result = await this.core.db.query( ` UPDATE Worker
-    SET "statusId" = ( SELECT id from WorkerStatus WHERE name = $2 )
+    SET "statusId" = ( SELECT id from WorkerStatus WHERE name = $2 ),
+    "windowId" = NULL
     WHERE id = $1 RETURNING *;`, [ id, status ] );
 
     if ( !waitingTickets.length ) {
@@ -86,8 +96,9 @@ class WorkerService {
         return result;
       } catch ( error ) {
         this.core.db.query( ` UPDATE Worker
-    SET "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' )
-    WHERE id = $1 RETURNING *;`, [ id ] );
+    SET "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' ),
+    "windowId" = $2
+    WHERE id = $1 RETURNING *;`, [ id, worker.windowId ] );
         throw error;
       }
     }

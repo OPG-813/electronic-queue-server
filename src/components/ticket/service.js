@@ -37,7 +37,8 @@ class TicketService {
         {
           id: ticket.id,
           ticketNumber: `${ ticket.codePrefix }-${ ticket.codeNumber }`,
-          windowName: ( await this.getWindowName( ticket.workerId ) ).name,
+          windowName: ( await this.getWindowName( ticket.workerId ) ) ?
+            ( await this.getWindowName( ticket.workerId ) ).name : '',
           issuanceTime: ticket.issuanceTime,
           issuanceDate: ticket.issuanceDate,
         }
@@ -53,11 +54,13 @@ class TicketService {
     AND "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) as date);` );
   }
 
-  async getSuitableWorkers( purposeId ) {
+  async getSuitableWorkers( purposeId, except = null ) {
+    const params = except ? [ purposeId, except ] : [ purposeId ];
     const result = await this.core.db.query( `SELECT * FROM WORKER
     WHERE "windowId" IN
     ( SELECT "windowId" FROM SystemWindowPurpose WHERE "purposeId" = $1 )
-    AND "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' );`, [ purposeId ] );
+    AND "statusId" = ( SELECT id from WorkerStatus WHERE name = 'work' )
+    ${ except ? 'AND "id" <> $2' : '' };`, params );
     return result;
   }
 
@@ -122,15 +125,16 @@ class TicketService {
     WHERE id = ( SELECT "windowId" FROM Worker WHERE id = $1 );`, [ workerId ] ) ) [ 0 ];
   }
 
-  get( id ) {
-    return this.core.db.select( 'Ticket', null, { id }, [] );
+  async get( id ) {
+    return ( await this.core.db.select( 'Ticket', null, { id } ) ) [ 0 ];
   }
 
   getQueue( workerId ) {
     return this.core.db.query( `SELECT * FROM Ticket
       WHERE "workerId" = $1 AND
       "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ) AND
-      "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date )`,
+      "issuanceDate" = CAST( CURRENT_DATE AT TIME ZONE( SYSTEM_TIMEZONE() ) AS date )
+      ORDER BY "issuanceTime", "codeNumber"`,
     [ workerId ] );
   }
 
@@ -187,7 +191,8 @@ class TicketService {
   }
 
   async move( id, purposeId, priority ) {
-    const workerId = await await this.findWorker( await this.getSuitableWorkers( purposeId ) );
+    const ticket = await this.get( id );
+    const workerId = await await this.findWorker( await this.getSuitableWorkers( purposeId, ticket.workerId ) );
     const minTime = await this.getMinTime( workerId );
     if ( priority && minTime ) {
       const result = ( await this.core.db.query( `UPDATE TICKET
