@@ -4,6 +4,6 @@ module.exports = {
   SERVER_HOST: process.env.SERVER_HOST,
   BODY_LIMIT: 31457280,
   RETURN_SCHEMA: process.env.NODE_ENV === 'development' ? true : false,
-  MAX_FILE_SIZE: 5242880,
-  MAX_FILE_NUMBER: 5
+  MAX_FILE_SIZE: 10485760,
+  MAX_FILE_NUMBER: 1
 };
