@@ -192,14 +192,15 @@ class TicketService {
 
   async move( id, purposeId, priority ) {
     const ticket = await this.get( id );
-    const workerId = await await this.findWorker( await this.getSuitableWorkers( purposeId, ticket.workerId ) );
+    const workerId = await this.findWorker( await this.getSuitableWorkers( purposeId, ticket.workerId ) );
     const minTime = await this.getMinTime( workerId );
     if ( priority && minTime ) {
       const result = ( await this.core.db.query( `UPDATE TICKET
       SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ),
       "workerId" = $2,
+      "purposeId" = $4,
       "issuanceTime" = CAST( $3 AS time ) - CAST( '00:00:30' AS time )
-      WHERE "id" = $1 RETURNING *`, [ id, workerId, minTime ] ) )[ 0 ];
+      WHERE "id" = $1 RETURNING *`, [ id, workerId, minTime, purposeId ] ) )[ 0 ];
       return {
         id: result.id,
         ticketNumber: `${ result.codePrefix }-${ result.codeNumber }`,
@@ -211,8 +212,9 @@ class TicketService {
     } else {
       const result = ( await this.core.db.query( `UPDATE TICKET
       SET "statusId" = ( SELECT id FROM TicketStatus WHERE name = 'wait' ),
-      "workerId" = $2
-      WHERE id = $1 RETURNING *`, [ id, workerId ] ) )[ 0 ];
+      "workerId" = $2,
+      "purposeId" = $3
+      WHERE id = $1 RETURNING *`, [ id, workerId, purposeId ] ) )[ 0 ];
       return {
         id: result.id,
         ticketNumber: `${ result.codePrefix }-${ result.codeNumber }`,
