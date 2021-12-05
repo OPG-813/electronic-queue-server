@@ -115,7 +115,7 @@ CREATE TABLE Ticket (
 );
 
 ALTER TABLE Ticket ADD CONSTRAINT pkTicket PRIMARY KEY ( "id" );
-ALTER TABLE Ticket ADD CONSTRAINT fkTicketWorkerWorkerId FOREIGN KEY ( "workerId" ) REFERENCES  Worker( "id" );
+ALTER TABLE Ticket ADD CONSTRAINT fkTicketWorkerWorkerId FOREIGN KEY ( "workerId" ) REFERENCES  Worker( "id" ) ON DELETE CASCADE;
 ALTER TABLE Ticket ADD CONSTRAINT fkTicketTicketStatusStatusId FOREIGN KEY ( "statusId" ) REFERENCES TicketStatus( "id" );
 
 CREATE TABLE AdditionalField (
