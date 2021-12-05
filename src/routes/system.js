@@ -43,5 +43,21 @@ module.exports = {
       handler: 'getTimezones',
       roles: [ 'ADMIN', 'WORKER' ]
     },
+    {
+      method: 'POST',
+      path: '/system/banner',
+      secure: true,
+      schema: null,
+      handler: 'loadBanner',
+      roles: [ 'ADMIN' ]
+    },
+    {
+      method: 'GET',
+      path: '/system/banner',
+      secure: true,
+      schema: null,
+      handler: 'getBanner',
+      roles: [ 'ADMIN' ]
+    },
   ]
 };
