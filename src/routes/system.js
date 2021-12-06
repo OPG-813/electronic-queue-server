@@ -54,10 +54,10 @@ module.exports = {
     {
       method: 'GET',
       path: '/system/banner',
-      secure: true,
+      secure: false,
       schema: null,
       handler: 'getBanner',
-      roles: [ 'ADMIN' ]
+      roles: []
     },
   ]
 };
